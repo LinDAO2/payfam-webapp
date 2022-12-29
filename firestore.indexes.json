@@ -1,0 +1,83 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "Recipients",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "addedOn",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isRedeemed",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "recieverPhonenumber",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isRedeemed",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "recieverPhonenumber",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "addedOn",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isRedeemed",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "senderID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "addedOn",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "senderID",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "addedOn",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

@@ -1,0 +1,14 @@
+{
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 4,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.github": false,
+    "**/.next": false,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  }
+}

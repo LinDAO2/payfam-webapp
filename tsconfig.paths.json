@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/assets/*": ["assets/*"],
+      "@/screens/*": ["screens/*"],
+      "@/events/*": ["events/*"],
+      "@/utils/*": ["utils/*"],
+      "@/routes/*": ["routes/*"],
+      "@/models/*": ["models/*"],
+      "@/repositories/*": ["repositories/*"],
+      "@/services/*": ["services/*"],
+      "@/components/*": ["components/*"],
+      "@/layouts/*": ["layouts/*"],
+      "@/configs/*": ["configs/*"],
+      "@/interfaces/*": ["typescript/interfaces/*"],
+      "@/constants/*": ["constants/*"],
+      "@/schemas/*": ["graphql/schemas/*"],
+      "@/resolvers/*": ["graphql/resolvers/*"],
+      "@/queries/*": ["graphql/queries/*"],
+      "@/mutations/*": ["graphql/mutations/*"],
+      "@/styles/*": ["styles/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/helpers/*": ["helpers/*"],
+      "@/validations/*": ["validations/*"],
+      "@/contexts/*": ["contexts/*"],
+      "@/db/*": ["db/*"],
+      "@/typescript/*": ["typescript/*"],
+      "@/types/*": ["types/*"],
+      "@/repository/*": ["repositories/*"],
+      "@/atoms/*": ["components/atoms/*"],
+      "@/molecules/*": ["components/molecules/*"],
+      "@/widgets/*": ["components/widgets/*"],
+      "@/mock/*": ["mock/*"],
+      "@/contracts/*": ["contracts/*"]
+    }
+  }
+}
