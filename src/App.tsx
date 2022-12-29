@@ -22,7 +22,7 @@ import Roots from "./screens/Roots";
 import Login from "./screens/session/Login";
 import UpdateAccount from "./screens/session/UpdateAccount";
 import SessionRoot from "./screens/SessionRoot";
-
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const router = createBrowserRouter([
   {
     path: "/",

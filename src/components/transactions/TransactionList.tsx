@@ -10,6 +10,7 @@ import { showSnackbar } from "@/helpers/snackbar-helpers";
 import { Stack, Typography } from "@mui/material";
 import LoadingCircle from "../common/LoadingCircle";
 import { generateUUIDV4 } from "@/utils/funcs";
+import { useSearchParam } from "react-use";
 
 function a11yProps(index: number) {
   return {
@@ -19,7 +20,9 @@ function a11yProps(index: number) {
 }
 
 const TransactionList = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+  const type = useSearchParam("type");
+
+  const [tabIndex, setTabIndex] = useState<number | null>(null);
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
@@ -32,6 +35,14 @@ const TransactionList = () => {
   const [processing, setProcessing] = useState(false);
 
   const profile = useSession();
+
+  useEffect(() => {
+    if (type) {
+      setTabIndex(parseInt(type));
+    } else {
+      setTabIndex(0);
+    }
+  }, [type]);
 
   useEffect(() => {
     (async () => {

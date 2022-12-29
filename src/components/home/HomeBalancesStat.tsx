@@ -7,6 +7,7 @@ import {
   Tooltip,
   Typography,
   Button,
+  Divider,
 } from "@mui/material";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -24,72 +25,78 @@ const HomeBalancesStat = () => {
     return <></>;
   }
   return (
-    <Paper sx={{ p: 1 }}>
-      <Stack direction="row" justifyContent="flex-end">
-        <Tooltip title={hideBalance ? "Show balance" : "Hide balance"}>
-          <IconButton
+    <>
+      <Typography variant="h6" color="textPrimary" gutterBottom={false}>
+        Wallet Balances
+      </Typography>
+      <Divider sx={{ mb: 1 }} />
+      <Paper sx={{ p: 1, mb: 2 }}>
+        <Stack direction="row" justifyContent="flex-end">
+          <Tooltip title={hideBalance ? "Show balance" : "Hide balance"}>
+            <IconButton
+              onClick={() => {
+                setHideBalance(!hideBalance);
+              }}
+            >
+              {hideBalance ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </IconButton>
+          </Tooltip>
+          <Button
+            variant="text"
+            color="primary"
             onClick={() => {
-              setHideBalance(!hideBalance);
+              navigate(`/${WALLET}`);
             }}
           >
-            {hideBalance ? <VisibilityIcon /> : <VisibilityOffIcon />}
-          </IconButton>
-        </Tooltip>
-        <Button
-          variant="text"
-          color="primary"
-          onClick={() => {
-            navigate(`/${WALLET}`);
-          }}
-        >
-          View Wallet
-        </Button>
-      </Stack>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} md={4}>
-          {hideBalance ? (
-            <Typography variant="caption" color="textPrimary">
-              NGN XX.XX
-            </Typography>
-          ) : (
-            <Typography variant="caption" color="textPrimary">
-              {new Intl.NumberFormat(undefined, {
-                style: "currency",
-                currency: "NGN",
-              }).format(profile?.ngnBalance ? profile?.ngnBalance : 0)}
-            </Typography>
-          )}
+            View Wallet
+          </Button>
+        </Stack>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={4}>
+            {hideBalance ? (
+              <Typography variant="caption" color="textPrimary">
+                NGN XX.XX
+              </Typography>
+            ) : (
+              <Typography variant="caption" color="textPrimary">
+                {new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "NGN",
+                }).format(profile?.ngnBalance ? profile?.ngnBalance : 0)}
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            {hideBalance ? (
+              <Typography variant="caption" color="textPrimary">
+                GHS XX.XX
+              </Typography>
+            ) : (
+              <Typography variant="caption" color="textPrimary">
+                {new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "GHS",
+                }).format(profile?.ghsBalance ? profile?.ghsBalance : 0)}
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            {hideBalance ? (
+              <Typography variant="caption" color="textPrimary">
+                USDC XX.XX
+              </Typography>
+            ) : (
+              <Typography variant="caption" color="textPrimary">
+                {new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "USD",
+                }).format(profile?.usdcBalance ? profile?.usdcBalance : 0)}
+              </Typography>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={4}>
-          {hideBalance ? (
-            <Typography variant="caption" color="textPrimary">
-              GHS XX.XX
-            </Typography>
-          ) : (
-            <Typography variant="caption" color="textPrimary">
-              {new Intl.NumberFormat(undefined, {
-                style: "currency",
-                currency: "GHS",
-              }).format(profile?.ghsBalance ? profile?.ghsBalance : 0)}
-            </Typography>
-          )}
-        </Grid>
-        <Grid item xs={12} md={4}>
-          {hideBalance ? (
-            <Typography variant="caption" color="textPrimary">
-              USDC XX.XX
-            </Typography>
-          ) : (
-            <Typography variant="caption" color="textPrimary">
-              {new Intl.NumberFormat(undefined, {
-                style: "currency",
-                currency: "USD",
-              }).format(profile?.usdcBalance ? profile?.usdcBalance : 0)}
-            </Typography>
-          )}
-        </Grid>
-      </Grid>
-    </Paper>
+      </Paper>
+    </>
   );
 };
 

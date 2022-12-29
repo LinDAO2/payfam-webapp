@@ -86,11 +86,34 @@ export const DashboardSidebar = (props: Props) => {
   const content = (
     <>
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-        }}
+        sx={[
+          {
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          },
+          {
+            background:
+              "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+            // background:
+            //   "linear-gradient(138deg, rgba(55,58,230,1) 15%, rgba(253,221,62,1) 100%)",
+            backgroundSize: "400% 400%",
+            animation: "anim 10s infinite ease-in-out",
+          },
+          {
+            "@keyframes anim": {
+              "0%": {
+                backgroundPosition: "0 50%",
+              },
+              "50%": {
+                backgroundPosition: "100% 50%",
+              },
+              "100%": {
+                backgroundPosition: "0 50%",
+              },
+            },
+          },
+        ]}
       >
         <div>
           <Stack
@@ -120,7 +143,7 @@ export const DashboardSidebar = (props: Props) => {
             my: 1,
           }}
         />
-        <Box sx={{ flexGrow: 1,pt:4 }}>
+        <Box sx={{ flexGrow: 1, pt: 4 }}>
           {clientLinks.map((item) => (
             <NavItem
               key={item.title}
@@ -158,7 +181,7 @@ export const DashboardSidebar = (props: Props) => {
 
   return (
     <>
-      <Box sx={{ display: { xs: "none", md: "block" } }}>
+      <Box sx={[{ display: { xs: "none", md: "block" } }]}>
         <Drawer
           anchor="left"
           open
@@ -166,7 +189,7 @@ export const DashboardSidebar = (props: Props) => {
             sx: {
               backgroundColor: "background.paper",
               // backgroundColor: "rgb(17, 24, 39)",
-              width: 280,
+              width: 200,
             },
           }}
           variant="permanent"
@@ -175,7 +198,7 @@ export const DashboardSidebar = (props: Props) => {
         </Drawer>
       </Box>
 
-      <Box sx={{ display: { xs: "block", md: "none" } }}>
+      <Box sx={{ display: { xs: "block", md: "none", lg:"none" } }}>
         <Drawer
           anchor="left"
           onClose={onClose}
@@ -184,7 +207,7 @@ export const DashboardSidebar = (props: Props) => {
             sx: {
               backgroundColor: "background.paper",
               // backgroundColor: "rgb(17, 24, 39)",
-              width: 280,
+              width: 200,
             },
           }}
           sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}

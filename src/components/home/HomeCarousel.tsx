@@ -11,7 +11,7 @@ const HomeCarousel = () => {
   ];
   return (
     <div>
-      <Carousel autoPlay showStatus={false}>
+      <Carousel autoPlay showStatus={false} showThumbs={false}>
         {IMAGES.map((image) => (
           <div key={generateUUIDV4()}>
             <LazyLoadImage src={image} effect="blur" />

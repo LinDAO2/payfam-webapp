@@ -1,8 +1,13 @@
+import Spacer from "../common/Spacer";
+import TransactionList from "../transactions/TransactionList";
 
 const HomeTransactionSummary = () => {
   return (
-    <div>HomeTransactionSummary</div>
-  )
-}
+    <div>
+      <Spacer space={30} />
+      <TransactionList />
+    </div>
+  );
+};
 
-export default HomeTransactionSummary
+export default HomeTransactionSummary;
