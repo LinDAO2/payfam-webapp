@@ -1,10 +1,14 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { Box } from "@mui/material";
 import Spacer from "@/components/common/Spacer";
 import { DashboardNavbar } from "@/components/nav/DashboardNavbar";
 import { DashboardSidebar } from "@/components/nav/DashboardSidebar";
+import { useSession } from "@/hooks/app-hooks";
+import LoadingScreen from "@/components/common/LoadingScreen";
+import { LOGIN } from "@/routes/routes";
+import { auth } from "@/configs/firebase";
 
 const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
@@ -18,6 +22,14 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
 
 const Roots = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+
+  const profile = useSession();
+
+  if (auth.currentUser === null) return <LoadingScreen />;
+
+  if (profile.uid === "") {
+    redirect(`/session/${LOGIN}`);
+  }
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>

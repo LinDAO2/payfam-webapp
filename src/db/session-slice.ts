@@ -7,6 +7,7 @@ export interface ISessionState extends IAccountDocument {
   isLoaded: boolean;
   isEmpty: boolean;
   isLoading: boolean;
+  reload: boolean,
 }
 
 export interface ISetProfile extends ISessionState {}
@@ -28,6 +29,7 @@ const initialState: ISessionState = {
   isLoading: false,
   isEmpty: true,
   addedOn: Timestamp.now(),
+  reload: false,
 };
 
 export const sessionSlice = createSlice({
@@ -40,6 +42,10 @@ export const sessionSlice = createSlice({
     },
     setIsLoaded: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    setReload: (state, action: PayloadAction<boolean>) => {
+      state.reload = action.payload;
+      return state;
     },
     reset: (state) => {
       state = initialState;

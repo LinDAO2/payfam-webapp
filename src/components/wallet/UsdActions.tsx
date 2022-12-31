@@ -9,48 +9,30 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import SwapCurrency from "./SwapCurrency";
-import AddBankAccountModal from "./AddBankAccountModal";
-import { useSession } from "@/hooks/app-hooks";
 import { generateUUIDV4 } from "@/utils/funcs";
-import Confirmation from "../modals/Confirmation";
-import { collectionServices } from "@/services/root";
-import { deleteField } from "firebase/firestore";
-import { showSnackbar } from "@/helpers/snackbar-helpers";
 import DepositFundsModal from "./DepositFundsModal";
 import WithdrawFundsModal from "./WithdrawFundsModal";
-import { setProfileReload } from "@/helpers/session-helpers";
 
-export default function NairaActions() {
-  const profile = useSession();
 
+const UsdActions = () => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [showSwapCurrency, setShowSwapCurrency] = React.useState(false);
-  const [showAddBankAccount, setShowAddBankAccount] = React.useState(false);
-  const [showRemoveBankAccount, setShowRemoveBankAccount] =
-    React.useState(false);
   const [showDepositFunds, setShowDepositFunds] = React.useState(false);
   const [showWithdrawFunds, setShowWithdrawFunds] = React.useState(false);
 
-  const [options, setOptions] = React.useState<string[]>([]);
-
-  React.useEffect(() => {
-    const otherOptions = ["Deposit funds", "Withdraw funds", "Swap currency"];
-
-    if (profile?.bankAccount?.paystack === undefined) {
-      setOptions(["Actions", "Add bank account", ...otherOptions]);
-    }
-
-    if (profile?.bankAccount?.paystack !== undefined) {
-      setOptions(["Actions", "Remove bank account", ...otherOptions]);
-    }
-  }, [profile?.bankAccount?.paystack]);
+  const options = [
+    "Actions",
+    "Deposit funds",
+    "Withdraw funds",
+    "Swap currency",
+  ];
 
   const handleClick = () => {};
 
   const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    _: React.MouseEvent<HTMLLIElement, MouseEvent>,
     index: number
   ) => {
     setSelectedIndex(index);
@@ -60,12 +42,6 @@ export default function NairaActions() {
       setShowSwapCurrency(true);
     }
 
-    if (`${options[index]}` === "Add bank account") {
-      setShowAddBankAccount(true);
-    }
-    if (`${options[index]}` === "Remove bank account") {
-      setShowRemoveBankAccount(true);
-    }
     if (`${options[index]}` === "Deposit funds") {
       setShowDepositFunds(true);
     }
@@ -94,74 +70,31 @@ export default function NairaActions() {
       <WithdrawFundsModal
         visible={showWithdrawFunds}
         close={() => setShowWithdrawFunds(false)}
-        currency="NGN"
+        currency="USD"
       />
       <DepositFundsModal
         visible={showDepositFunds}
         close={() => setShowDepositFunds(false)}
-        currency="NGN"
+        currency="USD"
       />
-      <Confirmation
-        visible={showRemoveBankAccount}
-        close={() => setShowRemoveBankAccount(false)}
-        setVisible={setShowRemoveBankAccount}
-        title={"Remove bank account?"}
-        caption="You are required to add a bank account to withdraw"
-        action={async () => {
-          const { status, errorMessage } = await collectionServices.editDoc(
-            "Users",
-            profile.uid,
-            {
-              bankAccount: deleteField(),
-            }
-          );
 
-          if (status === "success") {
-            setProfileReload(true);
-            setTimeout(() => {
-              setShowRemoveBankAccount(false);
-            }, 1000);
-            showSnackbar({
-              status,
-              msg: "Bank account removed successfully",
-              openSnackbar: true,
-            });
-          }
-
-          if (status === "error") {
-            showSnackbar({
-              status,
-              msg: errorMessage,
-              openSnackbar: true,
-            });
-          }
-        }}
-      />
-      <AddBankAccountModal
-        visible={showAddBankAccount}
-        close={() => setShowAddBankAccount(false)}
-      />
       <SwapCurrency
         visible={showSwapCurrency}
         close={() => {
           setShowSwapCurrency(!showSwapCurrency);
         }}
-        fromCurrency="NGN"
+        fromCurrency="USDC"
       />
 
-      <ButtonGroup
-        variant="contained"
-        ref={anchorRef}
-        aria-label="naira button"
-      >
+      <ButtonGroup variant="contained" ref={anchorRef} aria-label="usd button">
         <Button onClick={handleClick} sx={{ color: "#fff" }}>
           {options[selectedIndex]}
         </Button>
         <Button
           size="small"
-          aria-controls={open ? "naira-button-menu" : undefined}
+          aria-controls={open ? "usd-button-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
-          aria-label="select naira option"
+          aria-label="select usd option"
           aria-haspopup="menu"
           onClick={handleToggle}
         >
@@ -188,7 +121,7 @@ export default function NairaActions() {
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                <MenuList id="naira-button-menu" autoFocusItem>
+                <MenuList id="usd-button-menu" autoFocusItem>
                   {options.map((option, index) => (
                     <MenuItem
                       key={generateUUIDV4()}
@@ -208,4 +141,6 @@ export default function NairaActions() {
       </Popper>
     </React.Fragment>
   );
-}
+};
+
+export default UsdActions;

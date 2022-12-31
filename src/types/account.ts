@@ -23,6 +23,7 @@ export interface IAccountDocument {
   ghsBalance?: number;
   ngnBalance?: number;
   bankAccount?: IAccountBankAccount;
+  mobileMoneyAccount?: IAccountBankAccount;
   addedOn: Timestamp;
 }
 
@@ -37,3 +38,5 @@ export interface IAccountBankAccountPaystack {
   bankName: string;
   psrecieptCode: string;
 }
+
+

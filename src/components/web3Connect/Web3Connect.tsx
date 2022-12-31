@@ -1,10 +1,10 @@
-import {
-  payfamBankContract,
-  // PayfamContractAddress,
-  // signer,
-  // usdcTokenContract,
-} from "@/helpers/web3-helpers";
-import { Button, Stack } from "@mui/material";
+// import {
+//   payfamBankContract,
+//   // PayfamContractAddress,
+//   // signer,
+//   // usdcTokenContract,
+// } from "@/helpers/web3-helpers";
+import { Stack } from "@mui/material";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -43,17 +43,17 @@ const Web3Connect = ({ children }: Props) => {
         <>
           {children}
 
-          <Button
+          {/* <Button
             variant="contained"
             sx={{ color: "#fff" }}
             onClick={async () => {
-              let balance = await payfamBankContract.getStakingBalance();
+              let balance = await payfamBankContract.getBalanceOfContract();
 
               console.log(balance);
             }}
           >
             get Balance Of Contract
-          </Button>
+          </Button> */}
 
           {/* <Button
             variant="contained"
@@ -99,7 +99,7 @@ const Web3Connect = ({ children }: Props) => {
             deposit 1 USDC
           </Button> */}
 
-          <Button
+          {/* <Button
             variant="contained"
             sx={{ color: "#fff" }}
             onClick={async () => {
@@ -121,7 +121,7 @@ const Web3Connect = ({ children }: Props) => {
             }}
           >
             withdraw 2 USDC
-          </Button>
+          </Button> */}
 
           {/* <Button
             variant="contained"

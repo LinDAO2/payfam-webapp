@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { Divider } from "@mui/material";
 import { ReactNode } from "react";
 import Spacer from "@/components/common/Spacer";
+import { LoadingButton } from "@mui/lab";
 
 interface Props {
   title?: string;
@@ -16,6 +17,7 @@ interface Props {
   setVisible?: any;
   visible: boolean;
   close?: any;
+  loading?: boolean;
 }
 
 export default function Confirmation(props: Props) {
@@ -72,9 +74,23 @@ export default function Confirmation(props: Props) {
             justifyContent={"space-around"}
             alignItems={"center"}
           >
-            <Button
+            <LoadingButton
+              loading={props.loading ? props.loading : false}
+              disabled={props.loading ? props.loading : false}
               variant="contained"
-              sx={{ textTransform: "capitalize" }}
+              sx={{
+                textTransform: "capitalize",
+                color: "#fff",
+                background:
+                  "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+                backgroundSize: "400% 400%",
+                animation: "anim 10s infinite ease-in-out",
+
+                p: 3,
+                borderRadius: 15,
+                boxShadow: (theme) => theme.shadows[20],
+                fontWeight: "bold",
+              }}
               size="large"
               onClick={() => {
                 props.action();
@@ -86,7 +102,7 @@ export default function Confirmation(props: Props) {
               }}
             >
               Proceed
-            </Button>
+            </LoadingButton>
             <Button
               variant="contained"
               color="error"

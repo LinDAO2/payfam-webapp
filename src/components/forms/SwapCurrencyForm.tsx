@@ -36,11 +36,11 @@ const SwapCurrencyForm = (props: Props) => {
       ? profile?.ngnBalance
         ? profile?.ngnBalance
         : 0
-      : "GHS"
+      : frCur === "GHS"
       ? profile?.ghsBalance
         ? profile?.ghsBalance
         : 0
-      : "USDC"
+      : frCur === "USDC"
       ? profile?.usdcBalance
         ? profile?.usdcBalance
         : 0
@@ -380,6 +380,16 @@ const SwapCurrencyForm = (props: Props) => {
                         ? parseInt(event.target.value)
                         : null;
                     setFieldValue("amount", _amount, false);
+                    if (_amount !== null) {
+                      if (_amount > balance) {
+                        setFieldError(
+                          "amount",
+                          "This amount is more than your balance"
+                        );
+                      } else {
+                        setFieldError("amount", undefined);
+                      }
+                    }
                   }}
                   fullWidth
                   label="Enter Amount"
@@ -401,6 +411,16 @@ const SwapCurrencyForm = (props: Props) => {
                         ? parseInt(event.target.value)
                         : null;
                     setFieldValue("amount", _amount, false);
+                    if (_amount !== null) {
+                      if (_amount > balance) {
+                        setFieldError(
+                          "amount",
+                          "This amount is more than your balance"
+                        );
+                      } else {
+                        setFieldError("amount", undefined);
+                      }
+                    }
                   }}
                   fullWidth
                   label="Enter Amount"

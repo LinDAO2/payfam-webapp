@@ -37,11 +37,11 @@ export default function SwapCurrency(props: Props) {
       ? profile?.ngnBalance
         ? profile?.ngnBalance
         : 0
-      : "GHS"
+      : props.fromCurrency === "GHS"
       ? profile?.ghsBalance
         ? profile?.ghsBalance
         : 0
-      : "USDC"
+      : props.fromCurrency === "USDC"
       ? profile?.usdcBalance
         ? profile?.usdcBalance
         : 0
@@ -195,7 +195,7 @@ export default function SwapCurrency(props: Props) {
                       status: recieverIncrementGHSBalanceStatus,
                       errorMessage: recieverIncrementGHSBlanceErrorMessage,
                     } = await collectionServices.editDoc("Users", profile.uid, {
-                      ghsBalance: increment(convertedValue),
+                      ngnBalance: increment(convertedValue),
                     });
 
                     if (recieverIncrementGHSBalanceStatus === "success") {
@@ -222,7 +222,7 @@ export default function SwapCurrency(props: Props) {
                       status: recieverIncrementNGNBalanceStatus,
                       errorMessage: recieverIncrementNGNBlanceErrorMessage,
                     } = await collectionServices.editDoc("Users", profile.uid, {
-                      ngnBalance: increment(convertedValue),
+                      ghsBalance: increment(convertedValue),
                     });
 
                     if (recieverIncrementNGNBalanceStatus === "success") {
@@ -393,6 +393,16 @@ export default function SwapCurrency(props: Props) {
                             ? parseInt(event.target.value)
                             : null;
                         setFieldValue("amount", _amount, false);
+                        if (_amount !== null) {
+                          if (_amount > balance) {
+                            setFieldError(
+                              "amount",
+                              "This amount is more than your balance"
+                            );
+                          } else {
+                            setFieldError("amount", undefined);
+                          }
+                        }
                       }}
                       fullWidth
                       label="Enter Amount"
@@ -414,6 +424,16 @@ export default function SwapCurrency(props: Props) {
                             ? parseInt(event.target.value)
                             : null;
                         setFieldValue("amount", _amount, false);
+                        if (_amount !== null) {
+                          if (_amount > balance) {
+                            setFieldError(
+                              "amount",
+                              "This amount is more than your balance"
+                            );
+                          } else {
+                            setFieldError("amount", undefined);
+                          }
+                        }
                       }}
                       fullWidth
                       label="Enter Amount"

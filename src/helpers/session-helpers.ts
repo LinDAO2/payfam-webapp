@@ -11,6 +11,10 @@ export const setLoadingProfile = (payload: boolean) => {
   store.dispatch(sessionActions.setIsLoaded(payload));
 };
 
+export const setProfileReload = (payload: boolean) => {
+  store.dispatch(sessionActions.setReload(payload));
+};
+
 export const resetProfile = () => {
   store.dispatch(sessionActions.reset());
 };

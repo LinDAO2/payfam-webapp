@@ -1,4 +1,7 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import AppDb from "./components/global/AppDb";
 import AppThemeProvider from "./components/global/AppThemeProvider";
 import AppWeb3Wallet from "./components/global/AppWeb3Wallet";
@@ -22,12 +25,14 @@ import Roots from "./screens/Roots";
 import Login from "./screens/session/Login";
 import UpdateAccount from "./screens/session/UpdateAccount";
 import SessionRoot from "./screens/SessionRoot";
-import 'react-lazy-load-image-component/src/effects/blur.css';
+import "react-lazy-load-image-component/src/effects/blur.css";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Roots />,
     errorElement: <ErrorPage />,
+
     children: [
       {
         index: true,

@@ -2,7 +2,6 @@ import LoadingScreen from "@/components/common/LoadingScreen";
 import ProfileForm from "@/components/forms/ProfileForm";
 import AppBrand from "@/components/global/AppBrand";
 import { useSession } from "@/hooks/app-hooks";
-import { SEND_FUNDS } from "@/routes/routes";
 import { Paper, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -33,7 +32,7 @@ const UpdateAccount = () => {
           </Typography>
           <ProfileForm
             action={() => {
-              navigate(`/${SEND_FUNDS}`);
+              navigate(`/`);
             }}
           />
         </Stack>

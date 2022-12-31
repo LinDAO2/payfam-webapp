@@ -9,7 +9,6 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import SwapCurrency from "./SwapCurrency";
-import AddBankAccountModal from "./AddBankAccountModal";
 import { useSession } from "@/hooks/app-hooks";
 import { generateUUIDV4 } from "@/utils/funcs";
 import Confirmation from "../modals/Confirmation";
@@ -18,16 +17,18 @@ import { deleteField } from "firebase/firestore";
 import { showSnackbar } from "@/helpers/snackbar-helpers";
 import DepositFundsModal from "./DepositFundsModal";
 import WithdrawFundsModal from "./WithdrawFundsModal";
+import AddMoMoPhonenumberModal from "./AddMoMoPhonenumberModal";
 import { setProfileReload } from "@/helpers/session-helpers";
 
-export default function NairaActions() {
+export default function CedisAction() {
   const profile = useSession();
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [showSwapCurrency, setShowSwapCurrency] = React.useState(false);
-  const [showAddBankAccount, setShowAddBankAccount] = React.useState(false);
+  const [showAddMoMoPhonenumber, setShowAddMoMoPhonenumber] =
+    React.useState(false);
   const [showRemoveBankAccount, setShowRemoveBankAccount] =
     React.useState(false);
   const [showDepositFunds, setShowDepositFunds] = React.useState(false);
@@ -38,14 +39,14 @@ export default function NairaActions() {
   React.useEffect(() => {
     const otherOptions = ["Deposit funds", "Withdraw funds", "Swap currency"];
 
-    if (profile?.bankAccount?.paystack === undefined) {
-      setOptions(["Actions", "Add bank account", ...otherOptions]);
+    if (profile?.mobileMoneyAccount === undefined) {
+      setOptions(["Actions", "Add mobile money number", ...otherOptions]);
     }
 
-    if (profile?.bankAccount?.paystack !== undefined) {
-      setOptions(["Actions", "Remove bank account", ...otherOptions]);
+    if (profile?.mobileMoneyAccount !== undefined) {
+      setOptions(["Actions", "Remove mobile money number", ...otherOptions]);
     }
-  }, [profile?.bankAccount?.paystack]);
+  }, [profile?.mobileMoneyAccount]);
 
   const handleClick = () => {};
 
@@ -60,10 +61,10 @@ export default function NairaActions() {
       setShowSwapCurrency(true);
     }
 
-    if (`${options[index]}` === "Add bank account") {
-      setShowAddBankAccount(true);
+    if (`${options[index]}` === "Add mobile money number") {
+      setShowAddMoMoPhonenumber(true);
     }
-    if (`${options[index]}` === "Remove bank account") {
+    if (`${options[index]}` === "Remove mobile money number") {
       setShowRemoveBankAccount(true);
     }
     if (`${options[index]}` === "Deposit funds") {
@@ -94,25 +95,25 @@ export default function NairaActions() {
       <WithdrawFundsModal
         visible={showWithdrawFunds}
         close={() => setShowWithdrawFunds(false)}
-        currency="NGN"
+        currency="GHS"
       />
       <DepositFundsModal
         visible={showDepositFunds}
         close={() => setShowDepositFunds(false)}
-        currency="NGN"
+        currency="GHS"
       />
       <Confirmation
         visible={showRemoveBankAccount}
         close={() => setShowRemoveBankAccount(false)}
         setVisible={setShowRemoveBankAccount}
-        title={"Remove bank account?"}
-        caption="You are required to add a bank account to withdraw"
+        title={"Remove mobile money number?"}
+        caption="You are required to add a mobile money number to withdraw"
         action={async () => {
           const { status, errorMessage } = await collectionServices.editDoc(
             "Users",
             profile.uid,
             {
-              bankAccount: deleteField(),
+              mobileMoneyAccount: deleteField(),
             }
           );
 
@@ -123,7 +124,7 @@ export default function NairaActions() {
             }, 1000);
             showSnackbar({
               status,
-              msg: "Bank account removed successfully",
+              msg: "Momo number removed successfully",
               openSnackbar: true,
             });
           }
@@ -137,31 +138,31 @@ export default function NairaActions() {
           }
         }}
       />
-      <AddBankAccountModal
-        visible={showAddBankAccount}
-        close={() => setShowAddBankAccount(false)}
+      <AddMoMoPhonenumberModal
+        visible={showAddMoMoPhonenumber}
+        close={() => setShowAddMoMoPhonenumber(false)}
       />
       <SwapCurrency
         visible={showSwapCurrency}
         close={() => {
           setShowSwapCurrency(!showSwapCurrency);
         }}
-        fromCurrency="NGN"
+        fromCurrency="GHS"
       />
 
       <ButtonGroup
         variant="contained"
         ref={anchorRef}
-        aria-label="naira button"
+        aria-label="cedis button"
       >
         <Button onClick={handleClick} sx={{ color: "#fff" }}>
           {options[selectedIndex]}
         </Button>
         <Button
           size="small"
-          aria-controls={open ? "naira-button-menu" : undefined}
+          aria-controls={open ? "cedis-button-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
-          aria-label="select naira option"
+          aria-label="select cedis option"
           aria-haspopup="menu"
           onClick={handleToggle}
         >
@@ -188,7 +189,7 @@ export default function NairaActions() {
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                <MenuList id="naira-button-menu" autoFocusItem>
+                <MenuList id="cedis-button-menu" autoFocusItem>
                   {options.map((option, index) => (
                     <MenuItem
                       key={generateUUIDV4()}

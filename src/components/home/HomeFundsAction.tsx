@@ -29,9 +29,6 @@ const HomeFundsAction = () => {
         variant="contained"
         sx={{
           color: "#fff",
-          // background:
-          //   "linear-gradient(138deg, rgba(55,58,230,1) 15%, rgba(253,221,62,1) 100%)",
-
           background:
             "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
           backgroundSize: "400% 400%",

@@ -13,10 +13,10 @@ import { showSnackbar } from "@/helpers/snackbar-helpers";
 import { AnimatePresence, motion } from "framer-motion";
 import { collectionServices } from "@/services/root";
 import { stringToArray } from "@/utils/funcs";
-import { useSession } from "@/hooks/app-hooks";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { SEND_FUNDS, UPDATE_ACCOUNT } from "@/routes/routes";
+import { UPDATE_ACCOUNT } from "@/routes/routes";
+import { useSession } from "@/hooks/app-hooks";
 
 interface Props {
   showLinks?: boolean;
@@ -40,7 +40,11 @@ const LoginForm = ({ showLinks, actionAfterLogin }: Props) => {
     <>
       {profile.uid !== "" ? (
         <Stack>
-          <Typography variant="subtitle1" color="textPrimary" textAlign="center">
+          <Typography
+            variant="subtitle1"
+            color="textPrimary"
+            textAlign="center"
+          >
             Welcome {profile.firstName ? profile.firstName : "back"}
           </Typography>
           <LoadingButton
@@ -51,7 +55,7 @@ const LoginForm = ({ showLinks, actionAfterLogin }: Props) => {
                 if (profile.firstName === "") {
                   navigate(`/session/${UPDATE_ACCOUNT}`);
                 } else {
-                  navigate(`/${SEND_FUNDS}`);
+                  navigate(`/`);
                 }
               }
             }}

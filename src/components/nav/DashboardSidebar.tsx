@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { Box, Divider, Drawer, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Divider, Drawer, Stack, Typography, Button } from "@mui/material";
 
-import { useLocation } from "react-router-dom";
+import { redirect, useLocation } from "react-router-dom";
 import AppBrand from "../global/AppBrand";
 import { NavItem } from "./NavItem";
 import ReceiptLongTwoToneIcon from "@mui/icons-material/ReceiptLongTwoTone";
@@ -9,9 +9,14 @@ import WalletTwoToneIcon from "@mui/icons-material/WalletTwoTone";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { useSession } from "@/hooks/app-hooks";
 import ElectricMeterIcon from "@mui/icons-material/ElectricMeter";
-import { ACCOUNT, SEND_FUNDS, TRANSACTIONS, WALLET } from "@/routes/routes";
+import { ACCOUNT, LOGIN, SEND_FUNDS, TRANSACTIONS, WALLET } from "@/routes/routes";
 import { SupervisedUserCircleOutlined } from "@mui/icons-material";
 import UploadIcon from "@mui/icons-material/Upload";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import Confirmation from "../modals/Confirmation";
+import { signOut } from "firebase/auth";
+import { auth } from "@/configs/firebase";
+import { showSnackbar } from "@/helpers/snackbar-helpers";
 
 const clientLinks = [
   {
@@ -67,6 +72,9 @@ export const DashboardSidebar = (props: Props) => {
   const { open, onClose } = props;
   const location = useLocation();
 
+  const [logoutConfirm, setLogoutConfirm] = useState(false);
+  const [logoutProcessing, setLogoutProcessing] = useState(false);
+
   useEffect(
     () => {
       if (!location.pathname) {
@@ -85,6 +93,28 @@ export const DashboardSidebar = (props: Props) => {
 
   const content = (
     <>
+      <Confirmation
+        visible={logoutConfirm}
+        setVisible={setLogoutConfirm}
+        close={() => setLogoutConfirm(false)}
+        caption={"."}
+        action={async () => {
+          try {
+            setLogoutProcessing(true);
+            await signOut(auth);
+            setLogoutProcessing(false);
+            throw redirect(`/session/${LOGIN}`);
+          } catch (error: any) {
+            showSnackbar({
+              status: "error",
+              msg: error.message,
+              openSnackbar: true,
+            });
+            setLogoutProcessing(false);
+          }
+        }}
+        loading={logoutProcessing}
+      />
       <Box
         sx={[
           {
@@ -152,11 +182,9 @@ export const DashboardSidebar = (props: Props) => {
               title={item.title}
             />
           ))}
-        </Box>
-        {profile.persona === "mgt" && (
-          <>
-            <Divider sx={{ borderColor: "primary.main", my: 2 }} />
-            <Box sx={{ flexGrow: 1 }}>
+          {profile.persona === "mgt" && (
+            <>
+              <Divider sx={{ borderColor: "primary.main", my: 2 }} />
               <Typography
                 variant="subtitle2"
                 color="primary.main"
@@ -172,9 +200,21 @@ export const DashboardSidebar = (props: Props) => {
                   title={item.title}
                 />
               ))}
-            </Box>
-          </>
-        )}
+            </>
+          )}
+          <Stack alignItems="center" sx={{ mt: 2 }}>
+            <Button
+              variant="text"
+              color="error"
+              startIcon={<PowerSettingsNewIcon />}
+              onClick={() => {
+                setLogoutConfirm(true);
+              }}
+            >
+              Log out
+            </Button>
+          </Stack>
+        </Box>
       </Box>
     </>
   );
@@ -198,7 +238,7 @@ export const DashboardSidebar = (props: Props) => {
         </Drawer>
       </Box>
 
-      <Box sx={{ display: { xs: "block", md: "none", lg:"none" } }}>
+      <Box sx={{ display: { xs: "block", md: "none", lg: "none" } }}>
         <Drawer
           anchor="left"
           onClose={onClose}

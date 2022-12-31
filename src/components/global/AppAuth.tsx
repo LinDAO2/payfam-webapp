@@ -10,6 +10,7 @@ import {
 import { collectionServices } from "@/services/root";
 import { IAccountDocument } from "@/types/account";
 import { Timestamp } from "firebase/firestore";
+import { useSession } from "@/hooks/app-hooks";
 
 // declare global {
 //   interface Window {
@@ -21,8 +22,10 @@ type props = {
   children: ReactNode;
 };
 const AppAuth = ({ children }: props) => {
+  const profileReload = useSession().reload;
+
   useEffect(() => {
-    onAuthStateChanged(auth, async (currentUser) => {
+    const subscriber = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         // User is signed in
         setLoadingProfile(true);
@@ -40,6 +43,7 @@ const AppAuth = ({ children }: props) => {
                 isLoaded: boolean;
                 isEmpty: boolean;
                 isLoading: boolean;
+                reload: boolean;
               } = {
                 id: currentUser.uid,
                 uid: currentUser.uid,
@@ -55,6 +59,13 @@ const AppAuth = ({ children }: props) => {
                 defaultCurrency: data?.defaultCurrency
                   ? data?.defaultCurrency
                   : "manual",
+                bankAccount: data?.bankAccount ? data?.bankAccount : undefined,
+                mobileMoneyAccount: data?.mobileMoneyAccount
+                  ? data?.mobileMoneyAccount
+                  : undefined,
+                momoPhoneNumber: data?.momoPhoneNumber
+                  ? data?.momoPhoneNumber
+                  : undefined,
                 ngnBalance: data?.ngnBalance ? data?.ngnBalance : 0,
                 ghsBalance: data?.ghsBalance ? data?.ghsBalance : 0,
                 usdcBalance: data?.usdcBalance ? data?.usdcBalance : 0,
@@ -62,6 +73,7 @@ const AppAuth = ({ children }: props) => {
                 isLoaded: true,
                 isEmpty: false,
                 isLoading: false,
+                reload: false,
               };
               setProfile(profile);
               setLoadingProfile(false);
@@ -75,7 +87,8 @@ const AppAuth = ({ children }: props) => {
         resetProfile();
       }
     });
-  }, []);
+    return subscriber; // unsubscribe on unmount
+  }, [profileReload]);
   return <>{children}</>;
 };
 

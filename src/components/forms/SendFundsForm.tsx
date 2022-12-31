@@ -71,17 +71,13 @@ const SendFundsForm = () => {
   const [selectedRecipient, setSelectedRecipient] =
     useState<TransactionRecipientDocument | null>(null);
 
-  const momoProviderList: string[] = ["MTN", "Airtel", "Vodafone"];
-
-  const [selectedMoMoProvider, setSelectedMoMoProvider] = useState("MTN");
+  const [selectedMoMoProvider, setSelectedMoMoProvider] = useState("mtn");
 
   const [selectedCurrency, setSelectedCurrency] =
     useState<TransactionCurrency>("NGN");
 
   // const [requestToPayResponseReferenceId, setRequestToPayResponseReferenceId] =
   //   useState("");
-
-  const [processing, setProcessing] = useState(false);
 
   const [useBalance, setUseBalance] = useState(false);
 
@@ -580,6 +576,58 @@ const SendFundsForm = () => {
     handleOnSuccess();
   };
 
+  const [momoPayerPhonenumber, setMomoPayerPhonenumber] = useState(
+    profile?.momoPhoneNumber ? profile?.momoPhoneNumber : ""
+  );
+
+  const momoConfig: any = {
+    email: profile.email !== "" ? profile.email : "payfamcustomer@gmail.com",
+    amount: amountTopay * 100,
+    currency: "GHS",
+    publicKey: `${process.env.REACT_APP_PAYSTACK_BIDOPALABS_LIVE_PUBLIC_KEY}`,
+    metadata: {
+      custom_fields: [
+        {
+          display_name: "type",
+          value: "PAYFAM_SEND_FUNDS",
+          variable_name: "PAYFAM_SEND_FUNDS",
+        },
+      ],
+    },
+    label: "Send funds",
+    reference: requestId,
+    mobile_money: {
+      phone: momoPayerPhonenumber,
+      provider: selectedMoMoProvider,
+    },
+  };
+
+  const initializeMoMoPayment = usePaystackPayment(momoConfig);
+
+  const onMoMoClose = () => {
+    setProcessingPaystackPayment(false);
+  };
+
+  const handleOnMoMoSuccess = async () => {
+    if (formikRef.current) {
+      setProcessingPaystackPayment(true);
+      await transactionProcessor(
+        formikRef.current.values.amount,
+        selectedRecipient !== null
+          ? selectedRecipient.recieverName
+          : formikRef.current.values.recieverName,
+        selectedRecipient !== null
+          ? selectedRecipient.recieverPhonenumber
+          : formikRef.current.values.recieverPhonenumber,
+        "GHS"
+      );
+    }
+  };
+
+  const onMoMoSuccess = () => {
+    handleOnMoMoSuccess();
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       {activeStep === 0 && (
@@ -900,6 +948,7 @@ const SendFundsForm = () => {
                       value={values.momoPayerPhonenumber}
                       onChange={(phone: string) => {
                         setFieldValue("momoPayerPhonenumber", phone, true);
+                        setMomoPayerPhonenumber(phone);
                       }}
                       inputStyle={{
                         width: "100%",
@@ -937,23 +986,21 @@ const SendFundsForm = () => {
                         labelId="momo-provider-label"
                         id="momo-provider"
                         value={selectedMoMoProvider}
-                        label="Age"
+                        label=""
                         onChange={(event: SelectChangeEvent) => {
                           setSelectedMoMoProvider(event.target.value as string);
                         }}
                       >
-                        {momoProviderList.map((item) => (
-                          <MenuItem key={generateUUIDV4()} value={item}>
-                            {item}
-                          </MenuItem>
-                        ))}
+                        <MenuItem value="mtn">MTN</MenuItem>
+                        <MenuItem value="vod">Vodafone</MenuItem>
+                        <MenuItem value="tgo">Airtel/Tigo</MenuItem>
                       </Select>
                     </FormControl>
-                    {selectedMoMoProvider !== "MTN" && (
+                    {/* {selectedMoMoProvider !== "MTN" && (
                       <Typography variant="caption" color="error">
                         We support only MTN Mobile money!
                       </Typography>
-                    )}
+                    )} */}
                   </>
                 )}
                 <Spacer space={10} />
@@ -1117,520 +1164,586 @@ const SendFundsForm = () => {
                   </>
                 )}
 
-                {paymentMethod === "mobileMoney" && (
-                  <LoadingButton
-                    loading={processing}
-                    onClick={async () => {
-                      if (selectedRecipient === null && !showAddRecipient) {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "Add or Select a reciever",
-                          openSnackbar: true,
-                        });
-                      } else if (
-                        values.recieverName === "" &&
-                        showAddRecipient
-                      ) {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "Enter the reciever's name",
-                          openSnackbar: true,
-                        });
-                      } else if (
-                        values.recieverPhonenumber === "" &&
-                        showAddRecipient
-                      ) {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "Enter the reciever's mobile number",
-                          openSnackbar: true,
-                        });
-                      } else if (values.momoPayerPhonenumber === "") {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "Enter the payer's mobile number",
-                          openSnackbar: true,
-                        });
-                      } else if (values.amount < 2) {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "Minimum amount is 2",
-                          openSnackbar: true,
-                        });
-                      } else if (selectedMoMoProvider !== "MTN") {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "We support only MTN Mobile money!",
-                          openSnackbar: true,
-                        });
-                      } else if (useBalance) {
-                        if (
-                          (profile?.ghsBalance ? profile?.ghsBalance : 0) <
-                          values.amount
+                <Stack alignItems="center">
+                  {paymentMethod === "mobileMoney" && (
+                    <LoadingButton
+                      loading={processingPaystackPayment}
+                      disabled={processingPaystackPayment || fetchingConvertedAmounts}
+                      sx={{
+                        color: "#fff",
+                        background:
+                          "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+                        backgroundSize: "400% 400%",
+                        animation: "anim 10s infinite ease-in-out",
+
+                        p: 3,
+                        borderRadius: 15,
+                        boxShadow: (theme) => theme.shadows[20],
+                        fontWeight: "bold",
+                      }}
+                      onClick={async () => {
+                        if (selectedRecipient === null && !showAddRecipient) {
+                          showSnackbar({
+                            status: "warning",
+                            msg: "Add or Select a reciever",
+                            openSnackbar: true,
+                          });
+                        } else if (
+                          values.recieverName === "" &&
+                          showAddRecipient
                         ) {
                           showSnackbar({
                             status: "warning",
-                            msg: "You do not enough money in balance to complete this transaction!",
+                            msg: "Enter the reciever's name",
                             openSnackbar: true,
                           });
-                        }
-                      } else {
-                        if (useBalance) {
-                          setProcessing(true);
-                        } else {
-                        }
-                      }
-                    }}
-                  >
-                    Send funds
-                  </LoadingButton>
-                )}
-
-                {paymentMethod === "bankTransfer" && (
-                  <LoadingButton
-                    variant="contained"
-                    loading={processingPaystackPayment}
-                    disabled={processingPaystackPayment}
-                    onClick={async () => {
-                      if (selectedRecipient === null && !showAddRecipient) {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "Add or Select a reciever",
-                          openSnackbar: true,
-                        });
-                      } else if (
-                        values.recieverName === "" &&
-                        showAddRecipient
-                      ) {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "Enter the reciever's name",
-                          openSnackbar: true,
-                        });
-                      } else if (
-                        values.recieverPhonenumber === "" &&
-                        showAddRecipient
-                      ) {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "Enter the reciever's mobile number",
-                          openSnackbar: true,
-                        });
-                      } else if (values.amount < 2) {
-                        showSnackbar({
-                          status: "warning",
-                          msg: "Minimum amount is 2",
-                          openSnackbar: true,
-                        });
-                      } else if (useBalance) {
-                        if (
-                          (profile?.ngnBalance ? profile?.ngnBalance : 0) <
-                          values.amount
+                        } else if (
+                          values.recieverPhonenumber === "" &&
+                          showAddRecipient
                         ) {
                           showSnackbar({
                             status: "warning",
-                            msg: "You do not enough money in balance to complete this transaction!",
+                            msg: "Enter the reciever's mobile number",
+                            openSnackbar: true,
+                          });
+                        } else if (values.momoPayerPhonenumber === "") {
+                          showSnackbar({
+                            status: "warning",
+                            msg: "Enter the payer's mobile number",
+                            openSnackbar: true,
+                          });
+                        } else if (values.amount < 2) {
+                          showSnackbar({
+                            status: "warning",
+                            msg: "Minimum amount is 2",
                             openSnackbar: true,
                           });
                         }
-                      } else {
-                        setProcessingPaystackPayment(true);
-                        if (showAddRecipient) {
-                          await addReciepient(
-                            profile.uid,
-                            values.recieverName,
-                            values.recieverPhonenumber
-                          );
-                        }
-
-                        if (useBalance) {
-                          await fromBalanceProcessor(
-                            values.amount,
-                            selectedRecipient !== null
-                              ? selectedRecipient.recieverName
-                              : values.recieverName,
-                            selectedRecipient !== null
-                              ? selectedRecipient.recieverPhonenumber
-                              : values.recieverPhonenumber,
-                            "NGN"
-                          );
+                        //  else if (selectedMoMoProvider !== "MTN") {
+                        //   showSnackbar({
+                        //     status: "warning",
+                        //     msg: "We support only MTN Mobile money!",
+                        //     openSnackbar: true,
+                        //   });
+                        // }
+                        else if (useBalance) {
+                          if (
+                            (profile?.ghsBalance ? profile?.ghsBalance : 0) <
+                            values.amount
+                          ) {
+                            showSnackbar({
+                              status: "warning",
+                              msg: "You do not enough money in balance to complete this transaction!",
+                              openSnackbar: true,
+                            });
+                          }
                         } else {
-                          initializePayment(onSuccess, onClose);
-                        }
-                      }
-                    }}
-                    sx={{ color: "#fff" }}
-                  >
-                    Send funds
-                  </LoadingButton>
-                )}
+                          setProcessingPaystackPayment(true);
+                          if (showAddRecipient) {
+                            await addReciepient(
+                              profile.uid,
+                              values.recieverName,
+                              values.recieverPhonenumber
+                            );
+                          }
 
-                {paymentMethod === "cryptocurrency" && (
-                  <>
-                    <Web3Connect>
-                      <LoadingButton
-                        variant="contained"
-                        loading={processWeb3Call}
-                        disabled={processWeb3Call}
-                        onClick={async () => {
-                          if (selectedRecipient === null && !showAddRecipient) {
-                            showSnackbar({
-                              status: "warning",
-                              msg: "Add or Select a reciever",
-                              openSnackbar: true,
-                            });
-                          } else if (
-                            values.recieverName === "" &&
-                            showAddRecipient
+                          if (useBalance) {
+                            await fromBalanceProcessor(
+                              values.amount,
+                              selectedRecipient !== null
+                                ? selectedRecipient.recieverName
+                                : values.recieverName,
+                              selectedRecipient !== null
+                                ? selectedRecipient.recieverPhonenumber
+                                : values.recieverPhonenumber,
+                              "GHS"
+                            );
+                          } else {
+                            initializeMoMoPayment(onMoMoSuccess, onMoMoClose);
+                          }
+                        }
+                      }}
+                    >
+                      Send funds
+                    </LoadingButton>
+                  )}
+
+                  {paymentMethod === "bankTransfer" && (
+                    <LoadingButton
+                      variant="contained"
+                      loading={processingPaystackPayment}
+                      disabled={processingPaystackPayment || fetchingConvertedAmounts}
+                      onClick={async () => {
+                        if (selectedRecipient === null && !showAddRecipient) {
+                          showSnackbar({
+                            status: "warning",
+                            msg: "Add or Select a reciever",
+                            openSnackbar: true,
+                          });
+                        } else if (
+                          values.recieverName === "" &&
+                          showAddRecipient
+                        ) {
+                          showSnackbar({
+                            status: "warning",
+                            msg: "Enter the reciever's name",
+                            openSnackbar: true,
+                          });
+                        } else if (
+                          values.recieverPhonenumber === "" &&
+                          showAddRecipient
+                        ) {
+                          showSnackbar({
+                            status: "warning",
+                            msg: "Enter the reciever's mobile number",
+                            openSnackbar: true,
+                          });
+                        } else if (values.amount < 2) {
+                          showSnackbar({
+                            status: "warning",
+                            msg: "Minimum amount is 2",
+                            openSnackbar: true,
+                          });
+                        } else if (useBalance) {
+                          if (
+                            (profile?.ngnBalance ? profile?.ngnBalance : 0) <
+                            values.amount
                           ) {
                             showSnackbar({
                               status: "warning",
-                              msg: "Enter the reciever's name",
+                              msg: "You do not enough money in balance to complete this transaction!",
                               openSnackbar: true,
                             });
-                          } else if (
-                            values.recieverPhonenumber === "" &&
-                            showAddRecipient
-                          ) {
-                            showSnackbar({
-                              status: "warning",
-                              msg: "Enter the reciever's mobile number",
-                              openSnackbar: true,
-                            });
-                          } else if (values.amount < 2) {
-                            showSnackbar({
-                              status: "warning",
-                              msg: "Minimum amount is 2",
-                              openSnackbar: true,
-                            });
-                          } else if (useBalance) {
+                          }
+                        } else {
+                          setProcessingPaystackPayment(true);
+                          if (showAddRecipient) {
+                            await addReciepient(
+                              profile.uid,
+                              values.recieverName,
+                              values.recieverPhonenumber
+                            );
+                          }
+
+                          if (useBalance) {
+                            await fromBalanceProcessor(
+                              values.amount,
+                              selectedRecipient !== null
+                                ? selectedRecipient.recieverName
+                                : values.recieverName,
+                              selectedRecipient !== null
+                                ? selectedRecipient.recieverPhonenumber
+                                : values.recieverPhonenumber,
+                              "NGN"
+                            );
+                          } else {
+                            initializePayment(onSuccess, onClose);
+                          }
+                        }
+                      }}
+                      sx={{
+                        color: "#fff",
+                        background:
+                          "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+                        backgroundSize: "400% 400%",
+                        animation: "anim 10s infinite ease-in-out",
+
+                        p: 3,
+                        borderRadius: 15,
+                        boxShadow: (theme) => theme.shadows[20],
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Send funds
+                    </LoadingButton>
+                  )}
+
+                  {paymentMethod === "cryptocurrency" && (
+                    <>
+                      <Web3Connect>
+                        <LoadingButton
+                          variant="contained"
+                          loading={processWeb3Call}
+                          disabled={processWeb3Call || fetchingConvertedAmounts}
+                          onClick={async () => {
                             if (
-                              (profile?.usdcBalance
-                                ? profile?.usdcBalance
-                                : 0) < values.amount
+                              selectedRecipient === null &&
+                              !showAddRecipient
                             ) {
                               showSnackbar({
                                 status: "warning",
-                                msg: "You do not enough money in balance to complete this transaction!",
+                                msg: "Add or Select a reciever",
                                 openSnackbar: true,
                               });
-                            }
-                          } else {
-                            setProcessWeb3Call(true);
-                            if (showAddRecipient) {
-                              await addReciepient(
-                                profile.uid,
-                                values.recieverName,
-                                values.recieverPhonenumber
-                              );
-                            }
-
-                            if (useBalance) {
-                              await fromBalanceProcessor(
-                                values.amount,
-                                selectedRecipient !== null
-                                  ? selectedRecipient.recieverName
-                                  : values.recieverName,
-                                selectedRecipient !== null
-                                  ? selectedRecipient.recieverPhonenumber
-                                  : values.recieverPhonenumber,
-                                "USDC"
-                              );
-                              setProcessWeb3Call(false);
+                            } else if (
+                              values.recieverName === "" &&
+                              showAddRecipient
+                            ) {
+                              showSnackbar({
+                                status: "warning",
+                                msg: "Enter the reciever's name",
+                                openSnackbar: true,
+                              });
+                            } else if (
+                              values.recieverPhonenumber === "" &&
+                              showAddRecipient
+                            ) {
+                              showSnackbar({
+                                status: "warning",
+                                msg: "Enter the reciever's mobile number",
+                                openSnackbar: true,
+                              });
+                            } else if (values.amount < 2) {
+                              showSnackbar({
+                                status: "warning",
+                                msg: "Minimum amount is 2",
+                                openSnackbar: true,
+                              });
+                            } else if (useBalance) {
+                              if (
+                                (profile?.usdcBalance
+                                  ? profile?.usdcBalance
+                                  : 0) < values.amount
+                              ) {
+                                showSnackbar({
+                                  status: "warning",
+                                  msg: "You do not enough money in balance to complete this transaction!",
+                                  openSnackbar: true,
+                                });
+                              }
                             } else {
                               setProcessWeb3Call(true);
-
-                              // check allowance
-                              const signerAddress = await signer?.getAddress();
-
-                              const allowance = await usdcTokenContract.methods
-                                .allowance(signerAddress, PayfamContractAddress)
-                                .call();
-
-                              // console.log(parseInt(allowance));
-
-                              if (
-                                parseInt(allowance) > 0 &&
-                                getUSDCWei(values.amount) > parseInt(allowance)
-                              ) {
-                                console.log(
-                                  "allowance is less than amount and greater than 0"
+                              if (showAddRecipient) {
+                                await addReciepient(
+                                  profile.uid,
+                                  values.recieverName,
+                                  values.recieverPhonenumber
                                 );
-                                usdcTokenContract.methods
-                                  .increaseAllowance(
-                                    PayfamContractAddress,
-                                    getUSDCWei(values.amount + 500)
-                                  )
-                                  .send(
-                                    { from: signerAddress },
-                                    async function (
-                                      err: any,
-                                      transactionHash: any
-                                    ) {
-                                      if (err !== null) {
-                                        showSnackbar({
-                                          status: "error",
-                                          msg: err.message,
-                                          openSnackbar: true,
-                                        });
-                                      }
+                              }
 
-                                      const txHash = transactionHash;
-
-                                      if (err === null && txHash) {
-                                        setProcessWeb3CallCaption(
-                                          "Start deposit token..."
-                                        );
-                                        try {
-                                          let depositTokenTxn =
-                                            await payfamBankContract.depositTokens(
-                                              values.amount
-                                            );
-
-                                          setProcessWeb3CallCaption(
-                                            "processing..."
-                                          );
-                                          await depositTokenTxn.wait();
-
-                                          if (depositTokenTxn.hash) {
-                                            setProcessWeb3CallCaption("");
-                                            //save transaction
-                                            const pendingTransaction: Omit<
-                                              TransactionDocument,
-                                              "addedOn"
-                                            > = {
-                                              uid: transactionId,
-                                              recieverName:
-                                                selectedRecipient !== null
-                                                  ? selectedRecipient.recieverName
-                                                  : values.recieverName,
-                                              recieverPhonenumber:
-                                                selectedRecipient !== null
-                                                  ? selectedRecipient.recieverPhonenumber
-                                                  : values.recieverPhonenumber,
-                                              currency: "USDC",
-                                              redeemedcurrency: "",
-                                              amount: values.amount,
-                                              redemptionCode:
-                                                generateRedeptionCode(),
-                                              isRedeemed: false,
-                                              paymentMethod: "cryptocurrency",
-                                              senderID: profile.uid,
-                                              senderName: `${profile.firstName} ${profile.lastName}`,
-                                              senderPhonenumber:
-                                                profile.phonenumber,
-                                              status: "pending",
-                                              txHash: depositTokenTxn.hash,
-                                            };
-
-                                            await transactionProcessor(
-                                              values.amount,
-                                              selectedRecipient !== null
-                                                ? selectedRecipient.recieverName
-                                                : values.recieverName,
-                                              selectedRecipient !== null
-                                                ? selectedRecipient.recieverPhonenumber
-                                                : values.recieverPhonenumber,
-                                              "USDC",
-                                              pendingTransaction
-                                            );
-                                          }
-
-                                          // console.log("txn etherscan ...");
-                                          // console.log(
-                                          //   `https://goerli.etherscan.io/tx/${depositTokenTxn.hash}`
-                                          // );
-                                        } catch (error) {
-                                          showSnackbar({
-                                            status: "error",
-                                            msg: "An error occured! try again.",
-                                            openSnackbar: true,
-                                          });
-                                        }
-                                      }
-                                    }
-                                  );
-                              } else if (parseInt(allowance) === 0) {
-                                console.log("allowance is  equal 0");
-                                usdcTokenContract.methods
-                                  .approve(
-                                    PayfamContractAddress,
-                                    getUSDCWei(10000)
-                                  )
-                                  .send(
-                                    { from: signerAddress },
-                                    async function (
-                                      err: any,
-                                      transactionHash: any
-                                    ) {
-                                      if (err !== null) {
-                                        showSnackbar({
-                                          status: "error",
-                                          msg: err.message,
-                                          openSnackbar: true,
-                                        });
-                                      }
-
-                                      const txHash = transactionHash;
-
-                                      if (err === null && txHash) {
-                                        setProcessWeb3CallCaption(
-                                          "Start deposit token..."
-                                        );
-                                        try {
-                                          let depositTokenTxn =
-                                            await payfamBankContract.depositTokens(
-                                              values.amount
-                                            );
-
-                                          setProcessWeb3CallCaption(
-                                            "processing..."
-                                          );
-                                          await depositTokenTxn.wait();
-
-                                          if (depositTokenTxn.hash) {
-                                            setProcessWeb3CallCaption("");
-                                            //save transaction
-                                            const pendingTransaction: Omit<
-                                              TransactionDocument,
-                                              "addedOn"
-                                            > = {
-                                              uid: transactionId,
-                                              recieverName:
-                                                selectedRecipient !== null
-                                                  ? selectedRecipient.recieverName
-                                                  : values.recieverName,
-                                              recieverPhonenumber:
-                                                selectedRecipient !== null
-                                                  ? selectedRecipient.recieverPhonenumber
-                                                  : values.recieverPhonenumber,
-                                              currency: "USDC",
-                                              redeemedcurrency: "",
-                                              amount: values.amount,
-                                              redemptionCode:
-                                                generateRedeptionCode(),
-                                              isRedeemed: false,
-                                              paymentMethod: "cryptocurrency",
-                                              senderID: profile.uid,
-                                              senderName: `${profile.firstName} ${profile.lastName}`,
-                                              senderPhonenumber:
-                                                profile.phonenumber,
-                                              status: "pending",
-                                              txHash: depositTokenTxn.hash,
-                                            };
-
-                                            await transactionProcessor(
-                                              values.amount,
-                                              selectedRecipient !== null
-                                                ? selectedRecipient.recieverName
-                                                : values.recieverName,
-                                              selectedRecipient !== null
-                                                ? selectedRecipient.recieverPhonenumber
-                                                : values.recieverPhonenumber,
-                                              "USDC",
-                                              pendingTransaction
-                                            );
-                                          }
-
-                                          // console.log("txn etherscan ...");
-                                          // console.log(
-                                          //   `https://goerli.etherscan.io/tx/${depositTokenTxn.hash}`
-                                          // );
-                                        } catch (error) {
-                                          showSnackbar({
-                                            status: "error",
-                                            msg: "An error occured! try again.",
-                                            openSnackbar: true,
-                                          });
-                                        }
-                                      }
-                                    }
-                                  );
+                              if (useBalance) {
+                                await fromBalanceProcessor(
+                                  values.amount,
+                                  selectedRecipient !== null
+                                    ? selectedRecipient.recieverName
+                                    : values.recieverName,
+                                  selectedRecipient !== null
+                                    ? selectedRecipient.recieverPhonenumber
+                                    : values.recieverPhonenumber,
+                                  "USDC"
+                                );
+                                setProcessWeb3Call(false);
                               } else {
-                                console.log("deposit token");
-                                setProcessWeb3CallCaption(
-                                  "Start deposit token..."
-                                );
-                                try {
-                                  let depositTokenTxn =
-                                    await payfamBankContract.depositTokens(
-                                      values.amount
+                                setProcessWeb3Call(true);
+
+                                // check allowance
+                                const signerAddress =
+                                  await signer?.getAddress();
+
+                                const allowance =
+                                  await usdcTokenContract.methods
+                                    .allowance(
+                                      signerAddress,
+                                      PayfamContractAddress
+                                    )
+                                    .call();
+
+                                // console.log(parseInt(allowance));
+
+                                if (
+                                  parseInt(allowance) > 0 &&
+                                  getUSDCWei(values.amount) >
+                                    parseInt(allowance)
+                                ) {
+                                  // console.log(
+                                  //   "allowance is less than amount and greater than 0"
+                                  // );
+                                  usdcTokenContract.methods
+                                    .increaseAllowance(
+                                      PayfamContractAddress,
+                                      getUSDCWei(values.amount + 500)
+                                    )
+                                    .send(
+                                      { from: signerAddress },
+                                      async function (
+                                        err: any,
+                                        transactionHash: any
+                                      ) {
+                                        if (err !== null) {
+                                          showSnackbar({
+                                            status: "error",
+                                            msg: err.message,
+                                            openSnackbar: true,
+                                          });
+                                        }
+
+                                        const txHash = transactionHash;
+
+                                        if (err === null && txHash) {
+                                          setProcessWeb3CallCaption(
+                                            "Start deposit token..."
+                                          );
+                                          try {
+                                            let depositTokenTxn =
+                                              await payfamBankContract.depositTokens(
+                                                values.amount
+                                              );
+
+                                            setProcessWeb3CallCaption(
+                                              "processing..."
+                                            );
+                                            await depositTokenTxn.wait();
+
+                                            if (depositTokenTxn.hash) {
+                                              setProcessWeb3CallCaption("");
+                                              //save transaction
+                                              const pendingTransaction: Omit<
+                                                TransactionDocument,
+                                                "addedOn"
+                                              > = {
+                                                uid: transactionId,
+                                                recieverName:
+                                                  selectedRecipient !== null
+                                                    ? selectedRecipient.recieverName
+                                                    : values.recieverName,
+                                                recieverPhonenumber:
+                                                  selectedRecipient !== null
+                                                    ? selectedRecipient.recieverPhonenumber
+                                                    : values.recieverPhonenumber,
+                                                currency: "USDC",
+                                                redeemedcurrency: "",
+                                                amount: values.amount,
+                                                redemptionCode:
+                                                  generateRedeptionCode(),
+                                                isRedeemed: false,
+                                                paymentMethod: "cryptocurrency",
+                                                senderID: profile.uid,
+                                                senderName: `${profile.firstName} ${profile.lastName}`,
+                                                senderPhonenumber:
+                                                  profile.phonenumber,
+                                                status: "pending",
+                                                txHash: depositTokenTxn.hash,
+                                              };
+
+                                              await transactionProcessor(
+                                                values.amount,
+                                                selectedRecipient !== null
+                                                  ? selectedRecipient.recieverName
+                                                  : values.recieverName,
+                                                selectedRecipient !== null
+                                                  ? selectedRecipient.recieverPhonenumber
+                                                  : values.recieverPhonenumber,
+                                                "USDC",
+                                                pendingTransaction
+                                              );
+                                            }
+
+                                            // console.log("txn etherscan ...");
+                                            // console.log(
+                                            //   `https://goerli.etherscan.io/tx/${depositTokenTxn.hash}`
+                                            // );
+                                          } catch (error) {
+                                            showSnackbar({
+                                              status: "error",
+                                              msg: "An error occured! try again.",
+                                              openSnackbar: true,
+                                            });
+                                          }
+                                        }
+                                      }
                                     );
+                                } else if (parseInt(allowance) === 0) {
+                                  // console.log("allowance is  equal 0");
+                                  usdcTokenContract.methods
+                                    .approve(
+                                      PayfamContractAddress,
+                                      getUSDCWei(10000)
+                                    )
+                                    .send(
+                                      { from: signerAddress },
+                                      async function (
+                                        err: any,
+                                        transactionHash: any
+                                      ) {
+                                        if (err !== null) {
+                                          showSnackbar({
+                                            status: "error",
+                                            msg: err.message,
+                                            openSnackbar: true,
+                                          });
+                                        }
 
-                                  setProcessWeb3CallCaption("processing...");
-                                  await depositTokenTxn.wait();
+                                        const txHash = transactionHash;
 
-                                  if (depositTokenTxn.hash) {
-                                    setProcessWeb3CallCaption("");
-                                    //save transaction
-                                    const pendingTransaction: Omit<
-                                      TransactionDocument,
-                                      "addedOn"
-                                    > = {
-                                      uid: transactionId,
-                                      recieverName:
+                                        if (err === null && txHash) {
+                                          setProcessWeb3CallCaption(
+                                            "Start deposit token..."
+                                          );
+                                          try {
+                                            let depositTokenTxn =
+                                              await payfamBankContract.depositTokens(
+                                                values.amount
+                                              );
+
+                                            setProcessWeb3CallCaption(
+                                              "processing..."
+                                            );
+                                            await depositTokenTxn.wait();
+
+                                            if (depositTokenTxn.hash) {
+                                              setProcessWeb3CallCaption("");
+                                              //save transaction
+                                              const pendingTransaction: Omit<
+                                                TransactionDocument,
+                                                "addedOn"
+                                              > = {
+                                                uid: transactionId,
+                                                recieverName:
+                                                  selectedRecipient !== null
+                                                    ? selectedRecipient.recieverName
+                                                    : values.recieverName,
+                                                recieverPhonenumber:
+                                                  selectedRecipient !== null
+                                                    ? selectedRecipient.recieverPhonenumber
+                                                    : values.recieverPhonenumber,
+                                                currency: "USDC",
+                                                redeemedcurrency: "",
+                                                amount: values.amount,
+                                                redemptionCode:
+                                                  generateRedeptionCode(),
+                                                isRedeemed: false,
+                                                paymentMethod: "cryptocurrency",
+                                                senderID: profile.uid,
+                                                senderName: `${profile.firstName} ${profile.lastName}`,
+                                                senderPhonenumber:
+                                                  profile.phonenumber,
+                                                status: "pending",
+                                                txHash: depositTokenTxn.hash,
+                                              };
+
+                                              await transactionProcessor(
+                                                values.amount,
+                                                selectedRecipient !== null
+                                                  ? selectedRecipient.recieverName
+                                                  : values.recieverName,
+                                                selectedRecipient !== null
+                                                  ? selectedRecipient.recieverPhonenumber
+                                                  : values.recieverPhonenumber,
+                                                "USDC",
+                                                pendingTransaction
+                                              );
+                                            }
+
+                                            // console.log("txn etherscan ...");
+                                            // console.log(
+                                            //   `https://goerli.etherscan.io/tx/${depositTokenTxn.hash}`
+                                            // );
+                                          } catch (error) {
+                                            showSnackbar({
+                                              status: "error",
+                                              msg: "An error occured! try again.",
+                                              openSnackbar: true,
+                                            });
+                                          }
+                                        }
+                                      }
+                                    );
+                                } else {
+                                  setProcessWeb3CallCaption(
+                                    "Start deposit token..."
+                                  );
+                                  try {
+                                    let depositTokenTxn =
+                                      await payfamBankContract.depositTokens(
+                                        values.amount
+                                      );
+
+                                    setProcessWeb3CallCaption("processing...");
+                                    await depositTokenTxn.wait();
+
+                                    if (depositTokenTxn.hash) {
+                                      setProcessWeb3CallCaption("");
+                                      //save transaction
+                                      const pendingTransaction: Omit<
+                                        TransactionDocument,
+                                        "addedOn"
+                                      > = {
+                                        uid: transactionId,
+                                        recieverName:
+                                          selectedRecipient !== null
+                                            ? selectedRecipient.recieverName
+                                            : values.recieverName,
+                                        recieverPhonenumber:
+                                          selectedRecipient !== null
+                                            ? selectedRecipient.recieverPhonenumber
+                                            : values.recieverPhonenumber,
+                                        currency: "USDC",
+                                        redeemedcurrency: "",
+                                        amount: values.amount,
+                                        redemptionCode: generateRedeptionCode(),
+                                        isRedeemed: false,
+                                        paymentMethod: "cryptocurrency",
+                                        senderID: profile.uid,
+                                        senderName: `${profile.firstName} ${profile.lastName}`,
+                                        senderPhonenumber: profile.phonenumber,
+                                        status: "pending",
+                                        txHash: depositTokenTxn.hash,
+                                      };
+
+                                      await transactionProcessor(
+                                        values.amount,
                                         selectedRecipient !== null
                                           ? selectedRecipient.recieverName
                                           : values.recieverName,
-                                      recieverPhonenumber:
                                         selectedRecipient !== null
                                           ? selectedRecipient.recieverPhonenumber
                                           : values.recieverPhonenumber,
-                                      currency: "USDC",
-                                      redeemedcurrency: "",
-                                      amount: values.amount,
-                                      redemptionCode: generateRedeptionCode(),
-                                      isRedeemed: false,
-                                      paymentMethod: "cryptocurrency",
-                                      senderID: profile.uid,
-                                      senderName: `${profile.firstName} ${profile.lastName}`,
-                                      senderPhonenumber: profile.phonenumber,
-                                      status: "pending",
-                                      txHash: depositTokenTxn.hash,
-                                    };
+                                        "USDC",
+                                        pendingTransaction
+                                      );
+                                    }
 
-                                    await transactionProcessor(
-                                      values.amount,
-                                      selectedRecipient !== null
-                                        ? selectedRecipient.recieverName
-                                        : values.recieverName,
-                                      selectedRecipient !== null
-                                        ? selectedRecipient.recieverPhonenumber
-                                        : values.recieverPhonenumber,
-                                      "USDC",
-                                      pendingTransaction
-                                    );
+                                    // console.log("txn etherscan ...");
+                                    // console.log(
+                                    //   `https://goerli.etherscan.io/tx/${depositTokenTxn.hash}`
+                                    // );
+                                  } catch (error) {
+                                    showSnackbar({
+                                      status: "error",
+                                      msg: "An error occured! try again.",
+                                      openSnackbar: true,
+                                    });
                                   }
-
-                                  // console.log("txn etherscan ...");
-                                  // console.log(
-                                  //   `https://goerli.etherscan.io/tx/${depositTokenTxn.hash}`
-                                  // );
-                                } catch (error) {
-                                  showSnackbar({
-                                    status: "error",
-                                    msg: "An error occured! try again.",
-                                    openSnackbar: true,
-                                  });
                                 }
-                              }
 
-                              setProcessWeb3Call(false);
+                                setProcessWeb3Call(false);
+                              }
                             }
-                          }
-                        }}
-                        sx={{ color: "#fff" }}
-                      >
-                        Send funds
-                      </LoadingButton>
-                      {processWeb3CallCaption && (
-                        <Typography variant="caption" color="textPrimary">
-                          {processWeb3CallCaption}
-                        </Typography>
-                      )}
-                    </Web3Connect>
-                  </>
-                )}
+                          }}
+                          sx={{
+                            color: "#fff",
+                            background:
+                              "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+                            backgroundSize: "400% 400%",
+                            animation: "anim 10s infinite ease-in-out",
+
+                            p: 3,
+                            borderRadius: 15,
+                            boxShadow: (theme) => theme.shadows[20],
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Send funds
+                        </LoadingButton>
+                        {processWeb3CallCaption && (
+                          <Typography variant="caption" color="textPrimary">
+                            {processWeb3CallCaption}
+                          </Typography>
+                        )}
+                      </Web3Connect>
+                    </>
+                  )}
+                </Stack>
               </Box>
             )}
           </Formik>
