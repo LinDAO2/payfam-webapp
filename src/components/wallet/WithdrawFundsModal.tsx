@@ -4,7 +4,14 @@ import { collectionServices, paystackServices } from "@/services/root";
 import { TransactionCurrency } from "@/types/transaction-types";
 import { Close } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { IconButton, Stack, Typography } from "@mui/material";
+import {
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import { increment } from "firebase/firestore";
@@ -17,6 +24,7 @@ import NairaTextFieldFormatter from "../common/NairaTextFieldFormatter";
 import Spacer from "../common/Spacer";
 import { payfamBankContract } from "@/helpers/web3-helpers";
 import { setProfileReload } from "@/helpers/session-helpers";
+import Web3Connect from "../web3Connect/Web3Connect";
 
 interface Props {
   visible: boolean;
@@ -79,96 +87,203 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
             <>
               <Stack sx={{ my: 1 }}>
                 {currency === "NGN" && (
-                  <Field
-                    component={TextField}
-                    name="amount"
-                    value={values.amount}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      const _amount =
-                        typeof event.target.value === "string"
-                          ? parseInt(event.target.value)
-                          : null;
-                      setFieldValue("amount", _amount, false);
-                      if (_amount !== null) {
-                        if (_amount > balance) {
-                          setFieldError(
-                            "amount",
-                            "This amount is more than your balance"
-                          );
-                        } else {
-                          setFieldError("amount", undefined);
-                        }
-                      }
-                    }}
-                    fullWidth
-                    label="Enter Amount"
-                    variant="standard"
-                    InputProps={{
-                      inputComponent: NairaTextFieldFormatter,
-                    }}
-                  />
+                  <>
+                    {profile?.bankAccount?.paystack ? (
+                      <>
+                        <Typography variant="subtitle2" color="textPrimary">
+                          Bank account for cash out
+                        </Typography>
+                        <List dense>
+                          <ListItem>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2" color="textPrimary">
+                                  {profile?.bankAccount?.paystack?.bankName}
+                                </Typography>
+                              }
+                              secondary={"Bank name"}
+                            />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2" color="textPrimary">
+                                  {profile?.bankAccount?.paystack?.accountName}
+                                </Typography>
+                              }
+                              secondary={"Account name"}
+                            />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2" color="textPrimary">
+                                  {
+                                    profile?.bankAccount?.paystack
+                                      ?.accountNumber
+                                  }
+                                </Typography>
+                              }
+                              secondary={"Account number"}
+                            />
+                          </ListItem>
+                        </List>
+                        <Field
+                          component={TextField}
+                          name="amount"
+                          value={values.amount}
+                          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            const _amount =
+                              typeof event.target.value === "string"
+                                ? parseInt(event.target.value)
+                                : null;
+                            setFieldValue("amount", _amount, false);
+                            if (_amount !== null) {
+                              if (_amount > balance) {
+                                setFieldError(
+                                  "amount",
+                                  "This amount is more than your balance"
+                                );
+                              } else {
+                                setFieldError("amount", undefined);
+                              }
+                            }
+                          }}
+                          fullWidth
+                          label="Enter Amount"
+                          variant="standard"
+                          InputProps={{
+                            inputComponent: NairaTextFieldFormatter,
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <Typography variant="subtitle2" color="textPrimary">
+                        You need add a bank account to cashout
+                      </Typography>
+                    )}
+                  </>
                 )}
 
                 {currency === "USD" && (
-                  <Field
-                    component={TextField}
-                    name="amount"
-                    value={values.amount}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      const _amount =
-                        typeof event.target.value === "string"
-                          ? parseInt(event.target.value)
-                          : null;
-                      setFieldValue("amount", _amount, false);
-                      if (_amount !== null) {
-                        if (_amount > balance) {
-                          setFieldError(
-                            "amount",
-                            "This amount is more than your balance"
-                          );
-                        } else {
-                          setFieldError("amount", undefined);
+                  <>
+                    <Web3Connect>
+                      <></>
+                    </Web3Connect>
+                    <Field
+                      component={TextField}
+                      name="amount"
+                      value={values.amount}
+                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                        const _amount =
+                          typeof event.target.value === "string"
+                            ? parseInt(event.target.value)
+                            : null;
+                        setFieldValue("amount", _amount, false);
+                        if (_amount !== null) {
+                          if (_amount > balance) {
+                            setFieldError(
+                              "amount",
+                              "This amount is more than your balance"
+                            );
+                          } else {
+                            setFieldError("amount", undefined);
+                          }
                         }
-                      }
-                    }}
-                    fullWidth
-                    label="Enter Amount"
-                    variant="standard"
-                    InputProps={{
-                      inputComponent: DollarTextFieldFormatter,
-                    }}
-                  />
+                      }}
+                      fullWidth
+                      label="Enter Amount"
+                      variant="standard"
+                      InputProps={{
+                        inputComponent: DollarTextFieldFormatter,
+                      }}
+                    />
+                  </>
                 )}
 
                 {currency === "GHS" && (
-                  <Field
-                    component={TextField}
-                    name="amount"
-                    value={values.amount}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      const _amount =
-                        typeof event.target.value === "string"
-                          ? parseInt(event.target.value)
-                          : null;
-                      setFieldValue("amount", _amount, false);
-                      if (_amount !== null) {
-                        if (_amount > balance) {
-                          setFieldError(
-                            "amount",
-                            "This amount is more than your balance"
-                          );
-                        } else {
-                          setFieldError("amount", undefined);
-                        }
-                      }
-                    }}
-                    fullWidth
-                    label="Enter Amount"
-                    variant="standard"
-                    InputProps={{
-                      inputComponent: CedisTextFieldFormatter,
-                    }}
-                  />
+                  <>
+                    {profile?.mobileMoneyAccount?.paystack ? (
+                      <>
+                        <Typography variant="subtitle2" color="textPrimary">
+                          Momo account for cash out
+                        </Typography>
+                        <List dense>
+                          <ListItem>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2" color="textPrimary">
+                                  {
+                                    profile?.mobileMoneyAccount?.paystack
+                                      ?.bankName
+                                  }
+                                </Typography>
+                              }
+                              secondary={"Provider name"}
+                            />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2" color="textPrimary">
+                                  {
+                                    profile?.mobileMoneyAccount?.paystack
+                                      ?.accountName
+                                  }
+                                </Typography>
+                              }
+                              secondary={"Account name"}
+                            />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText
+                              primary={
+                                <Typography variant="body2" color="textPrimary">
+                                  {
+                                    profile?.mobileMoneyAccount?.paystack
+                                      ?.accountNumber
+                                  }
+                                </Typography>
+                              }
+                              secondary={"MoMo number"}
+                            />
+                          </ListItem>
+                        </List>
+                        <Field
+                          component={TextField}
+                          name="amount"
+                          value={values.amount}
+                          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            const _amount =
+                              typeof event.target.value === "string"
+                                ? parseInt(event.target.value)
+                                : null;
+                            setFieldValue("amount", _amount, false);
+                            if (_amount !== null) {
+                              if (_amount > balance) {
+                                setFieldError(
+                                  "amount",
+                                  "This amount is more than your balance"
+                                );
+                              } else {
+                                setFieldError("amount", undefined);
+                              }
+                            }
+                          }}
+                          fullWidth
+                          label="Enter Amount"
+                          variant="standard"
+                          InputProps={{
+                            inputComponent: CedisTextFieldFormatter,
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <Typography variant="subtitle2" color="textPrimary">
+                        You need add a momo number to cashout
+                      </Typography>
+                    )}
+                  </>
                 )}
 
                 {errors.amount && (
@@ -268,6 +383,56 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                       }
 
                       if (currency === "GHS") {
+                        const initiateTransferPromise =
+                          paystackServices.initiateMOMOTransfer({
+                            amount: values.amount,
+                            psrecieptCode: `${profile.mobileMoneyAccount?.paystack?.psrecieptCode}`,
+                            reason: "Cashout",
+                            userId: profile.uid,
+                          });
+
+                        const deductFrombalance = collectionServices.editDoc(
+                          "Users",
+                          profile.uid,
+                          {
+                            ghsBalance: increment(-values.amount),
+                          }
+                        );
+
+                        const allPromise = Promise.all([
+                          initiateTransferPromise,
+                          deductFrombalance,
+                        ]);
+
+                        const results = await allPromise;
+
+                        results.forEach((result) => {
+                          if (result.status === "error") {
+                            showSnackbar({
+                              status: "error",
+                              msg: result.errorMessage,
+                              openSnackbar: true,
+                            });
+                            setProcessing(false);
+                          }
+                        });
+
+                        if (
+                          results.every((result) => {
+                            return result.status === "success";
+                          })
+                        ) {
+                          showSnackbar({
+                            status: "success",
+                            msg: "Transfer funds processed",
+                            openSnackbar: true,
+                          });
+
+                          setProfileReload(true);
+                          setTimeout(() => {
+                            close();
+                          }, 1000);
+                        }
                       }
 
                       if (currency === "USD") {

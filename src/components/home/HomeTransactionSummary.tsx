@@ -1,10 +1,14 @@
-import Spacer from "../common/Spacer";
 import TransactionList from "../transactions/TransactionList";
+import Typography from "@mui/material/Typography";
+import { Divider } from "@mui/material";
 
 const HomeTransactionSummary = () => {
   return (
     <div>
-      <Spacer space={30} />
+      <Typography variant="h6" color="textPrimary" gutterBottom={false}>
+        Recent transactions
+      </Typography>
+      <Divider sx={{ mb: 1 }} />
       <TransactionList />
     </div>
   );

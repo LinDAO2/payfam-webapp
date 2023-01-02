@@ -18,10 +18,10 @@ import { showSnackbar } from "@/helpers/snackbar-helpers";
 import { collectionServices } from "@/services/root";
 import { increment } from "firebase/firestore";
 import { LoadingButton } from "@mui/lab";
+import { setProfileReload } from "@/helpers/session-helpers";
 
 interface Props {
-  visible: boolean;
-  close: () => void;
+  close?: () => void;
   fromCurrency?: TransactionCurrency;
 }
 
@@ -31,6 +31,7 @@ const SwapCurrencyForm = (props: Props) => {
   const profile = useSession();
 
   const frCur = props.fromCurrency ? props.fromCurrency : "NGN";
+
   let balance =
     frCur === "NGN"
       ? profile?.ngnBalance
@@ -40,7 +41,7 @@ const SwapCurrencyForm = (props: Props) => {
       ? profile?.ghsBalance
         ? profile?.ghsBalance
         : 0
-      : frCur === "USDC"
+      : frCur === "USD"
       ? profile?.usdcBalance
         ? profile?.usdcBalance
         : 0
@@ -51,8 +52,16 @@ const SwapCurrencyForm = (props: Props) => {
   const [processing, setProcessing] = useState(false);
 
   const [toCurr, setToCurr] = useState<TransactionCurrency>("NGN");
-  const [fromCurr, setFromCurr] = useState<TransactionCurrency>("NGN");
+  const [fromCurr, setFromCurr] = useState<TransactionCurrency>(frCur);
   const [amount, setAmount] = useState(0);
+
+  const resetStates = () => {
+    setConvertedValue(0);
+    setAmount(0);
+    setProcessing(false);
+    setToCurr("NGN");
+    setFromCurr("NGN");
+  };
 
   const formikRef = useRef<FormikValues | null>(null);
 
@@ -78,7 +87,7 @@ const SwapCurrencyForm = (props: Props) => {
         innerRef={(p) => (formikRef.current = p)}
         key="swap-form"
         initialValues={{
-          fromCurrency: props.fromCurrency ? props.fromCurrency : "NGN",
+          fromCurrency: frCur,
           toCurrency: "NGN",
           amount: 0,
         }}
@@ -139,7 +148,7 @@ const SwapCurrencyForm = (props: Props) => {
                 status: recieverDecrementUSDBalanceStatus,
                 errorMessage: recieverDecrementUSDBalanceErrorMessage,
               } = await collectionServices.editDoc("Users", profile.uid, {
-                ghsBalance: increment(-values.amount),
+                usdcBalance: increment(-values.amount),
               });
 
               if (recieverDecrementUSDBalanceStatus === "success") {
@@ -161,7 +170,7 @@ const SwapCurrencyForm = (props: Props) => {
                   status: recieverIncrementGHSBalanceStatus,
                   errorMessage: recieverIncrementGHSBlanceErrorMessage,
                 } = await collectionServices.editDoc("Users", profile.uid, {
-                  ghsBalance: increment(convertedValue),
+                  ngnBalance: increment(convertedValue),
                 });
 
                 if (recieverIncrementGHSBalanceStatus === "success") {
@@ -171,8 +180,12 @@ const SwapCurrencyForm = (props: Props) => {
                     openSnackbar: true,
                   });
                   setSubmitting(false);
+                  setProfileReload(true);
+                  resetStates();
                   resetForm();
-                  props.close();
+                  if (props.close) {
+                    props.close();
+                  }
                 }
                 if (recieverIncrementGHSBalanceStatus === "error") {
                   showSnackbar({
@@ -188,7 +201,7 @@ const SwapCurrencyForm = (props: Props) => {
                   status: recieverIncrementNGNBalanceStatus,
                   errorMessage: recieverIncrementNGNBlanceErrorMessage,
                 } = await collectionServices.editDoc("Users", profile.uid, {
-                  ngnBalance: increment(convertedValue),
+                  ghsBalance: increment(convertedValue),
                 });
 
                 if (recieverIncrementNGNBalanceStatus === "success") {
@@ -198,8 +211,12 @@ const SwapCurrencyForm = (props: Props) => {
                     openSnackbar: true,
                   });
                   setSubmitting(false);
+                  setProfileReload(true);
+                  resetStates();
                   resetForm();
-                  props.close();
+                  if (props.close) {
+                    props.close();
+                  }
                 }
                 if (recieverIncrementNGNBalanceStatus === "error") {
                   showSnackbar({
@@ -225,8 +242,12 @@ const SwapCurrencyForm = (props: Props) => {
                     openSnackbar: true,
                   });
                   setSubmitting(false);
+                  setProfileReload(true);
+                  resetStates();
                   resetForm();
-                  props.close();
+                  if (props.close) {
+                    props.close();
+                  }
                 }
                 if (recieverIncrementUSDBalanceStatus === "error") {
                   showSnackbar({
@@ -248,6 +269,7 @@ const SwapCurrencyForm = (props: Props) => {
           errors,
           isSubmitting,
           submitForm,
+          resetForm,
         }) => (
           <>
             <Grid container alignItems="center" justifyContent="space-evenly">
@@ -381,6 +403,7 @@ const SwapCurrencyForm = (props: Props) => {
                         : null;
                     setFieldValue("amount", _amount, false);
                     if (_amount !== null) {
+                      setAmount(_amount);
                       if (_amount > balance) {
                         setFieldError(
                           "amount",
@@ -412,6 +435,7 @@ const SwapCurrencyForm = (props: Props) => {
                         : null;
                     setFieldValue("amount", _amount, false);
                     if (_amount !== null) {
+                      setAmount(_amount);
                       if (_amount > balance) {
                         setFieldError(
                           "amount",
@@ -445,9 +469,19 @@ const SwapCurrencyForm = (props: Props) => {
             >
               <LoadingButton
                 loading={isSubmitting}
-                disabled={isSubmitting}
+                disabled={isSubmitting || processing}
                 variant="contained"
-                sx={{ textTransform: "capitalize", color: "#fff" }}
+                sx={{
+                  color: "#fff",
+                  background:
+                    "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+                  backgroundSize: "400% 400%",
+                  animation: "anim 10s infinite ease-in-out",
+                  p: 3,
+                  borderRadius: 15,
+                  boxShadow: (theme) => theme.shadows[20],
+                  fontWeight: "bold",
+                }}
                 size="large"
                 onClick={() => {
                   submitForm();
@@ -462,7 +496,11 @@ const SwapCurrencyForm = (props: Props) => {
                   sx={{ textTransform: "capitalize" }}
                   size="large"
                   onClick={() => {
-                    props.close();
+                    resetStates();
+                    resetForm();
+                    if (props.close) {
+                      props.close();
+                    }
                   }}
                 >
                   Cancel

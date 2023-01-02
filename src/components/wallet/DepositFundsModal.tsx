@@ -4,6 +4,8 @@ import { TransactionCurrency } from "@/types/transaction-types";
 import { Close } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
+  Alert,
+  AlertTitle,
   FormControl,
   IconButton,
   InputLabel,
@@ -360,7 +362,18 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
                 )}
               </Stack>
               <Spacer space={25} />
-              {currency === "USDC" && <></>}
+              {currency === "USD" && (
+                <>
+                  <Alert severity="warning">
+                    <AlertTitle>Attention</AlertTitle>
+                    <Typography variant="body2" color="textPrimary">
+                      Wait for web3 wallet to confirm transaction before you
+                      close modal.
+                    </Typography>
+                  </Alert>
+                  <Spacer space={25} />
+                </>
+              )}
               <Stack
                 direction={"row"}
                 justifyContent={"center"}

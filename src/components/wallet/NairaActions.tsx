@@ -150,11 +150,24 @@ export default function NairaActions() {
       />
 
       <ButtonGroup
-        variant="contained"
+        variant="text"
         ref={anchorRef}
         aria-label="naira button"
       >
-        <Button onClick={handleClick} sx={{ color: "#fff" }}>
+        <Button
+          onClick={handleClick}
+          sx={{
+            color: "#fff",
+            background:
+              "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+            backgroundSize: "400% 400%",
+            animation: "anim 10s infinite ease-in-out",
+            p: 1,
+            borderRadius: 15,
+            boxShadow: (theme) => theme.shadows[20],
+            fontWeight: "bold",
+          }}
+        >
           {options[selectedIndex]}
         </Button>
         <Button
@@ -164,6 +177,17 @@ export default function NairaActions() {
           aria-label="select naira option"
           aria-haspopup="menu"
           onClick={handleToggle}
+          sx={{
+            color: "#fff",
+            background:
+              "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+            backgroundSize: "400% 400%",
+            animation: "anim 10s infinite ease-in-out",
+            p: 1,
+            borderRadius: 15,
+            boxShadow: (theme) => theme.shadows[20],
+            fontWeight: "bold",
+          }}
         >
           <ArrowDropDownIcon />
         </Button>

@@ -248,7 +248,9 @@ export const getConvertedAount = async (
     );
     const data: any = await response.json();
     let rate = data?.conversion_rates[to];
+
     let total = rate * amount;
+
     return total;
   } catch (error) {
     console.log(error);

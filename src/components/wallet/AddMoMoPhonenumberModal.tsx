@@ -295,7 +295,7 @@ const AddMoMoPhonenumberModal = ({ visible, close }: Props) => {
                     } else if (resolvedBankAccountInfo.account_name === "") {
                       setisLoading(true);
 
-                      const { errorMessage, status, data } =
+                      const { status, data } =
                         await paystackServices.resolveAccountDetails({
                           accountNumber: values.account_number,
                           bankCode: selectedBank.code,
@@ -313,7 +313,7 @@ const AddMoMoPhonenumberModal = ({ visible, close }: Props) => {
                         showSnackbar({
                           openSnackbar: true,
                           status: "error",
-                          msg: errorMessage,
+                          msg: "Mobile Money number do not match provider. Check and try again!",
                         });
 
                         setisLoading(false);

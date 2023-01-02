@@ -1,18 +1,26 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Divider, Grid, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import BuyStableCoinModal from "../wallet/BuyStableCoinModal";
+import SellStableCoinModal from "../wallet/SellStableCoinModal";
 
 const HomeStableCoinAction = () => {
   const [showBuyStablecoin, setShowBuyStablecoin] = useState(false);
+  const [showSellStablecoin, setShowSellStablecoin] = useState(false);
   return (
     <>
       <BuyStableCoinModal
         visible={showBuyStablecoin}
         close={() => setShowBuyStablecoin(false)}
       />
-      <Typography variant="h5" color="textPrimary">
+      <SellStableCoinModal
+        visible={showSellStablecoin}
+        close={() => setShowSellStablecoin(false)}
+      />
+      <Typography variant="h6" color="textPrimary" gutterBottom={false}>
         Secure your finance with stablecoin
       </Typography>
+      <Divider sx={{ mb: 1 }} />
+
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Paper
@@ -54,6 +62,9 @@ const HomeStableCoinAction = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper
+            onClick={() => {
+              setShowSellStablecoin(!showSellStablecoin);
+            }}
             sx={{
               boxShadow: (theme) => theme.shadows[20],
               borderRadius: 1,

@@ -216,6 +216,35 @@ class PaystackServices {
       };
     }
   }
+  async initiateMOMOTransfer({
+    amount,
+    psrecieptCode,
+    reason,
+    userId,
+  }: IInstantPSInitiateTransfer): Promise<mutationResponse> {
+    try {
+      await this.respository.initiateMOMOTransfer({
+        amount,
+        psrecieptCode,
+        reason,
+        userId,
+      });
+
+      return {
+        status: "success",
+        successMessage: "Tranfer of funds processed",
+        errorMessage: "",
+      };
+    } catch (error: any) {
+      console.log(error);
+      
+      return {
+        status: "error",
+        errorMessage: error.message,
+        successMessage: "",
+      };
+    }
+  }
 }
 
 export default PaystackServices;

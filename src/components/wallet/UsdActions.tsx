@@ -13,7 +13,6 @@ import { generateUUIDV4 } from "@/utils/funcs";
 import DepositFundsModal from "./DepositFundsModal";
 import WithdrawFundsModal from "./WithdrawFundsModal";
 
-
 const UsdActions = () => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -83,11 +82,24 @@ const UsdActions = () => {
         close={() => {
           setShowSwapCurrency(!showSwapCurrency);
         }}
-        fromCurrency="USDC"
+        fromCurrency="USD"
       />
 
-      <ButtonGroup variant="contained" ref={anchorRef} aria-label="usd button">
-        <Button onClick={handleClick} sx={{ color: "#fff" }}>
+      <ButtonGroup variant="text" ref={anchorRef} aria-label="usd button">
+        <Button
+          onClick={handleClick}
+          sx={{
+            color: "#fff",
+            background:
+              "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+            backgroundSize: "400% 400%",
+            animation: "anim 10s infinite ease-in-out",
+            p: 1,
+            borderRadius: 15,
+            boxShadow: (theme) => theme.shadows[20],
+            fontWeight: "bold",
+          }}
+        >
           {options[selectedIndex]}
         </Button>
         <Button
@@ -97,6 +109,17 @@ const UsdActions = () => {
           aria-label="select usd option"
           aria-haspopup="menu"
           onClick={handleToggle}
+          sx={{
+            color: "#fff",
+            background:
+              "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
+            backgroundSize: "400% 400%",
+            animation: "anim 10s infinite ease-in-out",
+            p: 1,
+            borderRadius: 15,
+            boxShadow: (theme) => theme.shadows[20],
+            fontWeight: "bold",
+          }}
         >
           <ArrowDropDownIcon />
         </Button>

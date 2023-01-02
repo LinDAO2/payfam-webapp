@@ -7,14 +7,14 @@ const HomeSwapCurrency = () => {
     <>
       <Spacer space={50} />
       <Paper elevation={8} sx={{ p: 1 }}>
-        <Typography variant="h5" color="textPrimary" textAlign="center">
+        <Typography variant="h5" color="textPrimary">
           Swap currency
         </Typography>
         <Divider flexItem />
-        <Typography variant="body1" color="textPrimary" textAlign="center">
+        <Typography variant="body1" color="textPrimary" sx={{ pb: 2 }}>
           Easy swap between currencies
         </Typography>
-        <SwapCurrencyForm visible={false} close={() => {}} />
+        <SwapCurrencyForm />
       </Paper>
     </>
   );

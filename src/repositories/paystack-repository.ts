@@ -2,7 +2,6 @@ import {
   ICreatePSTransferReceiptCode,
   IGetAccountDetailsParams,
   IGetBankParams,
-  IInitiateMOMOCharge,
   IInstantPSInitiateTransfer,
 } from "@/types/wallet-types";
 import axios from "axios";
@@ -107,33 +106,29 @@ class PaystackRepository {
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_PAYSTACK_LIVE_SECRET_KEY_EKIOJA}`,
+          Authorization: `Bearer ${process.env.REACT_APP_PAYSTACK_LIVE_SECRET_KEY}`,
           "Content-Type": `application/json`,
         },
       }
     );
   }
 
-  async initiateMOMOCharge({
+  async initiateMOMOTransfer({
     amount,
-    email,
-    phone,
-    provider,
-  }: IInitiateMOMOCharge) {
+    psrecieptCode,
+    reason,
+  }: IInstantPSInitiateTransfer) {
     return axios.post(
-      "https://api.paystack.co/charge",
+      "https://api.paystack.co/transfer",
       {
-        email,
+        source: "balance",
         amount: amount * 100,
-        currency: "GHS",
-        mobile_money: {
-          phone,
-          provider,
-        },
+        recipient: psrecieptCode,
+        reason: reason,
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_PAYSTACK_LIVE_SECRET_KEY_EKIOJA}`,
+          Authorization: `Bearer ${process.env.REACT_APP_PAYSTACK_BIDOPALABS_LIVE_SECRET_KEY}`,
           "Content-Type": `application/json`,
         },
       }
