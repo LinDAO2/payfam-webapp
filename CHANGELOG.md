@@ -1,3 +1,12 @@
+# [0.4.0](https://github.com/matt-kay/payfam-webapp/compare/v0.3.0...v0.4.0) (2023-01-02)
+
+
+### Features
+
+* sell stablecoin ([991f028](https://github.com/matt-kay/payfam-webapp/commit/991f028ece04e31ae807933704f46c4314855da7))
+
+
+
 # [0.3.0](https://github.com/matt-kay/payfam-webapp/compare/v0.2.0...v0.3.0) (2022-12-31)
 
 
