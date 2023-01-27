@@ -58,7 +58,7 @@ const HomeTransactionSummary = () => {
         Transaction history
       </Typography>
       <Divider sx={{ mb: 1 }} />
-      {transactionList.length > 0 &&
+      { !processing && transactionList.length > 0 &&
         transactionList.map((transaction) => (
           <TransactionListItem
             key={generateUUIDV4()}
