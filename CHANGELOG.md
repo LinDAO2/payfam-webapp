@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/matt-kay/payfam-webapp/compare/v0.4.0...v0.5.0) (2023-01-27)
+
+
+### Features
+
+* production ready phase ([49d5cd4](https://github.com/matt-kay/payfam-webapp/commit/49d5cd4e98dd4ae6779375047909c4f69236f256))
+
+
+
 # [0.4.0](https://github.com/matt-kay/payfam-webapp/compare/v0.3.0...v0.4.0) (2023-01-02)
 
 
