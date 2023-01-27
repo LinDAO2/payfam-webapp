@@ -1,3 +1,12 @@
+## [0.5.1](https://github.com/matt-kay/payfam-webapp/compare/v0.5.0...v0.5.1) (2023-01-27)
+
+
+### Bug Fixes
+
+* home transaction summary ([d0aef21](https://github.com/matt-kay/payfam-webapp/commit/d0aef212a1691b11acfa0976839e3917a3dc20f5))
+
+
+
 # [0.5.0](https://github.com/matt-kay/payfam-webapp/compare/v0.4.0...v0.5.0) (2023-01-27)
 
 
