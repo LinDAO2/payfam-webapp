@@ -35,15 +35,16 @@ export const NavItem = (props: Props) => {
             ? "background.default"
             : "background.paper",
           borderRadius: 1,
-          color: active ? "secondary.dark" : "neutral.200",
-          fontWeight: active ? "fontWeightBold" : "bolder",
+          color: active ? "secondary.dark" : "black",
+          // fontWeight: active ? "fontWeightBold" : "bolder",
+          fontWeight:'regular',
           justifyContent: "flex-start",
           px: 3,
           textAlign: "left",
           textTransform: "none",
           width: "100%",
           "& .MuiButton-startIcon": {
-            color: active ? "secondary.dark" : "neutral.200",
+            color: active ? "secondary.dark" : "black",
           },
           "&:hover": {
             backgroundColor: "rgba(255,255,255, 0.08)",

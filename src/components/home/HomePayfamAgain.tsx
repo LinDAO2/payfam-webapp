@@ -36,7 +36,7 @@ const HomePayfamAgain = () => {
 
   return (
     <>
-    <Spacer space={20}/>
+      <Spacer space={20} />
       <Typography variant="h6" color="textPrimary" gutterBottom={false}>
         Payfam Again
       </Typography>
@@ -83,7 +83,6 @@ const HomePayfamAgain = () => {
         {recieptList.map((reciept) => (
           <Box
             key={generateUUIDV4()}
-            boxShadow={4}
             sx={{
               p: 1,
               borderRadius: 2,

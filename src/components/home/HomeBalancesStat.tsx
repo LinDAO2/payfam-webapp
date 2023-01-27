@@ -7,13 +7,13 @@ import {
   Tooltip,
   Typography,
   Button,
-  Divider,
 } from "@mui/material";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { WALLET } from "@/routes/routes";
+import AppBrand from "../global/AppBrand";
 
 const HomeBalancesStat = () => {
   const profile = useSession();
@@ -26,39 +26,47 @@ const HomeBalancesStat = () => {
   }
   return (
     <>
-      <Typography variant="h6" color="textPrimary" gutterBottom={false}>
-        Wallet Balances
-      </Typography>
-      <Divider sx={{ mb: 1 }} />
       <Paper sx={{ p: 1, mb: 2 }}>
-        <Stack direction="row" justifyContent="flex-end">
-          <Tooltip title={hideBalance ? "Show balance" : "Hide balance"}>
-            <IconButton
+        <Stack direction="row" justifyContent="space-between">
+          <AppBrand size="medium" />
+          <Stack direction="row" justifyContent="flex-end">
+            <Tooltip title={hideBalance ? "Show balance" : "Hide balance"}>
+              <IconButton
+                onClick={() => {
+                  setHideBalance(!hideBalance);
+                }}
+              >
+                {hideBalance ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </IconButton>
+            </Tooltip>
+            <Button
+              variant="text"
+              color="primary"
               onClick={() => {
-                setHideBalance(!hideBalance);
+                navigate(`/${WALLET}`);
               }}
             >
-              {hideBalance ? <VisibilityIcon /> : <VisibilityOffIcon />}
-            </IconButton>
-          </Tooltip>
-          <Button
-            variant="text"
-            color="primary"
-            onClick={() => {
-              navigate(`/${WALLET}`);
-            }}
-          >
-            View Wallet
-          </Button>
+              View Wallet
+            </Button>
+          </Stack>
         </Stack>
+
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} md={4}>
             {hideBalance ? (
-              <Typography variant="caption" color="textPrimary">
+              <Typography
+                variant="caption"
+                color="textPrimary"
+                sx={{ fontSize: 16 }}
+              >
                 NGN XX.XX
               </Typography>
             ) : (
-              <Typography variant="caption" color="textPrimary">
+              <Typography
+                variant="caption"
+                color="textPrimary"
+                sx={{ fontSize: 16 }}
+              >
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",
                   currency: "NGN",
@@ -68,11 +76,19 @@ const HomeBalancesStat = () => {
           </Grid>
           <Grid item xs={12} md={4}>
             {hideBalance ? (
-              <Typography variant="caption" color="textPrimary">
+              <Typography
+                variant="caption"
+                color="textPrimary"
+                sx={{ fontSize: 16 }}
+              >
                 GHS XX.XX
               </Typography>
             ) : (
-              <Typography variant="caption" color="textPrimary">
+              <Typography
+                variant="caption"
+                color="textPrimary"
+                sx={{ fontSize: 16 }}
+              >
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",
                   currency: "GHS",
@@ -82,11 +98,19 @@ const HomeBalancesStat = () => {
           </Grid>
           <Grid item xs={12} md={4}>
             {hideBalance ? (
-              <Typography variant="caption" color="textPrimary">
+              <Typography
+                variant="caption"
+                color="textPrimary"
+                sx={{ fontSize: 16 }}
+              >
                 USDC XX.XX
               </Typography>
             ) : (
-              <Typography variant="caption" color="textPrimary">
+              <Typography
+                variant="caption"
+                color="textPrimary"
+                sx={{ fontSize: 16 }}
+              >
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",
                   currency: "USD",

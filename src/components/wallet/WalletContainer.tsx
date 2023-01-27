@@ -8,6 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import Spacer from "../common/Spacer";
 import Web3Connect from "../web3Connect/Web3Connect";
 import CedisAction from "./CedisAction";
 import NairaActions from "./NairaActions";
@@ -19,19 +20,17 @@ const WalletContainer = () => {
     <Stack
       alignItems="center"
       justifyContent="center"
-      sx={{ width: "100%", minHeight: "50vh" }}
+      sx={{
+        width: "100%",
+        minHeight: "50vh",
+        bgcolor: "background.paper",
+        pt: 2,
+      }}
     >
-      <Paper sx={{ width: { xs: "90vw", md: "40vw" }, p: 2 }}>
-        <Stack alignItems="center">
-          <Typography
-            variant="h4"
-            color="textPrimary"
-            sx={{ textTransform: "uppercase" }}
-          >
-            Wallet
-          </Typography>
-        </Stack>
-      </Paper>
+      <Typography variant="h4" color="textPrimary" textAlign="left">
+        My Wallet
+      </Typography>
+
       <Paper sx={{ width: { xs: "90vw", md: "40vw" }, p: 2, my: 1 }}>
         <Grid container justifyContent="space-between">
           <Grid item xs={12} md={8}>
@@ -169,11 +168,24 @@ const WalletContainer = () => {
               </Typography>
 
               <Typography variant="subtitle1" color="textPrimary">
+                Available balance{" "}
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",
                   currency: "USD",
                 }).format(profile?.usdcBalance ? profile?.usdcBalance : 0)}
               </Typography>
+              <Typography variant="subtitle1" color="textPrimary">
+                Pending withdraw request balance{" "}
+                {new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "USD",
+                }).format(
+                  profile?.usdcPendingWithdrawBalance
+                    ? profile?.usdcPendingWithdrawBalance
+                    : 0
+                )}
+              </Typography>
+              <Spacer space={20} />
               <Web3Connect>
                 <></>
               </Web3Connect>

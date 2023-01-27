@@ -11495,6 +11495,11 @@ react-number-format@^5.1.2:
   dependencies:
     prop-types "^15.7.2"
 
+react-otp-input@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-otp-input/-/react-otp-input-2.4.0.tgz#0f0a3de1d8c8d564e2e4fbe5d6b7b56e29e3a6e6"
+  integrity sha512-AIgl7u4sS9BTNCxX1xlaS5fPWay/Zml8Ho5LszXZKXrH1C/TiFsTQGmtl13UecQYO3mSF3HUzG2rrDf0sjEFmg==
+
 react-paystack@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/react-paystack/-/react-paystack-4.0.2.tgz#766bc52bcf885de84b24a08cb22c7e27606ce4c5"

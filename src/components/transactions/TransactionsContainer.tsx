@@ -1,10 +1,9 @@
 import { Grid, Paper, Stack, Typography } from "@mui/material";
 import TransactionList from "./TransactionList";
-import TransactionStats from "./TransactionStats";
 
 const TransactionsContainer = () => {
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} justifyContent="center">
       <Grid item xs={12} md={5}>
         <Paper sx={{ p: 2, ml: 1 }}>
           <Stack alignItems="center">
@@ -18,9 +17,6 @@ const TransactionsContainer = () => {
           </Stack>
           <TransactionList />
         </Paper>
-      </Grid>
-      <Grid item xs={12} md={7}>
-        <TransactionStats />
       </Grid>
     </Grid>
   );

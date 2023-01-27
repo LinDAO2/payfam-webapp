@@ -5,6 +5,7 @@ import { TransactionCurrency } from "@/types/transaction-types";
 import { Close } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
+  Checkbox,
   IconButton,
   List,
   ListItem,
@@ -17,14 +18,14 @@ import Box from "@mui/material/Box";
 import { increment } from "firebase/firestore";
 import { Field, Formik } from "formik";
 import { TextField } from "formik-mui";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import CedisTextFieldFormatter from "../common/CedisTextFieldFormatter";
 import DollarTextFieldFormatter from "../common/DollarTextFieldFormatter";
 import NairaTextFieldFormatter from "../common/NairaTextFieldFormatter";
 import Spacer from "../common/Spacer";
-import { payfamBankContract } from "@/helpers/web3-helpers";
 import { setProfileReload } from "@/helpers/session-helpers";
 import Web3Connect from "../web3Connect/Web3Connect";
+import { generateUUIDV4 } from "@/utils/funcs";
 
 interface Props {
   visible: boolean;
@@ -51,6 +52,39 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
         ? profile?.usdcBalance
         : 0
       : 0;
+
+  const [isUseAnotherAddressChecked, setIsUseAnotherAddressChecked] =
+    useState(false);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsUseAnotherAddressChecked(event.target.checked);
+  };
+
+  const [currentAccount, setCurrentAccount] = useState<string | null>(null);
+
+  const checkWalletIsConnected = async () => {
+    //@ts-ignore
+    const { ethereum } = window;
+
+    if (!ethereum) {
+      return;
+    } else {
+    }
+
+    const accounts = await ethereum.request({
+      method: "eth_requestAccounts",
+    });
+
+    if (accounts.length !== 0) {
+      setCurrentAccount(accounts[0]);
+    }
+  };
+
+  useEffect(() => {
+    if (currency === "USD") {
+      checkWalletIsConnected();
+    }
+  }, [currency]);
 
   return (
     <Backdrop
@@ -80,6 +114,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
           key="withdraw-form"
           initialValues={{
             amount: 0,
+            otherAddress: "",
           }}
           onSubmit={() => {}}
         >
@@ -170,6 +205,34 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                     <Web3Connect>
                       <></>
                     </Web3Connect>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      sx={{ mt: 3 }}
+                    >
+                      <Typography variant="caption" color="textPrimary">
+                        Withdraw to another address?
+                      </Typography>
+                      <Checkbox
+                        checked={isUseAnotherAddressChecked}
+                        onChange={handleChange}
+                        inputProps={{
+                          "aria-label": "withdraw-to-another-address",
+                        }}
+                      />
+                    </Stack>
+                    {isUseAnotherAddressChecked && (
+                      <Field
+                        component={TextField}
+                        name="otherAddress"
+                        fullWidth
+                        variant="standard"
+                        label="Paste address to recieve funds"
+                      />
+                    )}
+
+                    <Spacer space={20} />
                     <Field
                       component={TextField}
                       name="amount"
@@ -327,6 +390,24 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                         msg: "Amount is more than your balance",
                         openSnackbar: true,
                       });
+                    } else if (
+                      isUseAnotherAddressChecked === true &&
+                      values.otherAddress === ""
+                    ) {
+                      showSnackbar({
+                        status: "warning",
+                        msg: "Paste address to recieve funds",
+                        openSnackbar: true,
+                      });
+                    } else if (
+                      isUseAnotherAddressChecked === false &&
+                      currentAccount === null
+                    ) {
+                      showSnackbar({
+                        status: "warning",
+                        msg: "Connect wallet address to recieve funds",
+                        openSnackbar: true,
+                      });
                     } else {
                       setProcessing(true);
                       if (currency === "NGN") {
@@ -436,61 +517,117 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                       }
 
                       if (currency === "USD") {
-                        try {
-                          let withdrawTokenTxn =
-                            await payfamBankContract.withdrawTokenFromBalance(
-                              values.amount
-                            );
-
-                          await withdrawTokenTxn.wait();
-
-                          if (withdrawTokenTxn.hash) {
-                            const { status, errorMessage } =
-                              await collectionServices.editDoc(
-                                "Users",
-                                profile.uid,
-                                {
-                                  usdcBalance: increment(-values.amount),
-                                }
-                              );
-
-                            if (status === "success") {
-                              showSnackbar({
-                                status: "success",
-                                msg: "Withdraw funds processed",
-                                openSnackbar: true,
-                              });
-
-                              setProfileReload(true);
-                              setTimeout(() => {
-                                close();
-                              }, 1000);
-                            }
-
-                            if (status === "error") {
-                              showSnackbar({
-                                status: "error",
-                                msg: errorMessage,
-                                openSnackbar: true,
-                              });
-                              setProcessing(false);
-                            }
+                        const transactionId = generateUUIDV4();
+                        const newWithdrawRequest = collectionServices.addDoc(
+                          "WithdrawRequests",
+                          transactionId,
+                          {
+                            transactionId: transactionId,
+                            userId: profile.uid,
+                            amount: values.amount,
+                            address: isUseAnotherAddressChecked
+                              ? values.otherAddress
+                              : currentAccount,
+                            isPaid: false,
                           }
-                        } catch (error) {
-                          if (error) {
+                        );
+
+                        const deductFrombalance = collectionServices.editDoc(
+                          "Users",
+                          profile.uid,
+                          {
+                            usdcBalance: increment(-values.amount),
+                            usdcPendingWithdrawBalance: increment(
+                              values.amount
+                            ),
+                          }
+                        );
+
+                        const allPromise = Promise.all([
+                          newWithdrawRequest,
+                          deductFrombalance,
+                        ]);
+
+                        const results = await allPromise;
+
+                        results.forEach((result) => {
+                          if (result.status === "error") {
                             showSnackbar({
                               status: "error",
-                              msg: "An error occured try again",
+                              msg: result.errorMessage,
                               openSnackbar: true,
                             });
                             setProcessing(false);
                           }
+                        });
+
+                        if (
+                          results.every((result) => {
+                            return result.status === "success";
+                          })
+                        ) {
+                          showSnackbar({
+                            status: "success",
+                            msg: "Withdraw funds processed, You will get USDC in your account within 1 hour",
+                            openSnackbar: true,
+                          });
+
+                          setProfileReload(true);
+                          setTimeout(() => {
+                            close();
+                          }, 1000);
                         }
+
+                        // try {
+                        //   let withdrawTokenTxn =
+                        //     await payfamBankContract.withdrawTokenFromBalance(
+                        //       values.amount
+                        //     );
+                        //   await withdrawTokenTxn.wait();
+                        //   if (withdrawTokenTxn.hash) {
+                        //     const { status, errorMessage } =
+                        //       await collectionServices.editDoc(
+                        //         "Users",
+                        //         profile.uid,
+                        //         {
+                        //           usdcBalance: increment(-values.amount),
+                        //         }
+                        //       );
+                        //     if (status === "success") {
+                        //       showSnackbar({
+                        //         status: "success",
+                        //         msg: "Withdraw funds processed",
+                        //         openSnackbar: true,
+                        //       });
+                        //       setProfileReload(true);
+                        //       setTimeout(() => {
+                        //         close();
+                        //       }, 1000);
+                        //     }
+                        //     if (status === "error") {
+                        //       showSnackbar({
+                        //         status: "error",
+                        //         msg: errorMessage,
+                        //         openSnackbar: true,
+                        //       });
+                        //       setProcessing(false);
+                        //     }
+                        //   }
+                        // } catch (error) {
+                        //   if (error) {
+                        //     showSnackbar({
+                        //       status: "error",
+                        //       msg: "An error occured try again",
+                        //       openSnackbar: true,
+                        //     });
+                        //     setProcessing(false);
+                        //   }
+                        // }
                       }
                     }
                   }}
                 >
-                  Withdraw
+                  {currency === "USD" ? "Request Withdraw" : "Withdraw"}
                 </LoadingButton>
               </Stack>
             </>

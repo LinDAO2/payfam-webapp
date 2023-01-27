@@ -48,7 +48,7 @@ export default function CedisAction() {
     }
   }, [profile?.mobileMoneyAccount]);
 
-  const handleClick = () => {};
+  // const handleClick = () => {};
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -151,7 +151,7 @@ export default function CedisAction() {
       />
 
       <ButtonGroup variant="text" ref={anchorRef} aria-label="cedis button">
-        <Button
+        {/* <Button
           onClick={handleClick}
           sx={{
             color: "#fff",
@@ -166,7 +166,7 @@ export default function CedisAction() {
           }}
         >
           {options[selectedIndex]}
-        </Button>
+        </Button> */}
         <Button
           size="small"
           aria-controls={open ? "cedis-button-menu" : undefined}

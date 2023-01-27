@@ -28,7 +28,7 @@ const UsdActions = () => {
     "Swap currency",
   ];
 
-  const handleClick = () => {};
+  // const handleClick = () => {};
 
   const handleMenuItemClick = (
     _: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -86,7 +86,7 @@ const UsdActions = () => {
       />
 
       <ButtonGroup variant="text" ref={anchorRef} aria-label="usd button">
-        <Button
+        {/* <Button
           onClick={handleClick}
           sx={{
             color: "#fff",
@@ -101,7 +101,7 @@ const UsdActions = () => {
           }}
         >
           {options[selectedIndex]}
-        </Button>
+        </Button> */}
         <Button
           size="small"
           aria-controls={open ? "usd-button-menu" : undefined}

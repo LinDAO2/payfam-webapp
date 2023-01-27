@@ -1,4 +1,5 @@
-import { Container, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import Spacer from "../common/Spacer";
 // import TransactionStats from "../transactions/TransactionStats";
 import HomeBalancesStat from "./HomeBalancesStat";
 import HomeCarousel from "./HomeCarousel";
@@ -7,25 +8,27 @@ import HomePayfamAgain from "./HomePayfamAgain";
 import HomeStableCoinAction from "./HomeStableCoinAction";
 import HomeSwapCurrency from "./HomeSwapCurrency";
 import HomeTransactionSummary from "./HomeTransactionSummary";
+// import HomeTransactionSummary from "./HomeTransactionSummary";
 
 const HomeContainer = () => {
   return (
-    <Container>
+    <Box sx={{ p: 3 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{ p: 2 }}>
           <HomeBalancesStat />
           <HomeCarousel />
-          <HomePayfamAgain />
           <HomeFundsAction />
+          <Spacer space={30} />
           <HomeStableCoinAction />
-          <HomeSwapCurrency />
+          <HomePayfamAgain />
         </Grid>
-        <Grid item xs={12} md={6}>
-          {/* <TransactionStats /> */}
+        <Grid item xs={12} md={6} sx={{ px: 2 }}>
           <HomeTransactionSummary />
+          <HomeSwapCurrency />
+          {/* <TransactionStats /> */}
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 };
 

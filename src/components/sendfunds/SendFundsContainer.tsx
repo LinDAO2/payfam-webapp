@@ -17,7 +17,7 @@ const SendFundsContainer = () => {
           >
             Send funds
           </Typography>
-          <SendFundsForm />
+          <SendFundsForm close={() => {}} />
         </Stack>
       </Paper>
     </Stack>

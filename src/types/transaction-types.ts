@@ -5,8 +5,8 @@ export interface TransactionDocument {
   uid: string;
   recieverName: string;
   recieverPhonenumber: string;
-  currency: String;
-  redeemedcurrency: String;
+  currency: string;
+  redeemedcurrency: string;
   amount: number;
   redemptionCode: string;
   isRedeemed: boolean;
@@ -33,4 +33,5 @@ export type TransactionCurrency = "GHS" | "NGN" | "USDC" | "USD";
 export type TransactionPaymethod =
   | "mobileMoney"
   | "bankTransfer"
-  | "cryptocurrency";
+  | "cryptocurrency"
+  | "balance";

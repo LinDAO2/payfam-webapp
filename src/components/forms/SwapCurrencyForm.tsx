@@ -1,13 +1,12 @@
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { Grid, MenuItem } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import Spacer from "@/components/common/Spacer";
 import { TransactionCurrency } from "@/types/transaction-types";
 import { Field, Formik, FormikValues } from "formik";
 import { Select, TextField } from "formik-mui";
 import { generateUUIDV4, getConvertedAount } from "@/utils/funcs";
-import ForwardIcon from "@mui/icons-material/Forward";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import NairaTextFieldFormatter from "../common/NairaTextFieldFormatter";
 import CedisTextFieldFormatter from "../common/CedisTextFieldFormatter";
@@ -19,6 +18,7 @@ import { collectionServices } from "@/services/root";
 import { increment } from "firebase/firestore";
 import { LoadingButton } from "@mui/lab";
 import { setProfileReload } from "@/helpers/session-helpers";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 
 interface Props {
   close?: () => void;
@@ -272,73 +272,35 @@ const SwapCurrencyForm = (props: Props) => {
           resetForm,
         }) => (
           <>
-            <Grid container alignItems="center" justifyContent="space-evenly">
-              <Grid item xs={4}>
-                <Stack>
-                  {props.fromCurrency ? (
-                    <Typography variant="subtitle1" color="textPrimary">
-                      {values.fromCurrency === "NGN"
-                        ? "Naira"
-                        : values.fromCurrency === "GHS"
-                        ? "Cedis"
-                        : "Dollar"}
-                    </Typography>
-                  ) : (
-                    <Field
-                      component={Select}
-                      formControl={{ fullWidth: true, variant: "filled" }}
-                      id="fromCurrency"
-                      labelId="fromCurrency"
-                      label="Currency"
-                      name="fromCurrency"
-                      value={values.fromCurrency}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                        const _curr =
-                          (event.target.value as TransactionCurrency) === "USDC"
-                            ? "USD"
-                            : (event.target.value as TransactionCurrency);
-
-                        setFromCurr(_curr);
-                      }}
-                    >
-                      {CURRENCYLIST.map((item) => (
-                        <MenuItem value={item} key={generateUUIDV4()}>
-                          {item}
-                        </MenuItem>
-                      ))}
-                    </Field>
-                  )}
-
-                  {values.amount && values.amount > 0 && (
-                    <Typography variant="subtitle2" color="textPrimary">
-                      {new Intl.NumberFormat(undefined, {
-                        style: "currency",
-                        currency: values.fromCurrency,
-                      }).format(values.amount)}
-                    </Typography>
-                  )}
-                </Stack>
-              </Grid>
-              <Grid item xs={1}>
-                <Stack direction="row" justifyContent="center">
-                  <ForwardIcon sx={{ color: "primary.main", fontSize: 40 }} />
-                </Stack>
-              </Grid>
-              <Grid item xs={4}>
+            <Stack>
+              <Typography variant="subtitle2" color="textPrimary">
+                From
+              </Typography>
+              {props.fromCurrency ? (
+                <Typography variant="subtitle1" color="textPrimary">
+                  {values.fromCurrency === "NGN"
+                    ? "Naira"
+                    : values.fromCurrency === "GHS"
+                    ? "Cedis"
+                    : "Dollar"}
+                </Typography>
+              ) : (
                 <Field
                   component={Select}
                   formControl={{ fullWidth: true, variant: "filled" }}
-                  id="toCurrency"
-                  labelId="toCurrency"
+                  id="fromCurrency"
+                  labelId="fromCurrency"
                   label="Currency"
-                  name="toCurrency"
-                  value={values.toCurrency}
+                  name="fromCurrency"
+                  value={values.fromCurrency}
+                  variant="outlined"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     const _curr =
                       (event.target.value as TransactionCurrency) === "USDC"
                         ? "USD"
                         : (event.target.value as TransactionCurrency);
-                    setToCurr(_curr);
+
+                    setFromCurr(_curr);
                   }}
                 >
                   {CURRENCYLIST.map((item) => (
@@ -347,18 +309,56 @@ const SwapCurrencyForm = (props: Props) => {
                     </MenuItem>
                   ))}
                 </Field>
-                {processing && <LoadingCircle />}
-                {!processing && convertedValue && convertedValue !== 0 && (
-                  <Typography variant="subtitle2" color="textPrimary">
-                    {new Intl.NumberFormat(undefined, {
-                      style: "currency",
-                      currency: values.toCurrency,
-                    }).format(convertedValue)}
-                  </Typography>
-                )}
-              </Grid>
-            </Grid>
-            <Stack sx={{ my: 1 }}>
+              )}
+
+              {values.amount && values.amount > 0 && (
+                <Typography variant="subtitle2" color="textPrimary">
+                  {new Intl.NumberFormat(undefined, {
+                    style: "currency",
+                    currency: values.fromCurrency,
+                  }).format(values.amount)}
+                </Typography>
+              )}
+            </Stack>
+            <Stack direction="row" justifyContent="center" sx={{ my: 2 }}>
+              <SwapVertIcon sx={{ color: "primary.main", fontSize: 40 }} />
+            </Stack>
+            <Typography variant="subtitle2" color="textPrimary">
+              To
+            </Typography>
+            <Field
+              component={Select}
+              formControl={{ fullWidth: true, variant: "filled" }}
+              id="toCurrency"
+              labelId="toCurrency"
+              label="Currency"
+              name="toCurrency"
+              value={values.toCurrency}
+              variant="outlined"
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                const _curr =
+                  (event.target.value as TransactionCurrency) === "USDC"
+                    ? "USD"
+                    : (event.target.value as TransactionCurrency);
+                setToCurr(_curr);
+              }}
+            >
+              {CURRENCYLIST.map((item) => (
+                <MenuItem value={item} key={generateUUIDV4()}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Field>
+            {processing && <LoadingCircle />}
+            {!processing && convertedValue && convertedValue !== 0 && (
+              <Typography variant="subtitle2" color="textPrimary">
+                {new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: values.toCurrency,
+                }).format(convertedValue)}
+              </Typography>
+            )}
+            <Stack sx={{ my: 3 }}>
               {values.fromCurrency === "NGN" && (
                 <Field
                   component={TextField}

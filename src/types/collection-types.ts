@@ -21,7 +21,8 @@ export type ICollectionNames =
   | "KYCEmailBlacklist"
   | "Chats"
   | "Chat"
-  | "ChatMsgs";
+  | "ChatMsgs"
+  | "WithdrawRequests";
 
 export type ICollectionDocumentStatus =
   | "active"

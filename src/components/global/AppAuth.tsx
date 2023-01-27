@@ -69,6 +69,9 @@ const AppAuth = ({ children }: props) => {
                 ngnBalance: data?.ngnBalance ? data?.ngnBalance : 0,
                 ghsBalance: data?.ghsBalance ? data?.ghsBalance : 0,
                 usdcBalance: data?.usdcBalance ? data?.usdcBalance : 0,
+                usdcPendingWithdrawBalance: data?.usdcPendingWithdrawBalance
+                  ? data?.usdcPendingWithdrawBalance
+                  : 0,
                 addedOn: Timestamp.now(),
                 isLoaded: true,
                 isEmpty: false,

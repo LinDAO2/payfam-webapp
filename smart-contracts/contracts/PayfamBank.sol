@@ -51,6 +51,17 @@ contract PayfamBank {
         stakingBalance[msg.sender] = balance - USDCwei;
     }
 
+    function makePaymentToAccount(uint256 $USDC, address beneficiary) public {
+  
+        uint256 USDCwei = $USDC * 10**6;
+        // should be owner of contract
+        require(owner == msg.sender, "Access to resource denied!");
+
+        // Transfer USDC tokens to the users wallet
+        usdc.transfer(beneficiary, USDCwei);
+
+    }
+
     function getBalanceOfContract() external view returns (uint256) {
         return usdc.balanceOf(address(this));
     }

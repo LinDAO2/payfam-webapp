@@ -16,7 +16,7 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   maxWidth: "100%",
   paddingTop: 64,
   [theme.breakpoints.up("lg")]: {
-    paddingLeft: 200,
+    paddingLeft: 280,
   },
 }));
 
@@ -42,7 +42,7 @@ const Roots = () => {
             width: "100%",
           }}
         >
-          <Spacer space={50} />
+          
           <Outlet />
           <Spacer space={100} />
         </Box>

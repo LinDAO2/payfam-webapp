@@ -20,6 +20,7 @@ export interface IAccountDocument {
   photo?: IImage;
   momoPhoneNumber?: string;
   usdcBalance?: number;
+  usdcPendingWithdrawBalance?: number;
   ghsBalance?: number;
   ngnBalance?: number;
   bankAccount?: IAccountBankAccount;

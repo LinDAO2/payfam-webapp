@@ -20,10 +20,10 @@ export const DashboardNavbar = (props: Props) => {
       <DashboardNavbarRoot
         sx={{
           left: {
-            lg: 200,
+            lg: 280,
           },
           width: {
-            lg: "calc(100% - 200px)",
+            lg: "calc(100% - 280px)",
           },
         }}
         {...other}

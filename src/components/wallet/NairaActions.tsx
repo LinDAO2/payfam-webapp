@@ -47,7 +47,7 @@ export default function NairaActions() {
     }
   }, [profile?.bankAccount?.paystack]);
 
-  const handleClick = () => {};
+  // const handleClick = () => {};
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -154,7 +154,7 @@ export default function NairaActions() {
         ref={anchorRef}
         aria-label="naira button"
       >
-        <Button
+        {/* <Button
           onClick={handleClick}
           sx={{
             color: "#fff",
@@ -169,7 +169,7 @@ export default function NairaActions() {
           }}
         >
           {options[selectedIndex]}
-        </Button>
+        </Button> */}
         <Button
           size="small"
           aria-controls={open ? "naira-button-menu" : undefined}
