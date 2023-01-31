@@ -6,9 +6,9 @@ const HomeSwapCurrency = () => {
   return (
     <>
       <Spacer space={20} />
-      <Paper elevation={8} sx={{ p: 4, borderRadius: 5 }}>
-        <Typography variant="h5" color="textPrimary">
-          Converter
+      <Paper elevation={8} sx={{ p:1, borderRadius: 5 }}>
+        <Typography variant="h5" color="textPrimary" sx={{pl:2}}>
+          Swap Currencies
         </Typography>
         <Spacer space={10} />
         {/* <Typography variant="body1" color="textPrimary" sx={{ pb: 2 }}>

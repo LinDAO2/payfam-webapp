@@ -1,15 +1,7 @@
 import Spacer from "@/components/common/Spacer";
 import AppBrand from "@/components/global/AppBrand";
 import { LOGIN, SIGN_UP } from "@/routes/routes";
-import {
-  Box,
-  Grid,
-  Paper,
-  Stack,
-  Typography,
-  Button,
-  Divider,
-} from "@mui/material";
+import { Grid, Paper, Stack, Typography, Button, Divider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const SessionHome = () => {
@@ -17,7 +9,13 @@ const SessionHome = () => {
 
   return (
     <Stack
-      sx={{ width: "100vw", height: "100vh" }}
+      sx={{
+        width: "100vw",
+        height: "100vh",
+        backgroundImage: `url(${require("@/assets/images/PastorAndWife.png")})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+      }}
       alignItems="center"
       justifyContent="center"
     >
@@ -30,24 +28,20 @@ const SessionHome = () => {
             alignItems="center"
           >
             <Stack direction="row" justifyContent="center" alignItems="center">
-              <Box sx={{ position: "relative" }}>
-                <Box sx={{ position: "absolute", top: 13, left: -39 }}>
-                  <AppBrand size="medium" />
-                </Box>
-                <Typography
-                  variant="subtitle1"
-                  color="primary"
-                  sx={{
-                    fontSize: "2.7em",
-                    fontWeight: "bold",
-                  }}
-                >
-                  ayFam
-                </Typography>
-              </Box>
+              <AppBrand size="medium" />
+              <Typography
+                variant="subtitle1"
+                color="primary"
+                sx={{
+                  fontSize: "2.7em",
+                  fontWeight: "bold",
+                }}
+              >
+                PayFam
+              </Typography>
             </Stack>
             <Typography variant="subtitle2" color="textPrimary">
-              Transfer cash and crypto anywhere instantly
+              Transfer cash and stablecoins anywhere instantly
             </Typography>
             <Spacer space={100} />
             <Stack sx={{ width: "50%" }}>

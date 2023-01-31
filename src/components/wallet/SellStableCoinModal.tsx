@@ -81,16 +81,20 @@ const SellStableCoinModal = ({ visible, close }: Props) => {
           p: 2,
         }}
       >
-        <IconButton
-          onClick={() => {
-            resetState();
-            close();
-          }}
-        >
-          <Close />
-        </IconButton>
+        <Stack direction="row" justifyContent="flex-end">
+          <IconButton
+            onClick={() => {
+              resetState();
+              close();
+            }}
+            sx={{ boxShadow: (theme) => theme.shadows[7] }}
+          >
+            <Close />
+          </IconButton>
+        </Stack>
+
         <Typography variant="h6" color="textPrimary">
-          Sell  USDC  for cash
+          Sell USDC for cash
         </Typography>
         <Formik
           key="sell-stablecoin-form"

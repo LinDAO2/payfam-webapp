@@ -4,7 +4,7 @@ import Spacer from "../common/Spacer";
 import HomeBalancesStat from "./HomeBalancesStat";
 import HomeCarousel from "./HomeCarousel";
 import HomeFundsAction from "./HomeFundsAction";
-import HomePayfamAgain from "./HomePayfamAgain";
+// import HomePayfamAgain from "./HomePayfamAgain";
 import HomeStableCoinAction from "./HomeStableCoinAction";
 import HomeSwapCurrency from "./HomeSwapCurrency";
 import HomeTransactionSummary from "./HomeTransactionSummary";
@@ -17,10 +17,11 @@ const HomeContainer = () => {
         <Grid item xs={12} md={6} sx={{ p: 2 }}>
           <HomeBalancesStat />
           <HomeCarousel />
-          <HomeFundsAction />
           <Spacer space={30} />
+          <HomeFundsAction />
+          <Spacer space={10} />
           <HomeStableCoinAction />
-          <HomePayfamAgain />
+          {/* <HomePayfamAgain /> */}
         </Grid>
         <Grid item xs={12} md={6} sx={{ px: 2 }}>
           <HomeTransactionSummary />

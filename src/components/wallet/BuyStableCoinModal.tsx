@@ -210,9 +210,14 @@ const BuyStableCoinModal = ({ visible, close }: Props) => {
           p: 2,
         }}
       >
-        <IconButton onClick={close}>
-          <Close />
-        </IconButton>
+        <Stack direction="row" justifyContent="flex-end">
+          <IconButton
+            onClick={close}
+            sx={{ boxShadow: (theme) => theme.shadows[7] }}
+          >
+            <Close />
+          </IconButton>
+        </Stack>
         <Typography variant="h6" color="textPrimary">
           Buy Dollars - USDC
         </Typography>
@@ -241,7 +246,7 @@ const BuyStableCoinModal = ({ visible, close }: Props) => {
                         ? "USD"
                         : (event.target.value as TransactionCurrency);
                     setToCurr(_curr);
-                    setFieldValue("currency",_curr,false)
+                    setFieldValue("currency", _curr, false);
                   }}
                 >
                   <MenuItem value="NGN">Buy with Naira</MenuItem>

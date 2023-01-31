@@ -32,7 +32,7 @@ const HomeStableCoinAction = () => {
               // boxShadow: (theme) => theme.shadows[20],
               borderRadius: 1,
               width: "100%",
-              height: 100,
+              height: 70,
               // background:
               //   "url(https://images.pexels.com/photos/730552/pexels-photo-730552.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2),linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 300px) ",
               // backgroundSize: "cover",
@@ -43,7 +43,7 @@ const HomeStableCoinAction = () => {
               border: "1px solid blue ",
             }}
           >
-            <Box sx={{ position: "absolute", bottom: 0, right: 0 }}>
+            <Box sx={{ position: "absolute", bottom: 0, right: 10 }}>
               <ArrowCircleRightIcon color="primary" />
             </Box>
             <Box
@@ -74,7 +74,7 @@ const HomeStableCoinAction = () => {
               // boxShadow: (theme) => theme.shadows[20],
               borderRadius: 1,
               width: "100%",
-              height: 100,
+              height: 70,
               // background:
               //   "url(https://images.pexels.com/photos/6771178/pexels-photo-6771178.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2),linear-gradient(to top, rgba(0,0,0,0.2), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 300px) ",
               // backgroundSize: "cover",
@@ -85,7 +85,7 @@ const HomeStableCoinAction = () => {
               border: "1px solid blue ",
             }}
           >
-            <Box sx={{ position: "absolute", bottom: 0, right: 0 }}>
+            <Box sx={{ position: "absolute", bottom: 0, right: 10 }}>
               <ArrowCircleRightIcon color="primary" />
             </Box>
             <Box

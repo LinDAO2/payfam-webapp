@@ -1,12 +1,7 @@
-import LoadingScreen from "@/components/common/LoadingScreen";
 import LoginForm from "@/components/forms/LoginForm";
-import { useSession } from "@/hooks/app-hooks";
 import { Grid, Stack } from "@mui/material";
 
 const Login = () => {
-  const profile = useSession();
-
-  if (profile.isLoading) return <LoadingScreen />;
   return (
     <Grid container>
       <Grid
@@ -14,7 +9,7 @@ const Login = () => {
         xs={12}
         md={6}
         sx={{
-          backgroundImage: `url(${require("@/assets/images/pexels-cottonbro-3206122.png")})`,
+          backgroundImage: `url(${require("@/assets/images/ManAndPhone.png")})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           height: "100vh",

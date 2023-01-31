@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppDb from "./components/global/AppDb";
 import AppThemeProvider from "./components/global/AppThemeProvider";
 import AppWeb3Wallet from "./components/global/AppWeb3Wallet";
@@ -30,19 +30,19 @@ import MGTRoot from "./screens/MGTRoot";
 import ManageWithdrawRequest from "./screens/mgt/ManageWithdrawRequest";
 import SessionHome from "./screens/session/SessionHome";
 import SignUp from "./screens/session/SignUp";
-import { auth } from "./configs/firebase";
+// import { auth } from "./configs/firebase";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Roots />,
     errorElement: <ErrorPage />,
-    loader:()=>{
-      if(auth.currentUser === null){
-        throw redirect(`/session/${LOGIN}`)
-      }
-      return null
-    },
+    // loader:()=>{
+    //   if(auth.currentUser === null){
+    //     throw redirect(`/session/${LOGIN}`)
+    //   }
+    //   return null
+    // },
     children: [
       {
         index: true,

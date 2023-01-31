@@ -1,4 +1,5 @@
 import { auth } from "@/configs/firebase";
+import { LOGIN } from "@/routes/routes";
 import Button from "@mui/material/Button";
 import { signOut } from "firebase/auth";
 import { useState } from "react";
@@ -20,7 +21,7 @@ const AccountLogOut = () => {
         action={() => {
           signOut(auth);
           setTimeout(() => {
-            navigate("/");
+            navigate(`/session/${LOGIN}`);
           }, 500);
         }}
       />

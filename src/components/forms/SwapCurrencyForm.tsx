@@ -472,15 +472,12 @@ const SwapCurrencyForm = (props: Props) => {
                 disabled={isSubmitting || processing}
                 variant="contained"
                 sx={{
-                  color: "#fff",
-                  background:
-                    "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
-                  backgroundSize: "400% 400%",
-                  animation: "anim 10s infinite ease-in-out",
-                  p: 3,
-                  borderRadius: 15,
+                  color: (theme) =>
+                    theme.palette.mode === "light" ? "#fff" : "#000",
+                  p: 2,
                   boxShadow: (theme) => theme.shadows[20],
                   fontWeight: "bold",
+                  mb: 2,
                 }}
                 size="large"
                 onClick={() => {

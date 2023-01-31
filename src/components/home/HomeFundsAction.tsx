@@ -25,7 +25,7 @@ const HomeFundsAction = () => {
             sx={{
               color: (theme) =>
                 theme.palette.mode === "light" ? "#fff" : "#000",
-              p: 3,
+              p: 2,
               boxShadow: (theme) => theme.shadows[20],
               fontWeight: "bold",
               width: "100%",
@@ -48,7 +48,7 @@ const HomeFundsAction = () => {
             sx={{
               color: (theme) =>
                 theme.palette.mode === "light" ? "#fff" : "#000",
-              p: 3,
+              p: 2,
               boxShadow: (theme) => theme.shadows[20],
               fontWeight: "bold",
               width: "100%",

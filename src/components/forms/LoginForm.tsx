@@ -63,177 +63,182 @@ const LoginForm = () => {
             </LoadingButton>
           </Stack>
         ) : (
-          <Typography
-            variant="subtitle2"
-            color="textPrimary"
-            sx={{ fontWeight: "2.3em", color: "GrayText" }}
-          >
-            Welcome back to PayFam
-          </Typography>
-        )}
-
-        <Formik
-          initialValues={{
-            phoneNumber: "",
-            otp: "",
-          }}
-          onSubmit={() => {}}
-        >
-          {({ values, setFieldValue }) => (
-            <Form>
-              <Spacer space={30} />
-              <AnimatePresence mode="wait">
-                {confirmationResult === undefined && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 50 }}
-                    transition={{ ease: "easeInOut" }}
-                  >
-                    <Field
-                      name="phoneNumber"
-                      type="text"
-                      component={PhoneInput}
-                      enableSearch
-                      country={"ng"}
-                      value={values.phoneNumber}
-                      onChange={(phone: string) => {
-                        setFieldValue("phoneNumber", phone, true);
-                      }}
-                      inputStyle={{
-                        fontSize: "16px",
-                        fontWeight: "600",
-                        fontFamily: "Montserrat",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                        height: "auto",
-                        color: `${mode === "light" ? "#000" : "#fff"}`,
-                        backgroundColor: `${mode === "light" ? "#fff" : "#000"}`,
-                        width: "100%",
-                      }}
-                      buttonStyle={{
-                        fontFamily: "Montserrat",
-                        color: `${mode === "light" ? "#000" : "#fff"}`,
-                        backgroundColor: `${
-                          mode === "light" ? "#fff" : "#000"
-                        }`,
-                      }}
-                      dropdownStyle={{
-                        fontFamily: "Montserrat",
-                        color: `${mode === "light" ? "#000" : "#fff"}`,
-                      }}
-                      fullWidth
-                    />
-
-                    <Spacer space={10} />
-                    <Stack alignItems="center">
-                      <div id="recaptcha-container"></div>
-                    </Stack>
-                    <Spacer space={10} />
-                    <Stack>
-                      <LoadingButton
-                        onClick={async () => {
-                          if (values.phoneNumber === "") {
-                            showSnackbar({
-                              openSnackbar: true,
-                              msg: "Enter your phone number!!!",
-                              status: "warning",
-                            });
-                          } else {
-                            setProcessing(true);
-                            try {
-                              const response = await setUpRecaptha(
-                                `+${values.phoneNumber}`
-                              );
-                              setConfirmationResult(response);
-                              setProcessing(false);
-                            } catch (err: any) {
-                              showSnackbar({
-                                openSnackbar: true,
-                                msg: err.message,
-                                status: "warning",
-                              });
-                              setProcessing(false);
-                            }
-                          }
-                        }}
-                        variant="contained"
-                        loading={processing}
-                        disabled={processing}
-                        sx={{ color: "#fff" }}
+          <>
+            <Typography
+              variant="subtitle2"
+              color="textPrimary"
+              sx={{ fontWeight: "2.3em", color: "GrayText" }}
+            >
+              Welcome back to PayFam
+            </Typography>
+            <Formik
+              initialValues={{
+                phoneNumber: "",
+                otp: "",
+              }}
+              onSubmit={() => {}}
+            >
+              {({ values, setFieldValue }) => (
+                <Form>
+                  <Spacer space={30} />
+                  <AnimatePresence mode="wait">
+                    {confirmationResult === undefined && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        transition={{ ease: "easeInOut" }}
                       >
-                        Send Otp
-                      </LoadingButton>
-                    </Stack>
-                  </motion.div>
-                )}
+                        <Field
+                          name="phoneNumber"
+                          type="text"
+                          component={PhoneInput}
+                          enableSearch
+                          country={"ng"}
+                          value={values.phoneNumber}
+                          onChange={(phone: string) => {
+                            setFieldValue("phoneNumber", phone, true);
+                          }}
+                          inputStyle={{
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            fontFamily: "Montserrat",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            height: "auto",
+                            color: `${mode === "light" ? "#000" : "#fff"}`,
+                            backgroundColor: `${
+                              mode === "light" ? "#fff" : "#000"
+                            }`,
+                            width: "100%",
+                          }}
+                          buttonStyle={{
+                            fontFamily: "Montserrat",
+                            color: `${mode === "light" ? "#000" : "#fff"}`,
+                            backgroundColor: `${
+                              mode === "light" ? "#fff" : "#000"
+                            }`,
+                          }}
+                          dropdownStyle={{
+                            fontFamily: "Montserrat",
+                            color: `${mode === "light" ? "#000" : "#fff"}`,
+                          }}
+                          fullWidth
+                        />
 
-                {confirmationResult !== undefined && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 50 }}
-                    transition={{ ease: "easeInOut" }}
-                  >
-                    <Spacer space={10} />
-                    <Field
-                      component={TextField}
-                      type="text"
-                      variant="filled"
-                      fullWidth
-                      label="Enter OTP code"
-                      name="otp"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <ConfirmationNumberIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <Spacer space={10} />
-                    <Stack>
-                      <LoadingButton
-                        onClick={async () => {
-                          if (values.phoneNumber === "") {
-                            showSnackbar({
-                              openSnackbar: true,
-                              msg: "Enter your phone number!!!",
-                              status: "warning",
-                            });
-                          } else {
-                            setProcessing(true);
-                            try {
-                              const currentUser =
-                                await confirmationResult.confirm(values.otp);
-
-                              if (currentUser.user.uid) {
-                                navigate("/");
+                        <Spacer space={10} />
+                        <Stack alignItems="center">
+                          <div id="recaptcha-container"></div>
+                        </Stack>
+                        <Spacer space={10} />
+                        <Stack>
+                          <LoadingButton
+                            onClick={async () => {
+                              if (values.phoneNumber === "") {
+                                showSnackbar({
+                                  openSnackbar: true,
+                                  msg: "Enter your phone number!!!",
+                                  status: "warning",
+                                });
+                              } else {
+                                setProcessing(true);
+                                try {
+                                  const response = await setUpRecaptha(
+                                    `+${values.phoneNumber}`
+                                  );
+                                  setConfirmationResult(response);
+                                  setProcessing(false);
+                                } catch (err: any) {
+                                  showSnackbar({
+                                    openSnackbar: true,
+                                    msg: err.message,
+                                    status: "warning",
+                                  });
+                                  setProcessing(false);
+                                }
                               }
-                            } catch (err: any) {
-                              showSnackbar({
-                                openSnackbar: true,
-                                msg: err.message,
-                                status: "error",
-                              });
-                              setProcessing(false);
-                            }
-                          }
-                        }}
-                        variant="contained"
-                        loading={processing}
-                        disabled={processing}
-                        sx={{ color: "#fff" }}
+                            }}
+                            variant="contained"
+                            loading={processing}
+                            disabled={processing}
+                            sx={{ color: "#fff" }}
+                          >
+                            Send Otp
+                          </LoadingButton>
+                        </Stack>
+                      </motion.div>
+                    )}
+
+                    {confirmationResult !== undefined && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        transition={{ ease: "easeInOut" }}
                       >
-                        Verfiy Otp
-                      </LoadingButton>
-                    </Stack>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </Form>
-          )}
-        </Formik>
+                        <Spacer space={10} />
+                        <Field
+                          component={TextField}
+                          type="text"
+                          variant="filled"
+                          fullWidth
+                          label="Enter OTP code"
+                          name="otp"
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <ConfirmationNumberIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                        <Spacer space={10} />
+                        <Stack>
+                          <LoadingButton
+                            onClick={async () => {
+                              if (values.phoneNumber === "") {
+                                showSnackbar({
+                                  openSnackbar: true,
+                                  msg: "Enter your phone number!!!",
+                                  status: "warning",
+                                });
+                              } else {
+                                setProcessing(true);
+                                try {
+                                  const currentUser =
+                                    await confirmationResult.confirm(
+                                      values.otp
+                                    );
+
+                                  if (currentUser.user.uid) {
+                                    navigate("/");
+                                  }
+                                } catch (err: any) {
+                                  showSnackbar({
+                                    openSnackbar: true,
+                                    msg: err.message,
+                                    status: "error",
+                                  });
+                                  setProcessing(false);
+                                }
+                              }
+                            }}
+                            variant="contained"
+                            loading={processing}
+                            disabled={processing}
+                            sx={{ color: "#fff" }}
+                          >
+                            Verfiy Otp
+                          </LoadingButton>
+                        </Stack>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </Form>
+              )}
+            </Formik>
+          </>
+        )}
       </Box>
     </Box>
   );
