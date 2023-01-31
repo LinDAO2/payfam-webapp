@@ -1,3 +1,12 @@
+## [0.5.3](https://github.com/matt-kay/payfam-webapp/compare/v0.5.2...v0.5.3) (2023-01-31)
+
+
+### Bug Fixes
+
+* visuals for launch ([ba4e6c1](https://github.com/matt-kay/payfam-webapp/commit/ba4e6c1720295215abc8b9e58c3b4d39c55646fe))
+
+
+
 ## [0.5.2](https://github.com/matt-kay/payfam-webapp/compare/v0.5.1...v0.5.2) (2023-01-31)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * sell stablecoin ([991f028](https://github.com/matt-kay/payfam-webapp/commit/991f028ece04e31ae807933704f46c4314855da7))
-
-
-
-# [0.3.0](https://github.com/matt-kay/payfam-webapp/compare/v0.2.0...v0.3.0) (2022-12-31)
-
-
-### Features
-
-* cedis paystack integration ([9500a07](https://github.com/matt-kay/payfam-webapp/commit/9500a073ce186306ee30b7a82eaf0b1fc6bf45c0))
 
 
 
