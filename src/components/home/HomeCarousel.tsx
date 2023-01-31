@@ -5,17 +5,25 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const HomeCarousel = () => {
   const IMAGES = [
-    "https://images.pexels.com/photos/1447418/pexels-photo-1447418.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/8369770/pexels-photo-8369770.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/9588219/pexels-photo-9588219.jpeg?auto=compress&cs=tinysrgb&w=800",
+    require("@/assets/images/ad_1.jpeg"),
+    require("@/assets/images/ad_2.jpeg"),
+    require("@/assets/images/ad_3.jpeg"),
   ];
   return (
     <div>
-      <Carousel autoPlay showStatus={false} showThumbs={false}>
+      <Carousel autoPlay showStatus={false} showThumbs={false} infiniteLoop>
         {IMAGES.map((image) => (
           <div key={generateUUIDV4()}>
-            <LazyLoadImage src={image} effect="blur" />
-            {/* <p className="legend">Legend 1</p> */}
+            <LazyLoadImage
+              src={image}
+              effect="blur"
+              style={{
+                height: 150,
+                width: 500,
+                objectFit: "cover",
+                borderRadius: 5,
+              }}
+            />
           </div>
         ))}
       </Carousel>

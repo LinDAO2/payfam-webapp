@@ -17,12 +17,23 @@ export const NavItem = (props: Props) => {
   return (
     <ListItem
       disableGutters
-      sx={{
-        display: "flex",
-        mb: 0.5,
-        py: 0,
-        px: 2,
-      }}
+      sx={[
+        {
+          display: "flex",
+          mb: 0.5,
+          py: 0,
+          px: 2,
+          backgroundColor: (theme) =>
+            active ? theme.palette.secondary.light : "background.paper",
+          p: 1.2,
+          borderRadius: 2,
+        },
+        {
+          ":hover": {
+            backgroundColor: (theme) => theme.palette.secondary.main,
+          },
+        },
+      ]}
       {...others}
     >
       <Button
@@ -31,13 +42,11 @@ export const NavItem = (props: Props) => {
         startIcon={icon}
         disableRipple
         sx={{
-          backgroundColor: active
-            ? "background.default"
-            : "background.paper",
+          // backgroundColor: active ? "background.default" : "background.paper",
           borderRadius: 1,
-          color: active ? "secondary.dark" : "black",
+          color: active ? "primary.dark" : "black",
           // fontWeight: active ? "fontWeightBold" : "bolder",
-          fontWeight:'regular',
+          fontWeight: "regular",
           justifyContent: "flex-start",
           px: 3,
           textAlign: "left",

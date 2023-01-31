@@ -23,7 +23,7 @@ interface Props {
   actionAfterLogin?: () => void;
 }
 
-const LoginForm = ({ showLinks, actionAfterLogin }: Props) => {
+const LoginFormV1 = ({ showLinks, actionAfterLogin }: Props) => {
   const [confirmationResult, setConfirmationResult] = useState<
     ConfirmationResult | undefined
   >(undefined);
@@ -293,4 +293,4 @@ const LoginForm = ({ showLinks, actionAfterLogin }: Props) => {
   );
 };
 
-export default LoginForm;
+export default LoginFormV1;

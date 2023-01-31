@@ -57,10 +57,10 @@ const HomeStableCoinAction = () => {
               }}
             >
               <Typography variant="subtitle1" sx={{ color: "primary.main" }}>
-                Buy Stablecoins
+                Buy US Dollars 
               </Typography>
-              <Typography variant="caption" sx={{ color: "primary.main" }}>
-                Buy stablecoins with Fiat.
+              <Typography variant="caption" color="textPrimary">
+                Buy USDC with cash.
               </Typography>
             </Box>
           </Paper>
@@ -99,10 +99,10 @@ const HomeStableCoinAction = () => {
               }}
             >
               <Typography variant="subtitle1" sx={{ color: "primary.main" }}>
-                Sell Stablecoins
+                Sell Stable coin
               </Typography>
-              <Typography variant="caption" sx={{ color: "primary.main" }}>
-                Sell stablecoins instantly
+              <Typography variant="caption" color="textPrimary">
+                Sell USDC for cash instantly
               </Typography>
             </Box>
           </Paper>

@@ -173,7 +173,7 @@ export const DashboardSidebar = (props: Props) => {
           </Stack>
         </div>
 
-        <Box sx={{ flexGrow: 1, pt: 4 }}>
+        <Box sx={{ flexGrow: 1, pt: 4, px: 2 }}>
           {clientLinks.map((item) => (
             <NavItem
               key={item.title}

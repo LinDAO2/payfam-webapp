@@ -72,7 +72,8 @@ const RedeemFundsList = () => {
         ))}
       {transactionList.length === 0 && (
         <Typography variant="subtitle1" color="textPrimary" textAlign="center">
-          No Transactions yet
+          No Funds to redeem yet. Ask a friend to send you money with just your
+          phone number on PayFam.
         </Typography>
       )}
     </div>

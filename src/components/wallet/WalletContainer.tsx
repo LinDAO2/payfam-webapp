@@ -164,7 +164,7 @@ const WalletContainer = () => {
           <Grid item xs={12} md={8}>
             <Stack>
               <Typography variant="subtitle1" color="textPrimary">
-                USDC Account
+                USD Account
               </Typography>
 
               <Typography variant="subtitle1" color="textPrimary">

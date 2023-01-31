@@ -90,7 +90,7 @@ const SellStableCoinModal = ({ visible, close }: Props) => {
           <Close />
         </IconButton>
         <Typography variant="h6" color="textPrimary">
-          Sell stable coin - USDC
+          Sell  USDC  for cash
         </Typography>
         <Formik
           key="sell-stablecoin-form"

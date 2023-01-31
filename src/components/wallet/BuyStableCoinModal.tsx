@@ -214,7 +214,7 @@ const BuyStableCoinModal = ({ visible, close }: Props) => {
           <Close />
         </IconButton>
         <Typography variant="h6" color="textPrimary">
-          Buy stable coin - USDC
+          Buy Dollars - USDC
         </Typography>
         <Formik
           key="buy-stablecoin-form"

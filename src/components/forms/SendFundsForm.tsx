@@ -60,7 +60,7 @@ const SendFundsForm = ({ close }: Props) => {
   const [activeStep, setActiveStep] = useState(0);
   const formikRef = useRef<FormikValues | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<TransactionPaymethod | "">(
-    ""
+    "balance"
   );
 
   const [balanceWallet, setBalanceWallet] = useState("");
@@ -87,10 +87,14 @@ const SendFundsForm = ({ close }: Props) => {
     TransactionRecipientDocument[] | null
   >(null);
 
+  const [recieverAmount, setRecieverAmount] = useState("");
+
   const [fetchingRecipients, setFetchingRecipients] = useState(false);
 
   const [processingPaystackPayment, setProcessingPaystackPayment] =
     useState(false);
+
+  const [processingAddReciept, setProcessingAddReciept] = useState(false);
 
   const [selectedMoMoProvider, setSelectedMoMoProvider] = useState("mtn");
 
@@ -618,7 +622,7 @@ const SendFundsForm = ({ close }: Props) => {
 
   const resetAll = () => {
     setActiveStep(0);
-    setPaymentMethod("");
+    setPaymentMethod("balance");
     setShowAddRecipient(true);
     setShowRecipientList(false);
     setSelectedRecipient(null);
@@ -879,10 +883,10 @@ const SendFundsForm = ({ close }: Props) => {
                       }
                     }}
                   >
-                    <MenuItem value="mobileMoney"> Mobile Money</MenuItem>
-                    <MenuItem value="cryptocurrency">Cryptocurrency</MenuItem>
-                    <MenuItem value="bankTransfer"> Bank transfer</MenuItem>
-                    <MenuItem value="balance"> Payfam Balance</MenuItem>
+                    <MenuItem value="balance">My PayFam Balance</MenuItem>
+                    <MenuItem value="mobileMoney"> Mobile Money -  Ghana only</MenuItem>
+                    <MenuItem value="cryptocurrency">USDC - Ethereum chain</MenuItem>
+                    <MenuItem value="bankTransfer"> Bank transfer -  Nigeria only</MenuItem>
                   </Select>
                 </FormControl>
                 <Spacer space={20} />
@@ -988,12 +992,16 @@ const SendFundsForm = ({ close }: Props) => {
                           color="textPrimary"
                           sx={{ fontSize: 14, textTransform: "uppercase" }}
                         >
-                          Payer’s mobile number
+                          Your MOMO number
                         </Typography>
                         <Typography
                           variant="caption"
                           color="textPrimary"
-                          sx={{ fontSize: 14, textTransform: "uppercase" }}
+                          sx={{
+                            fontSize: 14,
+                            textTransform: "uppercase",
+                            pl: 1,
+                          }}
                         >
                           (The MoMo number that will be debited)
                         </Typography>
@@ -1072,6 +1080,7 @@ const SendFundsForm = ({ close }: Props) => {
                     )} */}
                       </>
                     )}
+                    <Spacer space={20}/>
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
                         <Typography
@@ -1201,7 +1210,7 @@ const SendFundsForm = ({ close }: Props) => {
                           {fetchingConvertedAmounts && values.amount > 0 && (
                             <LoadingCircle />
                           )}
-                          {!fetchingConvertedAmounts && values.amount > 0 && (
+                          {/* {!fetchingConvertedAmounts && values.amount > 0 && (
                             <Stack>
                               <Typography
                                 variant="subtitle1"
@@ -1233,6 +1242,40 @@ const SendFundsForm = ({ close }: Props) => {
                                 }).format(convertedAmounts.usd)}
                               </Typography>
                             </Stack>
+                          )} */}
+
+                          {!fetchingConvertedAmounts && values.amount > 0 && (
+                            <>
+                              <FormControl fullWidth>
+                                <Select
+                                  id="reciever-amount"
+                                  value={recieverAmount}
+                                  onChange={(event: SelectChangeEvent) => {
+                                    const val = event.target.value as string;
+                                    setRecieverAmount(val);
+                                  }}
+                                >
+                                  <MenuItem value="balance">
+                                    {new Intl.NumberFormat(undefined, {
+                                      style: "currency",
+                                      currency: "NGN",
+                                    }).format(convertedAmounts.ngn)}
+                                  </MenuItem>
+                                  <MenuItem value="mobileMoney">
+                                    {new Intl.NumberFormat(undefined, {
+                                      style: "currency",
+                                      currency: "GHS",
+                                    }).format(convertedAmounts.ghs)}
+                                  </MenuItem>
+                                  <MenuItem value="cryptocurrency">
+                                    {new Intl.NumberFormat(undefined, {
+                                      style: "currency",
+                                      currency: "USD",
+                                    }).format(convertedAmounts.usd)}
+                                  </MenuItem>
+                                </Select>
+                              </FormControl>
+                            </>
                           )}
                         </Stack>
                       </Grid>
@@ -1578,15 +1621,7 @@ const SendFundsForm = ({ close }: Props) => {
             </Typography>
             <Spacer space={40} />
             <Typography variant="body1" color="textPrimary">
-              Do you want to send{" "}
-              <b>
-                {new Intl.NumberFormat(undefined, {
-                  style: "currency",
-                  currency:
-                    selectedCurrency === "USDC" ? "usd" : selectedCurrency,
-                }).format(amountTopay)}
-              </b>{" "}
-              to{" "}
+              Confirm payment to
               {selectedRecipient !== null
                 ? selectedRecipient.recieverName
                 : `${
@@ -1594,19 +1629,29 @@ const SendFundsForm = ({ close }: Props) => {
                       ? formikRef.current.values.recieverName
                       : ""
                   }`}
-              ?
+              {selectedRecipient !== null
+                ? selectedRecipient.recieverPhonenumber
+                : `${
+                    formikRef.current
+                      ? formikRef.current.values.recieverPhonenumber
+                      : ""
+                  }`}
+              <b>
+                {new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency:
+                    selectedCurrency === "USDC" ? "usd" : selectedCurrency,
+                }).format(amountTopay)}
+              </b>{" "}
             </Typography>
 
             <Typography variant="body1" color="textPrimary">
-              If yes, click on Confirm. If no, kindly click on Cancel.
+              If No, click ‘cancel’
             </Typography>
             <Typography variant="body1" color="textPrimary">
-              If successful, the receiver will get a SMS notification on their
-              phone.
+              Receiver will get payment SMS after transaction is completed.
             </Typography>
-            <Typography variant="body1" color="textPrimary">
-              Contact Customer service *900# for any enquiries
-            </Typography>
+
             <Spacer space={40} />
             <Grid container spacing={2} justifyContent="center">
               <Grid item xs={4}>
@@ -1627,15 +1672,25 @@ const SendFundsForm = ({ close }: Props) => {
                   variant="contained"
                   color="primary"
                   sx={{ color: "#fff", width: "100%", p: 2 }}
-                  loading={processingPaystackPayment || processWeb3Call}
-                  disabled={processingPaystackPayment || processWeb3Call}
+                  loading={
+                    processingPaystackPayment ||
+                    processWeb3Call ||
+                    processingAddReciept
+                  }
+                  disabled={
+                    processingPaystackPayment ||
+                    processWeb3Call ||
+                    processingAddReciept
+                  }
                   onClick={async () => {
                     if (showAddRecipient) {
+                      setProcessingAddReciept(true);
                       await addReciepient(
                         profile.uid,
                         addedReciept.recieverName,
                         addedReciept.recieverPhonenumber
                       );
+                      setProcessingAddReciept(true);
                     }
 
                     if (paymentMethod === "mobileMoney") {

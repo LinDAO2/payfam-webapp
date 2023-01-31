@@ -61,7 +61,7 @@ const TransactionListItem = ({ transaction }: Props) => {
                     justifyContent: "center",
                   }}
                 >
-                  <CallMadeIcon sx={{ color: "green", fontSize: "15px" }} />
+                  <CallMadeIcon sx={{ color: "red", fontSize: "15px" }} />
                 </Box>
                 <Typography variant="subtitle2" color="textPrimary">
                   {transaction.senderName}
@@ -163,7 +163,7 @@ const TransactionListItem = ({ transaction }: Props) => {
                     justifyContent: "center",
                   }}
                 >
-                  <VerticalAlignBottomIcon sx={{ color: "gray" }} />
+                  <VerticalAlignBottomIcon sx={{ color: "red" }} />
                 </Box>
               </Grid>
               <Grid item xs={10}>
