@@ -20,7 +20,7 @@ const SignUp = () => {
         md={6}
         sx={{
           backgroundImage: `url(${require("@/assets/images/Woman.png")})`,
-          backgroundSize: "cover",
+          backgroundSize: "contain",
           backgroundRepeat: "no-repeat",
           height: "100vh",
         }}

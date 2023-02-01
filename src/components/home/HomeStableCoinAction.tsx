@@ -60,7 +60,7 @@ const HomeStableCoinAction = () => {
                 Buy US Dollars 
               </Typography>
               <Typography variant="caption" color="textPrimary">
-                Buy USDC with cash.
+                Buy USDC with cash
               </Typography>
             </Box>
           </Paper>

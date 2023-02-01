@@ -54,7 +54,7 @@ const HomeTransactionSummary = () => {
 
   return (
     <Paper sx={{p:2 , borderRadius:4}} elevation={10}>
-      <Typography variant="h6" color="textPrimary" gutterBottom={false}>
+      <Typography variant="h6" color="primary" gutterBottom={false}>
         Transaction history
       </Typography>
       <Divider sx={{ mb: 1 }} />

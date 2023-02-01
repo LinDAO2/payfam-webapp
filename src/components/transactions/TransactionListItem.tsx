@@ -1,7 +1,7 @@
 import { useSession } from "@/hooks/app-hooks";
 import { TransactionDocument } from "@/types/transaction-types";
 import { Box, Chip, Grid, Stack, Typography, Button } from "@mui/material";
-import VerticalAlignBottomIcon from "@mui/icons-material/VerticalAlignBottom";
+import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import PendingIcon from "@mui/icons-material/Pending";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import CallMadeIcon from "@mui/icons-material/CallMade";
@@ -70,7 +70,7 @@ const TransactionListItem = ({ transaction }: Props) => {
                   {moment(transaction.addedOn?.toDate()).format("lll")}
                 </Typography>
               </Stack>
-              <Typography variant="body2" color="textPrimary">
+              <Typography variant="caption" color="textPrimary">
                 You sent{" "}
                 <b>
                   {transaction.currency} {transaction.amount}
@@ -129,7 +129,7 @@ const TransactionListItem = ({ transaction }: Props) => {
                     {moment(transaction.addedOn?.toDate()).format("lll")}
                   </Typography>
                 </Stack>
-                <Typography variant="body2" color="textPrimary">
+                <Typography variant="caption" color="textPrimary">
                   Sent you the redeemable sum of{" "}
                   {new Intl.NumberFormat(undefined, {
                     style: "currency",
@@ -152,29 +152,57 @@ const TransactionListItem = ({ transaction }: Props) => {
           <>
             <Grid container alignItems="center">
               <Grid item xs={2}>
-                <Box
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: "50%",
-                    // backgroundColor: "#80cbc4",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                <LazyLoadImage
+                  src={`https://avatars.dicebear.com/api/pixel-art/${removeSpecialChars(
+                    transaction.senderName
+                  )}.png`}
+                  alt={`redeem funds ${transaction.recieverName}`}
+                  effect="blur"
+                  style={{
+                    width: 50,
+                    height: 50,
+                    objectFit: "fill",
                   }}
-                >
-                  <VerticalAlignBottomIcon sx={{ color: "red" }} />
-                </Box>
+                />
               </Grid>
               <Grid item xs={10}>
-                <Typography variant="body2" color="textPrimary">
-                  You recieved{" "}
-                  <b>
-                    {transaction.currency} {transaction.amount}
-                  </b>{" "}
-                  from {transaction.senderName} ({transaction.senderPhonenumber}
-                  ) .
-                </Typography>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  sx={{ flexWrap: "wrap" }}
+                  spacing={1}
+                >
+                  <Box
+                    sx={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CallReceivedIcon
+                      sx={{ color: "green", fontSize: "15px" }}
+                    />
+                  </Box>
+                  <Typography variant="subtitle2" color="textPrimary">
+                    {transaction.senderName}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: "gray" }}>
+                    {moment(transaction.addedOn?.toDate()).format("lll")}
+                  </Typography>
+                </Stack>
+                <Stack>
+                  <Typography variant="caption" color="textPrimary">
+                    You recieved{" "}
+                    <b>
+                      {transaction.currency} {transaction.amount}
+                    </b>{" "}
+                    from {transaction.senderName} (
+                    {transaction.senderPhonenumber}) .
+                  </Typography>
+                </Stack>
               </Grid>
             </Grid>
           </>

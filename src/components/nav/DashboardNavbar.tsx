@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import ToggleThemeMode from "../common/ToggleThemeMode";
+// import ToggleThemeMode from "../common/ToggleThemeMode";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -49,7 +49,7 @@ export const DashboardNavbar = (props: Props) => {
           </IconButton>
 
           <Box sx={{ flexGrow: 1 }} />
-          <ToggleThemeMode />
+          {/* <ToggleThemeMode /> */}
           {/* <AccountNavThumb />  */}
         </Toolbar>
       </DashboardNavbarRoot>

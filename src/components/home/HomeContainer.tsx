@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Paper } from "@mui/material";
 import Spacer from "../common/Spacer";
 // import TransactionStats from "../transactions/TransactionStats";
 import HomeBalancesStat from "./HomeBalancesStat";
@@ -15,13 +15,15 @@ const HomeContainer = () => {
     <Box sx={{ p: 3 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6} sx={{ p: 2 }}>
-          <HomeBalancesStat />
-          <HomeCarousel />
-          <Spacer space={30} />
-          <HomeFundsAction />
-          <Spacer space={10} />
-          <HomeStableCoinAction />
-          {/* <HomePayfamAgain /> */}
+          <Paper sx={{ p: 2, borderRadius: 4 }} elevation={10}>
+            <HomeBalancesStat />
+            <HomeCarousel />
+            <Spacer space={30} />
+            <HomeFundsAction />
+            <Spacer space={10} />
+            <HomeStableCoinAction />
+            {/* <HomePayfamAgain /> */}
+          </Paper>
         </Grid>
         <Grid item xs={12} md={6} sx={{ px: 2 }}>
           <HomeTransactionSummary />

@@ -19,6 +19,7 @@ import { showSnackbar } from "@/helpers/snackbar-helpers";
 import { setUpRecaptha } from "@/helpers/session-helpers";
 import { TextField } from "formik-mui";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import { SIGN_UP } from "@/routes/routes";
 
 const LoginForm = () => {
   const [confirmationResult, setConfirmationResult] = useState<
@@ -239,6 +240,10 @@ const LoginForm = () => {
             </Formik>
           </>
         )}
+        <Spacer space={30} />
+        <Typography variant="subtitle1" color="textPrimary" textAlign="center">
+          Don't have an account ? <a href={`/session/${SIGN_UP}`}>Sign Up</a>
+        </Typography>
       </Box>
     </Box>
   );

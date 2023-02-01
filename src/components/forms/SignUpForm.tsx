@@ -9,6 +9,7 @@ import {
   Typography,
   Stack,
   InputAdornment,
+  Button,
 } from "@mui/material";
 import { ConfirmationResult } from "firebase/auth";
 import { Field, Form, Formik } from "formik";
@@ -21,6 +22,7 @@ import Spacer from "../common/Spacer";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import { collectionServices } from "@/services/root";
 import { stringToArray } from "@/utils/funcs";
+import { ArrowBackIos } from "@mui/icons-material";
 
 const SignUpForm = () => {
   const [confirmationResult, setConfirmationResult] = useState<
@@ -33,6 +35,9 @@ const SignUpForm = () => {
   const profile = useSession();
   const theme = useTheme();
   const mode = theme.palette.mode;
+
+  const [activeStep, setActiveStep] = useState(0);
+
   if (profile.uid !== "") {
     <></>;
   }
@@ -69,224 +74,313 @@ const SignUpForm = () => {
             <Form>
               <Spacer space={30} />
               <AnimatePresence mode="wait">
-                {confirmationResult === undefined && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 50 }}
-                    transition={{ ease: "easeInOut" }}
-                  >
-                    <Typography
-                      variant="subtitle1"
-                      color="textPrimary"
-                      sx={{ fontSize: 14, textTransform: "uppercase", mt: 1 }}
+                {activeStep === 0 && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 50 }}
+                      transition={{ ease: "easeInOut" }}
                     >
-                      First name
-                    </Typography>
-                    <Field component={TextField} fullWidth name="firstName" />
+                      <Typography
+                        variant="subtitle1"
+                        color="textPrimary"
+                        sx={{
+                          fontSize: 14,
+                          textTransform: "uppercase",
+                          mt: 1,
+                        }}
+                      >
+                        First name
+                      </Typography>
+                      <Field component={TextField} fullWidth name="firstName" />
 
-                    <Typography
-                      variant="subtitle1"
-                      color="textPrimary"
-                      sx={{ fontSize: 14, textTransform: "uppercase", mt: 1 }}
-                    >
-                      Last name
-                    </Typography>
+                      <Typography
+                        variant="subtitle1"
+                        color="textPrimary"
+                        sx={{
+                          fontSize: 14,
+                          textTransform: "uppercase",
+                          mt: 1,
+                        }}
+                      >
+                        Last name
+                      </Typography>
 
-                    <Field component={TextField} fullWidth name="lastName" />
+                      <Field component={TextField} fullWidth name="lastName" />
 
-                    <Typography
-                      variant="subtitle1"
-                      color="textPrimary"
-                      sx={{ fontSize: 14, textTransform: "uppercase", mt: 1 }}
-                    >
-                      Username
-                    </Typography>
+                      <Typography
+                        variant="subtitle1"
+                        color="textPrimary"
+                        sx={{
+                          fontSize: 14,
+                          textTransform: "uppercase",
+                          mt: 1,
+                        }}
+                      >
+                        Username
+                      </Typography>
 
-                    <Field component={TextField} fullWidth name="username" />
-                    <Typography
-                      variant="subtitle1"
-                      color="textPrimary"
-                      sx={{ fontSize: 14, textTransform: "uppercase", mt: 1 }}
-                    >
-                      Email
-                    </Typography>
-                    <Field component={TextField} fullWidth name="email" />
-                    <Typography
-                      variant="subtitle1"
-                      color="textPrimary"
-                      sx={{ fontSize: 14, textTransform: "uppercase", mt: 1 }}
-                    >
-                      Phone number
-                    </Typography>
-                    <Field
-                      name="phoneNumber"
-                      type="text"
-                      component={PhoneInput}
-                      enableSearch
-                      country={"ng"}
-                      value={values.phoneNumber}
-                      onChange={(phone: string) => {
-                        setFieldValue("phoneNumber", phone, true);
-                      }}
-                      inputStyle={{
-                        fontSize: "16px",
-                        fontWeight: "600",
-                        fontFamily: "Montserrat",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                        height: "auto",
-                        color: `${mode === "light" ? "#000" : "#fff"}`,
-                        backgroundColor: `${
-                          mode === "light" ? "#fff" : "#000"
-                        }`,
-                        width: "100%",
-                      }}
-                      buttonStyle={{
-                        fontFamily: "Montserrat",
-                        color: `${mode === "light" ? "#000" : "#fff"}`,
-                        backgroundColor: `${
-                          mode === "light" ? "#fff" : "#000"
-                        }`,
-                      }}
-                      dropdownStyle={{
-                        fontFamily: "Montserrat",
-                        color: `${mode === "light" ? "#000" : "#fff"}`,
-                      }}
-                      fullWidth
-                    />
-
-                    <Spacer space={10} />
-                    <Stack alignItems="center">
-                      <div id="recaptcha-container"></div>
-                    </Stack>
-                    <Spacer space={10} />
-                    <Stack>
-                      <LoadingButton
-                        onClick={async () => {
-                          if (values.phoneNumber === "") {
-                            showSnackbar({
-                              openSnackbar: true,
-                              msg: "Enter your phone number!!!",
-                              status: "warning",
-                            });
-                          } else {
-                            setProcessing(true);
-                            try {
-                              const response = await setUpRecaptha(
-                                `+${values.phoneNumber}`
-                              );
-                              setConfirmationResult(response);
-                              setProcessing(false);
-                            } catch (err: any) {
+                      <Field component={TextField} fullWidth name="username" />
+                      <Typography
+                        variant="subtitle1"
+                        color="textPrimary"
+                        sx={{
+                          fontSize: 14,
+                          textTransform: "uppercase",
+                          mt: 1,
+                        }}
+                      >
+                        Email
+                      </Typography>
+                      <Field component={TextField} fullWidth name="email" />
+                      <Spacer space={10} />
+                      <Stack>
+                        <LoadingButton
+                          onClick={async () => {
+                            if (values.firstName.length < 3) {
                               showSnackbar({
                                 openSnackbar: true,
-                                msg: err.message,
+                                msg: "Enter your first name",
                                 status: "warning",
                               });
-                              setProcessing(false);
-                            }
-                          }
-                        }}
-                        variant="contained"
-                        loading={processing}
-                        disabled={processing}
-                        sx={{ color: "#fff" }}
-                      >
-                        Send Otp
-                      </LoadingButton>
-                    </Stack>
-                  </motion.div>
-                )}
-
-                {confirmationResult !== undefined && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 50 }}
-                    transition={{ ease: "easeInOut" }}
-                  >
-                    <Spacer space={10} />
-                    <Field
-                      component={TextField}
-                      type="text"
-                      variant="filled"
-                      fullWidth
-                      label="Enter OTP code"
-                      name="otp"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <ConfirmationNumberIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <Spacer space={10} />
-                    <Stack>
-                      <LoadingButton
-                        onClick={async () => {
-                          if (values.phoneNumber === "") {
-                            showSnackbar({
-                              openSnackbar: true,
-                              msg: "Enter your phone number!!!",
-                              status: "warning",
-                            });
-                          } else {
-                            setProcessing(true);
-                            try {
-                              const currentUser =
-                                await confirmationResult.confirm(values.otp);
-
-                              const { status, errorMessage } =
-                                await collectionServices.addDoc(
-                                  "Users",
-                                  currentUser.user.uid,
-                                  {
-                                    uid: currentUser.user.uid,
-                                    firstName: values.firstName,
-                                    lastName: values.lastName,
-                                    username: values.username,
-                                    email: values.email,
-                                    phonenumber: values.phoneNumber,
-                                    persona: "customer",
-                                    photo: { name: "", url: "" },
-                                    query: stringToArray(values.phoneNumber),
-                                    status: "active",
-                                    defaultCurrency: "manual",
-                                  }
-                                );
-                              if (status === "success") {
-                                navigate("/");
-                                setProcessing(false);
-                              }
-                              if (status === "error") {
-                                showSnackbar({
-                                  openSnackbar: true,
-                                  msg: errorMessage,
-                                  status: "error",
-                                });
-                                setProcessing(false);
-                              }
-                            } catch (err: any) {
+                            } else if (values.lastName.length < 3) {
                               showSnackbar({
                                 openSnackbar: true,
-                                msg: err.message,
-                                status: "error",
+                                msg: "Enter your last name",
+                                status: "warning",
                               });
-                              setProcessing(false);
+                            } else if (values.username.length < 3) {
+                              showSnackbar({
+                                openSnackbar: true,
+                                msg: "Enter your username",
+                                status: "warning",
+                              });
+                            } else if (values.email.length < 3) {
+                              showSnackbar({
+                                openSnackbar: true,
+                                msg: "Enter your email",
+                                status: "warning",
+                              });
+                            } else {
+                              setActiveStep(1);
                             }
-                          }
-                        }}
-                        variant="contained"
-                        loading={processing}
-                        disabled={processing}
-                        sx={{ color: "#fff" }}
+                          }}
+                          variant="contained"
+                          loading={processing}
+                          disabled={processing}
+                          sx={{ color: "#fff" }}
+                        >
+                          Continue
+                        </LoadingButton>
+                      </Stack>
+                    </motion.div>
+                  </>
+                )}
+                {activeStep === 1 && (
+                  <>
+                    {confirmationResult === undefined && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        transition={{ ease: "easeInOut" }}
                       >
-                        Verfiy Otp
-                      </LoadingButton>
-                    </Stack>
-                  </motion.div>
+                        <Stack direction="row">
+                          <Button
+                            startIcon={<ArrowBackIos />}
+                            onClick={() => {
+                              setActiveStep(0);
+                            }}
+                          >
+                            Back
+                          </Button>
+                        </Stack>
+                        <Typography
+                          variant="subtitle1"
+                          color="textPrimary"
+                          sx={{
+                            fontSize: 14,
+                            textTransform: "uppercase",
+                            mt: 1,
+                          }}
+                        >
+                          Phone number
+                        </Typography>
+                        <Field
+                          name="phoneNumber"
+                          type="text"
+                          component={PhoneInput}
+                          enableSearch
+                          country={"ng"}
+                          value={values.phoneNumber}
+                          onChange={(phone: string) => {
+                            setFieldValue("phoneNumber", phone, true);
+                          }}
+                          inputStyle={{
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            fontFamily: "Montserrat",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            height: "auto",
+                            color: `${mode === "light" ? "#000" : "#fff"}`,
+                            backgroundColor: `${
+                              mode === "light" ? "#fff" : "#000"
+                            }`,
+                            width: "100%",
+                          }}
+                          buttonStyle={{
+                            fontFamily: "Montserrat",
+                            color: `${mode === "light" ? "#000" : "#fff"}`,
+                            backgroundColor: `${
+                              mode === "light" ? "#fff" : "#000"
+                            }`,
+                          }}
+                          dropdownStyle={{
+                            fontFamily: "Montserrat",
+                            color: `${mode === "light" ? "#000" : "#fff"}`,
+                          }}
+                          fullWidth
+                        />
+
+                        <Spacer space={10} />
+                        <Stack alignItems="center">
+                          <div id="recaptcha-container"></div>
+                        </Stack>
+                        <Spacer space={10} />
+                        <Stack>
+                          <LoadingButton
+                            onClick={async () => {
+                              if (values.phoneNumber === "") {
+                                showSnackbar({
+                                  openSnackbar: true,
+                                  msg: "Enter your phone number!!!",
+                                  status: "warning",
+                                });
+                              } else {
+                                setProcessing(true);
+                                try {
+                                  const response = await setUpRecaptha(
+                                    `+${values.phoneNumber}`
+                                  );
+                                  setConfirmationResult(response);
+                                  setProcessing(false);
+                                } catch (err: any) {
+                                  showSnackbar({
+                                    openSnackbar: true,
+                                    msg: err.message,
+                                    status: "warning",
+                                  });
+                                  setProcessing(false);
+                                }
+                              }
+                            }}
+                            variant="contained"
+                            loading={processing}
+                            disabled={processing}
+                            sx={{ color: "#fff" }}
+                          >
+                            Send Otp
+                          </LoadingButton>
+                        </Stack>
+                      </motion.div>
+                    )}
+
+                    {confirmationResult !== undefined && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        transition={{ ease: "easeInOut" }}
+                      >
+                        <Spacer space={10} />
+                        <Field
+                          component={TextField}
+                          type="text"
+                          variant="filled"
+                          fullWidth
+                          label="Enter OTP code"
+                          name="otp"
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <ConfirmationNumberIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                        <Spacer space={10} />
+                        <Stack>
+                          <LoadingButton
+                            onClick={async () => {
+                              if (values.phoneNumber === "") {
+                                showSnackbar({
+                                  openSnackbar: true,
+                                  msg: "Enter your phone number!!!",
+                                  status: "warning",
+                                });
+                              } else {
+                                setProcessing(true);
+                                try {
+                                  const currentUser =
+                                    await confirmationResult.confirm(
+                                      values.otp
+                                    );
+
+                                  const { status, errorMessage } =
+                                    await collectionServices.addDoc(
+                                      "Users",
+                                      currentUser.user.uid,
+                                      {
+                                        uid: currentUser.user.uid,
+                                        firstName: values.firstName,
+                                        lastName: values.lastName,
+                                        username: values.username,
+                                        email: values.email,
+                                        phonenumber: values.phoneNumber,
+                                        persona: "customer",
+                                        photo: { name: "", url: "" },
+                                        query: stringToArray(
+                                          values.phoneNumber
+                                        ),
+                                        status: "active",
+                                        defaultCurrency: "manual",
+                                      }
+                                    );
+                                  if (status === "success") {
+                                    navigate("/");
+                                    setProcessing(false);
+                                  }
+                                  if (status === "error") {
+                                    showSnackbar({
+                                      openSnackbar: true,
+                                      msg: errorMessage,
+                                      status: "error",
+                                    });
+                                    setProcessing(false);
+                                  }
+                                } catch (err: any) {
+                                  showSnackbar({
+                                    openSnackbar: true,
+                                    msg: err.message,
+                                    status: "error",
+                                  });
+                                  setProcessing(false);
+                                }
+                              }
+                            }}
+                            variant="contained"
+                            loading={processing}
+                            disabled={processing}
+                            sx={{ color: "#fff" }}
+                          >
+                            Verfiy Otp
+                          </LoadingButton>
+                        </Stack>
+                      </motion.div>
+                    )}
+                  </>
                 )}
               </AnimatePresence>
 

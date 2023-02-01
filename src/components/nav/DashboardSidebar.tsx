@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
-import { Box, Drawer, Stack, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  Stack,
+  Typography,
+  Button,
+  ListItem,
+} from "@mui/material";
 
-import { redirect, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AppBrand from "../global/AppBrand";
 import { NavItem } from "./NavItem";
 import HistoryIcon from "@mui/icons-material/History";
@@ -23,6 +30,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/configs/firebase";
 import { showSnackbar } from "@/helpers/snackbar-helpers";
 import Spacer from "../common/Spacer";
+import ContactModal from "../contact/ContactModal";
 
 const clientLinks = [
   {
@@ -86,6 +94,10 @@ export const DashboardSidebar = (props: Props) => {
   const [logoutConfirm, setLogoutConfirm] = useState(false);
   const [logoutProcessing, setLogoutProcessing] = useState(false);
 
+  const [showContactUs, setShowContactUs] = useState(false);
+
+  const navigate = useNavigate();
+
   useEffect(
     () => {
       if (!location.pathname) {
@@ -104,6 +116,12 @@ export const DashboardSidebar = (props: Props) => {
 
   const content = (
     <>
+      <ContactModal
+        visible={showContactUs}
+        close={() => {
+          setShowContactUs(false);
+        }}
+      />
       <Confirmation
         visible={logoutConfirm}
         setVisible={setLogoutConfirm}
@@ -114,7 +132,9 @@ export const DashboardSidebar = (props: Props) => {
             setLogoutProcessing(true);
             await signOut(auth);
             setLogoutProcessing(false);
-            throw redirect(`/session/${LOGIN}`);
+            navigate(`/session/${LOGIN}`, {
+              replace: true,
+            });
           } catch (error: any) {
             showSnackbar({
               status: "error",
@@ -204,26 +224,105 @@ export const DashboardSidebar = (props: Props) => {
             </>
           )}
           <Stack alignItems="left" sx={{ mt: 5 }}>
-            <Button
-              variant="text"
-              color="inherit"
-              startIcon={<Call />}
-              // onClick={() => {
-              //   setLogoutConfirm(true);
-              // }}
+            <ListItem
+              disableGutters
+              sx={[
+                {
+                  display: "flex",
+                  mb: 0.5,
+                  py: 0,
+                  px: 2,
+                  backgroundColor: "background.paper",
+                  p: 1.2,
+                  borderRadius: 2,
+                },
+                {
+                  ":hover": {
+                    backgroundColor: (theme) => theme.palette.secondary.main,
+                  },
+                },
+              ]}
             >
-              Contact us
-            </Button>
-            <Button
-              variant="text"
-              color="error"
-              startIcon={<PowerSettingsNewIcon />}
-              onClick={() => {
-                setLogoutConfirm(true);
-              }}
+              <Button
+                startIcon={<Call fontSize="small" sx={{ opacity: 0.6 }} />}
+                disableRipple
+                sx={{
+                  // backgroundColor: active ? "background.default" : "background.paper",
+                  borderRadius: 1,
+                  color: "black",
+                  // fontWeight: active ? "fontWeightBold" : "bolder",
+                  fontWeight: "regular",
+                  justifyContent: "flex-start",
+                  px: 3,
+                  textAlign: "left",
+                  textTransform: "none",
+                  width: "100%",
+                  "& .MuiButton-startIcon": {
+                    color: "black",
+                  },
+                  "&:hover": {
+                    backgroundColor: "rgba(255,255,255, 0.08)",
+                  },
+                }}
+                onClick={() => {
+                  setShowContactUs(true);
+                }}
+              >
+                <Box sx={{ flexGrow: 1 }}> Contact us</Box>
+              </Button>
+            </ListItem>
+            <ListItem
+              disableGutters
+              sx={[
+                {
+                  display: "flex",
+                  mb: 0.5,
+                  py: 0,
+                  px: 2,
+                  backgroundColor: "background.paper",
+                  p: 1.2,
+                  borderRadius: 2,
+                },
+                {
+                  ":hover": {
+                    backgroundColor: (theme) => theme.palette.secondary.main,
+                  },
+                },
+              ]}
             >
-              Log out
-            </Button>
+              <Button
+                startIcon={
+                  <PowerSettingsNewIcon
+                    fontSize="small"
+                    sx={{ opacity: 0.6 }}
+                  />
+                }
+                disableRipple
+                sx={{
+                  // backgroundColor: active ? "background.default" : "background.paper",
+                  borderRadius: 1,
+                  color: "red",
+                  // fontWeight: active ? "fontWeightBold" : "bolder",
+                  fontWeight: "regular",
+                  justifyContent: "flex-start",
+                  px: 3,
+                  textAlign: "left",
+                  textTransform: "none",
+                  width: "100%",
+                  "& .MuiButton-startIcon": {
+                    color: "red",
+                  },
+                  "&:hover": {
+                    backgroundColor: "rgba(255,255,255, 0.08)",
+                  },
+                }}
+                onClick={() => {
+                  setLogoutConfirm(true);
+                }}
+              >
+                <Box sx={{ flexGrow: 1 }}> Log out</Box>
+              </Button>
+            </ListItem>
           </Stack>
         </Box>
       </Box>

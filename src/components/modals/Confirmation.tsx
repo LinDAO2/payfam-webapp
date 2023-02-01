@@ -79,17 +79,12 @@ export default function Confirmation(props: Props) {
               disabled={props.loading ? props.loading : false}
               variant="contained"
               sx={{
-                textTransform: "capitalize",
-                color: "#fff",
-                background:
-                  "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
-                backgroundSize: "400% 400%",
-                animation: "anim 10s infinite ease-in-out",
-
-                p: 3,
-                borderRadius: 15,
+                color: (theme) =>
+                  theme.palette.mode === "light" ? "#fff" : "#000",
+                p: 2,
                 boxShadow: (theme) => theme.shadows[20],
                 fontWeight: "bold",
+                mb: 2,
               }}
               size="large"
               onClick={() => {
@@ -106,7 +101,7 @@ export default function Confirmation(props: Props) {
             <Button
               variant="contained"
               color="error"
-              sx={{ textTransform: "capitalize" }}
+              sx={{ p: 2, mb: 2 }}
               size="large"
               onClick={() => {
                 if (props.close) {

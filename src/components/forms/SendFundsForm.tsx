@@ -87,7 +87,7 @@ const SendFundsForm = ({ close }: Props) => {
     TransactionRecipientDocument[] | null
   >(null);
 
-  const [recieverAmount, setRecieverAmount] = useState("");
+  const [recieverAmount, setRecieverAmount] = useState("USD");
 
   const [fetchingRecipients, setFetchingRecipients] = useState(false);
 
@@ -884,9 +884,17 @@ const SendFundsForm = ({ close }: Props) => {
                     }}
                   >
                     <MenuItem value="balance">My PayFam Balance</MenuItem>
-                    <MenuItem value="mobileMoney"> Mobile Money -  Ghana only</MenuItem>
-                    <MenuItem value="cryptocurrency">USDC - Ethereum chain</MenuItem>
-                    <MenuItem value="bankTransfer"> Bank transfer -  Nigeria only</MenuItem>
+                    <MenuItem value="mobileMoney">
+                      {" "}
+                      Mobile Money - Ghana only
+                    </MenuItem>
+                    <MenuItem value="cryptocurrency">
+                      USDC - Ethereum chain
+                    </MenuItem>
+                    <MenuItem value="bankTransfer">
+                      {" "}
+                      Bank transfer - Nigeria only
+                    </MenuItem>
                   </Select>
                 </FormControl>
                 <Spacer space={20} />
@@ -1080,7 +1088,7 @@ const SendFundsForm = ({ close }: Props) => {
                     )} */}
                       </>
                     )}
-                    <Spacer space={20}/>
+                    <Spacer space={20} />
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
                         <Typography
@@ -1255,19 +1263,19 @@ const SendFundsForm = ({ close }: Props) => {
                                     setRecieverAmount(val);
                                   }}
                                 >
-                                  <MenuItem value="balance">
+                                  <MenuItem value="NGN">
                                     {new Intl.NumberFormat(undefined, {
                                       style: "currency",
                                       currency: "NGN",
                                     }).format(convertedAmounts.ngn)}
                                   </MenuItem>
-                                  <MenuItem value="mobileMoney">
+                                  <MenuItem value="GHS">
                                     {new Intl.NumberFormat(undefined, {
                                       style: "currency",
                                       currency: "GHS",
                                     }).format(convertedAmounts.ghs)}
                                   </MenuItem>
-                                  <MenuItem value="cryptocurrency">
+                                  <MenuItem value="USD">
                                     {new Intl.NumberFormat(undefined, {
                                       style: "currency",
                                       currency: "USD",
@@ -1621,21 +1629,21 @@ const SendFundsForm = ({ close }: Props) => {
             </Typography>
             <Spacer space={40} />
             <Typography variant="body1" color="textPrimary">
-              Confirm payment to
+              Confirm payment to{" "}
               {selectedRecipient !== null
                 ? selectedRecipient.recieverName
                 : `${
                     formikRef.current
                       ? formikRef.current.values.recieverName
                       : ""
-                  }`}
-              {selectedRecipient !== null
+                  }`}{" "}
+              &#40;{selectedRecipient !== null
                 ? selectedRecipient.recieverPhonenumber
                 : `${
                     formikRef.current
                       ? formikRef.current.values.recieverPhonenumber
                       : ""
-                  }`}
+                  }`}&#41;{" "}
               <b>
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",
