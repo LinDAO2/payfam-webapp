@@ -1,3 +1,12 @@
+## [0.5.4](https://github.com/matt-kay/payfam-webapp/compare/v0.5.3...v0.5.4) (2023-02-01)
+
+
+### Bug Fixes
+
+* launch clean up ([2de132b](https://github.com/matt-kay/payfam-webapp/commit/2de132b9f408853dd193b8f5ff6bf90590d94b29))
+
+
+
 ## [0.5.3](https://github.com/matt-kay/payfam-webapp/compare/v0.5.2...v0.5.3) (2023-01-31)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * production ready phase ([49d5cd4](https://github.com/matt-kay/payfam-webapp/commit/49d5cd4e98dd4ae6779375047909c4f69236f256))
-
-
-
-# [0.4.0](https://github.com/matt-kay/payfam-webapp/compare/v0.3.0...v0.4.0) (2023-01-02)
-
-
-### Features
-
-* sell stablecoin ([991f028](https://github.com/matt-kay/payfam-webapp/commit/991f028ece04e31ae807933704f46c4314855da7))
 
 
 
