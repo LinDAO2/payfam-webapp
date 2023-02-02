@@ -49,7 +49,7 @@ const ContactModal = ({ visible, close }: Props) => {
             support@payfam.io
           </a>{" "}
           or Join Telegram community :{" "}
-          <a href="mailto:www.t.me/payfamhq" target="_blank"  rel="noreferrer">
+          <a href="https://www.t.me/payfamhq" target="_blank"  rel="noreferrer">
             www.t.me/payfamhq
           </a>
         </Typography>

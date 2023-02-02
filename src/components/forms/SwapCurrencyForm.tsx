@@ -490,7 +490,15 @@ const SwapCurrencyForm = (props: Props) => {
                 <Button
                   variant="contained"
                   color="error"
-                  sx={{ textTransform: "capitalize" }}
+                  sx={{
+                    color: (theme) =>
+                      theme.palette.mode === "light" ? "#fff" : "#000",
+                    p: 2,
+                    boxShadow: (theme) => theme.shadows[20],
+                    fontWeight: "bold",
+
+                    mb: 2,
+                  }}
                   size="large"
                   onClick={() => {
                     resetStates();

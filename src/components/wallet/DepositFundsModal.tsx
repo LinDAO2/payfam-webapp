@@ -202,9 +202,14 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
           p: 2,
         }}
       >
-        <IconButton onClick={close}>
-          <Close />
-        </IconButton>
+        <Stack direction="row" justifyContent="flex-end">
+          <IconButton
+            onClick={close}
+            sx={{ boxShadow: (theme) => theme.shadows[7] }}
+          >
+            <Close />
+          </IconButton>
+        </Stack>
         <Typography variant="h6" color="textPrimary">
           Deposit funds
         </Typography>
@@ -384,16 +389,13 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
                   disabled={processing}
                   variant="contained"
                   sx={{
-                    color: "#fff",
-                    background:
-                      "linear-gradient(90deg, rgba(55,58,230,1) , rgba(253,221,62,1))",
-                    backgroundSize: "400% 400%",
-                    animation: "anim 10s infinite ease-in-out",
-
-                    p: 3,
-                    borderRadius: 15,
+                    color: (theme) =>
+                      theme.palette.mode === "light" ? "#fff" : "#000",
+                    p: 2,
                     boxShadow: (theme) => theme.shadows[20],
                     fontWeight: "bold",
+                    width: "100%",
+                    mb: 2,
                   }}
                   onClick={async () => {
                     if (values.amount < 1) {
