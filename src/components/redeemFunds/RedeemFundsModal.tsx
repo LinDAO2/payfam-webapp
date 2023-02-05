@@ -7,9 +7,10 @@ import RedeemFundsList from "./RedeemFundsList";
 interface Props {
   visible: boolean;
   close: any;
+  closeMainModal?: () => void;
 }
 
-const RedeemFundsModal = ({ visible, close }: Props) => {
+const RedeemFundsModal = ({ visible, close, closeMainModal }: Props) => {
   return (
     <Backdrop
       sx={{
@@ -45,7 +46,7 @@ const RedeemFundsModal = ({ visible, close }: Props) => {
             <Close />
           </IconButton>
         </Stack>
-        <RedeemFundsList />
+        <RedeemFundsList closeMainModal={closeMainModal} />
       </Box>
     </Backdrop>
   );

@@ -40,6 +40,15 @@ export const theme = createTheme({
   ...customProps,
 });
 export const getThemeMode = (mode: any) => ({
+  // breakpoints: {
+  //   values: {
+  //     xs: 0,
+  //     sm: 300,
+  //     md: 900,
+  //     lg: 1200,
+  //     xl: 1536,
+  //   },
+  // },
   palette: {
     mode,
     ...(mode === "light"

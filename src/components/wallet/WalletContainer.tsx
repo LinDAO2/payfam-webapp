@@ -31,7 +31,9 @@ const WalletContainer = () => {
         My Wallet
       </Typography>
 
-      <Paper sx={{ width: { xs: "90vw", md: "40vw" }, p: 2, my: 1 }}>
+      <Paper
+        sx={{ width: { xs: "90vw", sm: "50vw", md: "40vw" }, p: 2, my: 1 }}
+      >
         <Grid container justifyContent="space-between">
           <Grid item xs={12} md={8}>
             <Stack>
@@ -94,7 +96,7 @@ const WalletContainer = () => {
           </Grid>
         </Grid>
       </Paper>
-      <Paper sx={{ width: { xs: "90vw", md: "40vw" }, p: 2, my: 1 }}>
+      <Paper sx={{ width: { xs: "90vw", sm: "50vw", md: "40vw" }, p: 2, my: 1 }}>
         <Grid container justifyContent="space-between">
           <Grid item xs={12} md={8}>
             <Stack>
@@ -159,7 +161,7 @@ const WalletContainer = () => {
           </Grid>
         </Grid>
       </Paper>
-      <Paper sx={{ width: { xs: "90vw", md: "40vw" }, p: 2, my: 1 }}>
+      <Paper sx={{ width: { xs: "90vw", sm: "50vw", md: "40vw" }, p: 2, my: 1 }}>
         <Grid container justifyContent="space-between">
           <Grid item xs={12} md={8}>
             <Stack>

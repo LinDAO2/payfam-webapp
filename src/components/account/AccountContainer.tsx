@@ -6,7 +6,7 @@ const AccountContainer = () => {
   return (
     <Container>
       <Grid container justifyContent="center">
-        <Grid item xs={12} md={5}>
+        <Grid item  xs={12} sm={6}  md={5}>
           <Paper
             sx={{
               width: "100%",

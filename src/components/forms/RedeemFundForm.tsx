@@ -1,3 +1,4 @@
+import { setProfileReload } from "@/helpers/session-helpers";
 import { showSnackbar } from "@/helpers/snackbar-helpers";
 import { useSession } from "@/hooks/app-hooks";
 import { collectionServices } from "@/services/root";
@@ -29,8 +30,9 @@ import Spacer from "../common/Spacer";
 interface Props {
   close: any;
   transactionId: string;
+  closeMainModal?: () => void;
 }
-const RedeemFundForm = ({ close, transactionId }: Props) => {
+const RedeemFundForm = ({ close, transactionId, closeMainModal }: Props) => {
   const [activeStep, setActiveStep] = useState(0);
   const [selectedCurrency, setSelectedCurrency] =
     useState<TransactionCurrency>("NGN");
@@ -84,7 +86,7 @@ const RedeemFundForm = ({ close, transactionId }: Props) => {
           const _convertedNGNAmount = await getConvertedAount(
             (transaction.currency as TransactionCurrency) === "USDC"
               ? "USD"
-              : transaction.currency as TransactionCurrency,
+              : (transaction.currency as TransactionCurrency),
             "NGN",
             transaction.amount
           );
@@ -94,7 +96,7 @@ const RedeemFundForm = ({ close, transactionId }: Props) => {
           const _convertedNGNAmount = await getConvertedAount(
             (transaction.currency as TransactionCurrency) === "USDC"
               ? "USD"
-              : transaction.currency as TransactionCurrency,
+              : (transaction.currency as TransactionCurrency),
             "GHS",
             transaction.amount
           );
@@ -104,7 +106,7 @@ const RedeemFundForm = ({ close, transactionId }: Props) => {
           const _convertedNGNAmount = await getConvertedAount(
             (transaction.currency as TransactionCurrency) === "USDC"
               ? "USD"
-              : transaction.currency as TransactionCurrency,
+              : (transaction.currency as TransactionCurrency),
             "USD",
             transaction.amount
           );
@@ -434,7 +436,11 @@ const RedeemFundForm = ({ close, transactionId }: Props) => {
               <LoadingButton
                 variant="contained"
                 onClick={() => {
+                  setProfileReload(true);
                   close();
+                  if (closeMainModal) {
+                    closeMainModal();
+                  }
                 }}
                 sx={{
                   color: "#fff",

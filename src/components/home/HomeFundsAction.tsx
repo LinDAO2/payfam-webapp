@@ -16,9 +16,10 @@ const HomeFundsAction = () => {
       <RedeemFundsModal
         visible={showRedeemFundsModal}
         close={() => setShowRedeemFundsModal(false)}
+        closeMainModal={() => setShowRedeemFundsModal(false)}
       />
       <Grid container justifyContent="space-between">
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} sm={5} md={5}>
           <Button
             variant="contained"
             startIcon={<NearMeIcon />}
@@ -38,7 +39,7 @@ const HomeFundsAction = () => {
             Send funds
           </Button>
         </Grid>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} sm={5} md={5}>
           <Button
             onClick={() => {
               setShowRedeemFundsModal(!showRedeemFundsModal);

@@ -13,8 +13,9 @@ import { useState } from "react";
 
 interface Props {
   transaction: TransactionDocument;
+  closeMainModal?: () => void;
 }
-const TransactionListItem = ({ transaction }: Props) => {
+const TransactionListItem = ({ transaction, closeMainModal }: Props) => {
   const profile = useSession();
   const [showRedeemFundsModal, setShowRedeemFundsModal] = useState(false);
   return (
@@ -23,6 +24,7 @@ const TransactionListItem = ({ transaction }: Props) => {
         visible={showRedeemFundsModal}
         close={() => setShowRedeemFundsModal(false)}
         transactionId={transaction.uid}
+        closeMainModal={closeMainModal}
       />
       {/* //SENT FUNDS */}
 

@@ -5,9 +5,11 @@ import SwapCurrencyForm from "../forms/SwapCurrencyForm";
 const HomeSwapCurrency = () => {
   return (
     <>
-      <Spacer space={20} />
-      <Paper elevation={8} sx={{ p:1, borderRadius: 5 }}>
-        <Typography variant="h5" color="textPrimary" sx={{pl:2}}>
+      <Paper
+        elevation={8}
+        sx={{ p: 1, borderRadius: 5, mt: { xs: 0, md: 5 } }}
+      >
+        <Typography variant="h5" color="textPrimary" sx={{ pl: 2 }}>
           Swap Currencies
         </Typography>
         <Spacer space={10} />

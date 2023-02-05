@@ -52,12 +52,12 @@ const HomeBalancesStat = () => {
         </Stack>
 
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} md={4}>
+          <Grid item xs={4}>
             {hideBalance ? (
               <Typography
                 variant="caption"
                 color="textPrimary"
-                sx={{ fontSize: 16 }}
+                sx={{ fontSize: "1em" }}
               >
                 NGN XX.XX
               </Typography>
@@ -65,7 +65,7 @@ const HomeBalancesStat = () => {
               <Typography
                 variant="caption"
                 color="textPrimary"
-                sx={{ fontSize: 16 }}
+                sx={{ fontSize: "1em" }}
               >
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",
@@ -74,12 +74,12 @@ const HomeBalancesStat = () => {
               </Typography>
             )}
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={4}>
             {hideBalance ? (
               <Typography
                 variant="caption"
                 color="textPrimary"
-                sx={{ fontSize: 16 }}
+                sx={{ fontSize: "1em" }}
               >
                 GHS XX.XX
               </Typography>
@@ -87,7 +87,7 @@ const HomeBalancesStat = () => {
               <Typography
                 variant="caption"
                 color="textPrimary"
-                sx={{ fontSize: 16 }}
+                sx={{ fontSize: "1em" }}
               >
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",
@@ -96,12 +96,12 @@ const HomeBalancesStat = () => {
               </Typography>
             )}
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={4}>
             {hideBalance ? (
               <Typography
                 variant="caption"
                 color="textPrimary"
-                sx={{ fontSize: 16 }}
+                sx={{ fontSize: "1em" }}
               >
                 USDC XX.XX
               </Typography>
@@ -109,7 +109,7 @@ const HomeBalancesStat = () => {
               <Typography
                 variant="caption"
                 color="textPrimary"
-                sx={{ fontSize: 16 }}
+                sx={{ fontSize: "1em" }}
               >
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",

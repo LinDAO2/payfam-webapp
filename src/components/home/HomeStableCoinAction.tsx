@@ -22,8 +22,8 @@ const HomeStableCoinAction = () => {
       </Typography>
       <Divider sx={{ mb: 1 }} /> */}
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
+      <Grid container spacing={2} justifyContent="space-between">
+        <Grid item xs={12} sm={5} md={5}>
           <Paper
             onClick={() => {
               setShowBuyStablecoin(!showBuyStablecoin);
@@ -65,7 +65,7 @@ const HomeStableCoinAction = () => {
             </Box>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={5} md={5}>
           <Paper
             onClick={() => {
               setShowSellStablecoin(!showSellStablecoin);

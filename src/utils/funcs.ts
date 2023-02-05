@@ -242,6 +242,15 @@ export const getConvertedAount = async (
   to: TransactionCurrency,
   amount: number
 ): Promise<number> => {
+  if (from === undefined) {
+    return 0;
+  }
+  if (to === undefined) {
+    return 0;
+  }
+  if (amount === undefined) {
+    return 0;
+  }
   try {
     const response = await fetch(
       `https://v6.exchangerate-api.com/v6/729f2602f77e1a6611e6b39f/latest/${from}`

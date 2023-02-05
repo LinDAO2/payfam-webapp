@@ -6,9 +6,15 @@ interface Props {
   visible: boolean;
   close: any;
   transactionId: string;
+  closeMainModal?: () => void;
 }
 
-const RedeemMoneyModal = ({ visible, close, transactionId }: Props) => {
+const RedeemMoneyModal = ({
+  visible,
+  close,
+  transactionId,
+  closeMainModal,
+}: Props) => {
   return (
     <Backdrop
       sx={{
@@ -27,7 +33,7 @@ const RedeemMoneyModal = ({ visible, close, transactionId }: Props) => {
           p: 5,
         }}
       >
-        <RedeemFundForm close={close} transactionId={transactionId}/>
+        <RedeemFundForm close={close} transactionId={transactionId}  closeMainModal={closeMainModal}/>
       </Box>
     </Backdrop>
   );

@@ -8,7 +8,10 @@ import { Fragment, useEffect, useState } from "react";
 import LoadingCircle from "../common/LoadingCircle";
 import TransactionListItem from "../transactions/TransactionListItem";
 
-const RedeemFundsList = () => {
+interface Props {
+  closeMainModal?: () => void;
+}
+const RedeemFundsList = ({ closeMainModal }: Props) => {
   const [transactionList, setTransactionList] = useState<TransactionDocument[]>(
     []
   );
@@ -67,7 +70,10 @@ const RedeemFundsList = () => {
       {transactionList.length > 0 &&
         transactionList.map((transaction) => (
           <Fragment key={generateUUIDV4()}>
-            <TransactionListItem transaction={transaction} />
+            <TransactionListItem
+              transaction={transaction}
+              closeMainModal={closeMainModal}
+            />
           </Fragment>
         ))}
       {transactionList.length === 0 && (
