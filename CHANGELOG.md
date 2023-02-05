@@ -1,3 +1,12 @@
+## [0.5.6](https://github.com/matt-kay/payfam-webapp/compare/v0.5.5...v0.5.6) (2023-02-05)
+
+
+### Bug Fixes
+
+* mobile responsiveness ([a6d6c20](https://github.com/matt-kay/payfam-webapp/commit/a6d6c20078992a4bc1f8d5fbe0da683294d4603a))
+
+
+
 ## [0.5.5](https://github.com/matt-kay/payfam-webapp/compare/v0.5.4...v0.5.5) (2023-02-02)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * launch fixes ([85d269d](https://github.com/matt-kay/payfam-webapp/commit/85d269da154b3528ad7c28a19ccb2da231b5b49b))
-
-
-
-## [0.5.1](https://github.com/matt-kay/payfam-webapp/compare/v0.5.0...v0.5.1) (2023-01-27)
-
-
-### Bug Fixes
-
-* home transaction summary ([d0aef21](https://github.com/matt-kay/payfam-webapp/commit/d0aef212a1691b11acfa0976839e3917a3dc20f5))
 
 
 
