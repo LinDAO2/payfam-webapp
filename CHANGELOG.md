@@ -1,3 +1,12 @@
+## [0.5.8](https://github.com/matt-kay/payfam-webapp/compare/v0.5.7...v0.5.8) (2023-02-06)
+
+
+### Bug Fixes
+
+* smart contract demo ([899b27c](https://github.com/matt-kay/payfam-webapp/commit/899b27c7b0c5879ef7c36f479e94af442383ce9f))
+
+
+
 ## [0.5.7](https://github.com/matt-kay/payfam-webapp/compare/v0.5.6...v0.5.7) (2023-02-06)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * launch clean up ([2de132b](https://github.com/matt-kay/payfam-webapp/commit/2de132b9f408853dd193b8f5ff6bf90590d94b29))
-
-
-
-## [0.5.3](https://github.com/matt-kay/payfam-webapp/compare/v0.5.2...v0.5.3) (2023-01-31)
-
-
-### Bug Fixes
-
-* visuals for launch ([ba4e6c1](https://github.com/matt-kay/payfam-webapp/commit/ba4e6c1720295215abc8b9e58c3b4d39c55646fe))
 
 
 
