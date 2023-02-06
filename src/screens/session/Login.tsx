@@ -3,7 +3,16 @@ import { Grid, Stack } from "@mui/material";
 
 const Login = () => {
   return (
-    <Grid container>
+    <Grid
+      container
+      sx={{
+        flexDirection: {
+          xs: "column-reverse",
+          sm: "column-reverse",
+          md: "row",
+        },
+      }}
+    >
       <Grid
         item
         xs={12}
@@ -12,7 +21,7 @@ const Login = () => {
           backgroundImage: `url(${require("@/assets/images/ManAndPhone.png")})`,
           backgroundSize: "contain",
           backgroundRepeat: "no-repeat",
-          height: "100vh",
+          height: { xs: "50vh", sm: "50vh", md: "100vh" },
         }}
       ></Grid>
       <Grid item xs={12} md={6}>
