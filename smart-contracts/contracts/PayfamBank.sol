@@ -14,8 +14,9 @@ contract PayfamBank {
         //USDCAddress = 0x07865c6E87B9F70255377e024ace6630C1Eaa37F;
         // USDCAddress = 0x0FA8781a83E46826621b3BC094Ea2A0212e71B23;
         // USDCAddress = 0xE097d6B3100777DC31B34dC2c58fB524C2e76921;
+        // USDCAddress = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
 
-        usdc = IERC20(address(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48));
+        usdc = IERC20(address(0x07865c6E87B9F70255377e024ace6630C1Eaa37F));
         owner = msg.sender;
     }
 

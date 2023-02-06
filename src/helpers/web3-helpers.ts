@@ -6,7 +6,9 @@ import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
 export const PayfamContractAddress =
   // "0xF32468e26EA9c63D133C4e6F6346f2E46B894BC0";
-  "0x538e69cD1dB3704A572dE952bdC34e41235a3357";
+  // "0x538e69cD1dB3704A572dE952bdC34e41235a3357";
+  "0xFbF64380d96Ea10cAFd84716b73509d31e313C87"
+  
 const PayfamContractABI = PayfamContract;
 
 const USDCTokenContractAddress = "0x07865c6E87B9F70255377e024ace6630C1Eaa37F";
