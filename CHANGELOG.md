@@ -1,3 +1,12 @@
+## [0.5.7](https://github.com/matt-kay/payfam-webapp/compare/v0.5.6...v0.5.7) (2023-02-06)
+
+
+### Bug Fixes
+
+* login image arrangment ([7cc2602](https://github.com/matt-kay/payfam-webapp/commit/7cc2602393e0cdf96cb8f5ef6391e47522620af2))
+
+
+
 ## [0.5.6](https://github.com/matt-kay/payfam-webapp/compare/v0.5.5...v0.5.6) (2023-02-05)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * visuals for launch ([ba4e6c1](https://github.com/matt-kay/payfam-webapp/commit/ba4e6c1720295215abc8b9e58c3b4d39c55646fe))
-
-
-
-## [0.5.2](https://github.com/matt-kay/payfam-webapp/compare/v0.5.1...v0.5.2) (2023-01-31)
-
-
-### Bug Fixes
-
-* launch fixes ([85d269d](https://github.com/matt-kay/payfam-webapp/commit/85d269da154b3528ad7c28a19ccb2da231b5b49b))
 
 
 
