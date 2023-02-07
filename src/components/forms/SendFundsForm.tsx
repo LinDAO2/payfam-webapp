@@ -1637,13 +1637,15 @@ const SendFundsForm = ({ close }: Props) => {
                       ? formikRef.current.values.recieverName
                       : ""
                   }`}{" "}
-              &#40;{selectedRecipient !== null
+              &#40;
+              {selectedRecipient !== null
                 ? selectedRecipient.recieverPhonenumber
                 : `${
                     formikRef.current
                       ? formikRef.current.values.recieverPhonenumber
                       : ""
-                  }`}&#41;{" "}
+                  }`}
+              &#41;{" "}
               <b>
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",
@@ -1963,8 +1965,8 @@ const SendFundsForm = ({ close }: Props) => {
                           // );
                         } catch (error) {
                           showSnackbar({
-                            status: "error",
-                            msg: "An error occured! try again.",
+                            status: "info",
+                            msg: "Please Wait for metamask to approve then continue",
                             openSnackbar: true,
                           });
                         }

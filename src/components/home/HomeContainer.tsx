@@ -6,7 +6,7 @@ import HomeCarousel from "./HomeCarousel";
 import HomeFundsAction from "./HomeFundsAction";
 // import HomePayfamAgain from "./HomePayfamAgain";
 import HomeStableCoinAction from "./HomeStableCoinAction";
-import HomeSwapCurrency from "./HomeSwapCurrency";
+// import HomeSwapCurrency from "./HomeSwapCurrency";
 import HomeTransactionSummary from "./HomeTransactionSummary";
 // import HomeTransactionSummary from "./HomeTransactionSummary";
 
@@ -36,7 +36,7 @@ const HomeContainer = () => {
               <HomeTransactionSummary />
             </Grid>
             <Grid item xs={12} sm={6} md={12} lg={12}>
-              <HomeSwapCurrency />
+              {/* <HomeSwapCurrency /> */}
             </Grid>
           </Grid>
         </Grid>
