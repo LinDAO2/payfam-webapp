@@ -1,6 +1,6 @@
 {
   "name": "payfam-webapp",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "private": true,
   "dependencies": {
     "@alch/alchemy-web3": "^1.4.7",
