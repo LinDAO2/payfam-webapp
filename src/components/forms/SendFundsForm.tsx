@@ -802,7 +802,7 @@ const SendFundsForm = ({ close }: Props) => {
                           setSelectedRecipient(null);
                         }}
                       >
-                        New reciever
+                        New receiver
                       </Button>
                     </Stack>
                     <Autocomplete
@@ -884,10 +884,10 @@ const SendFundsForm = ({ close }: Props) => {
                     }}
                   >
                     <MenuItem value="balance">My PayFam Balance</MenuItem>
-                    <MenuItem value="mobileMoney">
+                    {/* <MenuItem value="mobileMoney">
                       {" "}
                       Mobile Money - Ghana only
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem value="cryptocurrency">
                       USDC - Ethereum chain
                     </MenuItem>

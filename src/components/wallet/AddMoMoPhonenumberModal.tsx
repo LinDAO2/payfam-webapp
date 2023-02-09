@@ -97,7 +97,7 @@ const AddMoMoPhonenumberModal = ({ visible, close }: Props) => {
           <Close />
         </IconButton>
         <Typography variant="h6" color="textPrimary">
-          Add Mobile Money phonenumber for cash out
+          Add Mobile Money number for cash out
         </Typography>
         <Formik
           initialValues={{
@@ -324,9 +324,9 @@ const AddMoMoPhonenumberModal = ({ visible, close }: Props) => {
                   }}
                 >
                   {values.account_number === "" || selectedBank.code === ""
-                    ? "Verify MoMo phone number"
+                    ? "Enter MoMo  number"
                     : resolvedBankAccountInfo.account_name !== ""
-                    ? "Add MoMo phone number"
+                    ? "Add MoMo  number"
                     : "Verify"}
                 </LoadingButton>
                 {resolvedBankAccountInfo.account_name !== "" &&

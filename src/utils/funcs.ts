@@ -104,6 +104,11 @@ export const generateRedeptionCode = () => {
   return ortxid;
 };
 
+export const generateReferenceCode = () => {
+  const ortxid = referralCodeGenerator.alpha("uppercase", 6);
+  return ortxid;
+};
+
 export const generateUUIDV4 = () => {
   return uuidv4();
 };

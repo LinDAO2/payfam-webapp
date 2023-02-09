@@ -22,7 +22,8 @@ export type ICollectionNames =
   | "Chats"
   | "Chat"
   | "ChatMsgs"
-  | "WithdrawRequests";
+  | "WithdrawRequests"
+  | "MomoDeposits";
 
 export type ICollectionDocumentStatus =
   | "active"

@@ -18,6 +18,7 @@ import { useSession } from "@/hooks/app-hooks";
 import {
   ACCOUNT,
   LOGIN,
+  MANAGE_MOMO_DEPOSIT,
   MANAGE_WITHDRAW_REQUEST,
   TRANSACTIONS,
   WALLET,
@@ -31,6 +32,7 @@ import { auth } from "@/configs/firebase";
 import { showSnackbar } from "@/helpers/snackbar-helpers";
 import Spacer from "../common/Spacer";
 import ContactModal from "../contact/ContactModal";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 const clientLinks = [
   {
@@ -79,6 +81,11 @@ const adminLinks = [
     href: `/mgt/${MANAGE_WITHDRAW_REQUEST}`,
     icon: <MonetizationOnIcon fontSize="small" sx={{ opacity: 0.6 }} />,
     title: "Manage Withdraw request",
+  },
+  {
+    href: `/mgt/${MANAGE_MOMO_DEPOSIT}`,
+    icon: <AccountBalanceIcon fontSize="small" sx={{ opacity: 0.6 }} />,
+    title: "Manage MoMo Deposits",
   },
 ];
 

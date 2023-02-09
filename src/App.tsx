@@ -5,6 +5,7 @@ import AppWeb3Wallet from "./components/global/AppWeb3Wallet";
 import {
   ACCOUNT,
   LOGIN,
+  MANAGE_MOMO_DEPOSIT,
   MANAGE_WITHDRAW_REQUEST,
   SEND_FUNDS,
   SESSION_HOME,
@@ -30,6 +31,7 @@ import MGTRoot from "./screens/MGTRoot";
 import ManageWithdrawRequest from "./screens/mgt/ManageWithdrawRequest";
 import SessionHome from "./screens/session/SessionHome";
 import SignUp from "./screens/session/SignUp";
+import ManageMoMoDeposits from "./screens/mgt/ManageMoMoDeposits";
 // import { auth } from "./configs/firebase";
 
 const router = createBrowserRouter([
@@ -101,6 +103,10 @@ const router = createBrowserRouter([
       {
         path: MANAGE_WITHDRAW_REQUEST,
         element: <ManageWithdrawRequest />,
+      },
+      {
+        path: MANAGE_MOMO_DEPOSIT,
+        element: <ManageMoMoDeposits />,
       },
     ],
   },
