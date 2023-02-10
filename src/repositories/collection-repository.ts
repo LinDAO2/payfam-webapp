@@ -24,6 +24,7 @@ import {
   getCountFromServer,
   AggregateQuerySnapshot,
   AggregateField,
+  OrderByDirection,
 } from "firebase/firestore";
 import { flatMapDeep, has } from "lodash";
 
@@ -299,11 +300,12 @@ class CollectionRepository implements ICollectionRepository<any> {
   }
   getAllDocs(
     collectionName: ICollectionNames,
-    docLimit = 20
+    docLimit = 20,
+    order = "desc" as OrderByDirection | undefined
   ): Promise<QuerySnapshot<any>> {
     const q = query(
       collection(db, collectionName),
-      orderBy("addedOn", "desc"),
+      orderBy("addedOn", order),
       limit(docLimit)
     );
 
@@ -321,11 +323,12 @@ class CollectionRepository implements ICollectionRepository<any> {
   fetchMoreAllDocs(
     collectionName: ICollectionNames,
     lastDoc: any,
-    docLimit = 20
+    docLimit = 20,
+    order = "desc" as OrderByDirection | undefined
   ): Promise<QuerySnapshot<any>> {
     const q = query(
       collection(db, collectionName),
-      orderBy("addedOn", "desc"),
+      orderBy("addedOn", order),
       startAfter(lastDoc),
       limit(docLimit)
     );

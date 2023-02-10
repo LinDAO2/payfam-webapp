@@ -1,7 +1,7 @@
 import Confirmation from "@/components/modals/Confirmation";
 import { setProfileReload } from "@/helpers/session-helpers";
 import { showSnackbar } from "@/helpers/snackbar-helpers";
-import { collectionServices } from "@/services/root";
+import { collectionServices, notificationService } from "@/services/root";
 import { MoMoDepositDoc } from "@/types/momo-deposit-types";
 import { LoadingButton } from "@mui/lab";
 import { Box, Typography, Stack } from "@mui/material";
@@ -65,6 +65,12 @@ const ManageMoMoDepositListItem = ({ transaction }: Props) => {
           const isAllGood = response.every((item) => item.status === "success");
 
           if (isAllGood) {
+            await notificationService.sendSMS({
+              to: transaction.userPhoneNumber,
+              sms: `Dear Fam! 
+              Your deposit of GHS ${transaction.amount} is now available in your PayFam account. Log in to check your balance
+              `,
+            });
             setConfirmComplete(false);
             setIsComplete(true);
             setProcessing(false);
@@ -74,20 +80,6 @@ const ManageMoMoDepositListItem = ({ transaction }: Props) => {
       />
 
       <Stack direction="row" justifyContent="space-between">
-        <Typography
-          variant="caption"
-          sx={{
-            textTransform: "uppercase",
-            pl: 1,
-            color: "#000",
-            fontSize: "0.9em",
-          }}
-        >
-          {new Intl.NumberFormat(undefined, {
-            style: "currency",
-            currency: "GHS",
-          }).format(transaction.amount)}
-        </Typography>
         <Typography
           variant="caption"
           sx={{
@@ -116,6 +108,12 @@ const ManageMoMoDepositListItem = ({ transaction }: Props) => {
         <Stack direction="row" alignItems="center" spacing={2}>
           {transaction.referenceCode}
           <Typography sx={{ ml: 2 }}>{transaction?.userPhoneNumber}</Typography>
+          <Typography sx={{ ml: 2 }}>
+            {new Intl.NumberFormat(undefined, {
+              style: "currency",
+              currency: "GHS",
+            }).format(transaction.amount)}
+          </Typography>
         </Stack>
         <LoadingButton
           loading={processing}

@@ -25,7 +25,7 @@ import { IconButton, Stack, Button } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { TextField } from "formik-mui";
 import { useSession } from "@/hooks/app-hooks";
-import { collectionServices } from "@/services/root";
+import { collectionServices, notificationService } from "@/services/root";
 import { showSnackbar } from "@/helpers/snackbar-helpers";
 import NairaTextFieldFormatter from "../common/NairaTextFieldFormatter";
 import CedisTextFieldFormatter from "../common/CedisTextFieldFormatter";
@@ -293,6 +293,12 @@ const SendFundsForm = ({ close }: Props) => {
                 //TO-DO
                 //money sent!
 
+                await notificationService.sendSMS({
+                  to: recieverPhonenumber,
+                  sms: `You have just received NGN ${amount} from ${profile.firstName} ${profile.lastName} on PayFam. Log in or create acct with this number to redeem via the link below. 
+                  `,
+                });
+
                 setProcessingPaystackPayment(false);
                 // resetAll();
                 // showSnackbar({
@@ -352,6 +358,11 @@ const SendFundsForm = ({ close }: Props) => {
               if (completeTransactionStatus === "success") {
                 //TO-DO
                 //money sent!
+                await notificationService.sendSMS({
+                  to: recieverPhonenumber,
+                  sms: `You have just received GHS ${amount} from ${profile.firstName} ${profile.lastName} on PayFam. Log in or create acct with this number to redeem via the link below. 
+                  `,
+                });
 
                 setProcessingPaystackPayment(false);
                 // resetAll();
@@ -413,7 +424,11 @@ const SendFundsForm = ({ close }: Props) => {
               if (completeTransactionStatus === "success") {
                 //TO-DO
                 //money sent!
-
+                await notificationService.sendSMS({
+                  to: recieverPhonenumber,
+                  sms: `You have just received USD ${amount} from ${profile.firstName} ${profile.lastName} on PayFam. Log in or create acct with this number to redeem via the link below. 
+                  `,
+                });
                 setProcessingPaystackPayment(false);
                 // resetAll();
                 // showSnackbar({

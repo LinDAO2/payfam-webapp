@@ -1,55 +1,40 @@
 import * as functions from "firebase-functions";
+import { ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { ExpressAdapter } from "@nestjs/platform-express";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { AppModule } from "./app.module";
 import * as express from "express";
-import * as cors from "cors";
-// import fetch from "node-fetch";
-import { config as dotenvConfig } from "dotenv";
 
-if (process.env.NODE_ENV !== "production") {
-  dotenvConfig();
-}
+const server = express();
 
-const app = express();
+const createNestServer = async (expressInstance) => {
+  const app = await NestFactory.create(
+    AppModule,
+    new ExpressAdapter(expressInstance)
+  );
 
-app.use(cors({ origin: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// app.use(function (req, res, next) {
-//   const _token = Buffer.from(
-//     `67e467c5-69fa-4b97-92f5-1b9acdcce21a:409f1a1536464a6d9c60c9bd048252d1`
-//   ).toString("base64");
-//   fetch(`${process.env.MTN_MOMO_BASE}/collection/token/`, {
-//     method: "post",
-//     headers: {
-//       Authorization: `Bearer ${_token}`,
-//       "Ocp-Apim-Subscription-Key": `${process.env.MTN_MOMO_SUBSCRIPTION_KEY}`,
-//       "X-Target-Environment": `${process.env.MTN_MOMO_ENVIRONMENT}`,
-//     },
-//   })
-//     .then(async (response) => {
-//       if (response.status === 200) {
-//         const _data: any = await response.json();
-//         const access_token = _data.access_token;
-//         //@ts-ignore
-//         req.token = access_token;
-//         next();
-//       }
-//     })
-//     .catch((err) => {
-//       next(err || "Invalid token");
-//     });
-// });
+  const config = new DocumentBuilder()
+    .setTitle("Payfam serverless function API")
+    .setDescription("Official documentation of Payfam serverless function api")
+    .setVersion("1.0")
+    .addBearerAuth()
+    .addServer("http://127.0.0.1:5001/payfam-f5534/us-central1/api")
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup("api", app, document);
 
-export const payfamAPI = functions.https.onRequest(app);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    })
+  );
 
-app.post("/get-access-token", async (req, res) => {
-  //@ts-ignore
-  res.send({ access_token: req.token });
-});
+  return app.init();
+};
 
-// // Start writing functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+createNestServer(server)
+  .then((v) => console.log("Nest js is ready"))
+  .catch(() => console.error("Nest js is broken"));
+
+export const api = functions.https.onRequest(server);

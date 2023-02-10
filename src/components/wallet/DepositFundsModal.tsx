@@ -28,7 +28,7 @@ import {
   generateUUIDV4,
   stringToArray,
 } from "@/utils/funcs";
-import { collectionServices } from "@/services/root";
+import { collectionServices, notificationService } from "@/services/root";
 import { increment } from "firebase/firestore";
 
 import {
@@ -101,6 +101,12 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
       }
     );
     if (status === "success") {
+      await notificationService.sendSMS({
+        to: profile.phonenumber,
+        sms: `Dear Fam! 
+        Your deposit of NGN ${amountTopay} is now available in your PayFam account. Log in to check your balance
+        `,
+      });
       showSnackbar({
         status,
         msg: "Deposit Successful",
@@ -164,8 +170,8 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
     >
       <Box
         sx={{
-          minHeight: 100,
-          width: { xs: "80vw", md: 400 },
+          minHeight: { xs: "100vh", md: 100 },
+          width: { xs: "100vw", md: 400 },
           borderRadius: 5,
           bgcolor: "background.paper",
           p: 2,
@@ -376,7 +382,7 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
                               query: stringToArray(
                                 `${momoNumberDetails[4].title}`
                               ),
-                            }
+                            },
                           };
 
                           const { status, errorMessage } =
@@ -645,6 +651,12 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
                                     }
                                   );
                                 if (status === "success") {
+                                  await notificationService.sendSMS({
+                                    to: profile.phonenumber,
+                                    sms: `Dear Fam! 
+                                    Your deposit of USD ${amountTopay} is now available in your PayFam account. Log in to check your balance
+                                    `,
+                                  });
                                   showSnackbar({
                                     status,
                                     msg: "Deposit Successful",

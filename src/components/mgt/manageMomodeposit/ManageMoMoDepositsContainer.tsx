@@ -1,7 +1,7 @@
 import Spacer from "@/components/common/Spacer";
 import { Container, Grid } from "@mui/material";
 import ManageMoMoDepositList from "./ManageMoMoDepositList";
-import ManageMoMoDepositLoadMore from "./ManageMoMoDepositLoadMore";
+// import ManageMoMoDepositLoadMore from "./ManageMoMoDepositLoadMore";
 import ManageMoMoDepositSearch from "./ManageMoMoDepositSearch";
 
 const ManageMoMoDepositsContainer = () => {
@@ -13,7 +13,7 @@ const ManageMoMoDepositsContainer = () => {
           <Spacer space={20} />
           <ManageMoMoDepositList />
           <Spacer space={20} />
-          <ManageMoMoDepositLoadMore />
+          {/* <ManageMoMoDepositLoadMore /> */}
         </Grid>
       </Grid>
     </Container>

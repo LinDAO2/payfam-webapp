@@ -10,6 +10,7 @@ import {
   listQueryAsyncResponse,
   mutationResponse,
 } from "@/types/promise-types";
+import { OrderByDirection } from "firebase/firestore";
 
 interface ICollectionServices<T> {
   addDoc(
@@ -297,12 +298,14 @@ class CollectionServices implements ICollectionServices<any> {
   }
   async getAllDocs(
     collectionName: ICollectionNames,
-    docLimit = 20
+    docLimit = 20,
+    order = "desc" as OrderByDirection | undefined
   ): Promise<listQueryAsyncResponse<any>> {
     try {
       const querySnapshot = await this.repository.getAllDocs(
         collectionName,
-        docLimit
+        docLimit,
+        order
       );
       const isCollectionEmpty = querySnapshot.size === 0;
 
@@ -358,13 +361,15 @@ class CollectionServices implements ICollectionServices<any> {
   async fetchMoreAllDocs(
     collectionName: ICollectionNames,
     lstDoc: any,
-    docLimit = 20
+    docLimit = 20,
+    order = "desc" as OrderByDirection | undefined
   ): Promise<listQueryAsyncResponse<any>> {
     try {
       const querySnapshot = await this.repository.fetchMoreAllDocs(
         collectionName,
         lstDoc,
-        docLimit
+        docLimit,
+        order
       );
       const isCollectionEmpty = querySnapshot.size === 0;
 

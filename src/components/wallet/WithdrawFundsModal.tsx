@@ -97,8 +97,8 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
     >
       <Box
         sx={{
-          minHeight: 100,
-          width: { xs: "80vw", md: 400 },
+          minHeight: { xs: "100vh", md: 100 },
+          width: { xs: "100vw", md: 400 },
           borderRadius: 5,
           bgcolor: "background.paper",
           p: 2,

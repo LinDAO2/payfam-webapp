@@ -79,6 +79,13 @@ const WalletRequestListItem = ({ withdrawRequest }: Props) => {
                   return result.status === "success";
                 })
               ) {
+
+                // await notificationService.sendSMS({
+                //   to: withdrawRequest.,
+                //   sms: `Dear Fam! 
+                //   Your deposit of GHS ${withdrawRequest.amount} is now available in your PayFam account. Log in to check your balance
+                //   `,
+                // });
                 showSnackbar({
                   status: "success",
                   msg: "funds transferred",
