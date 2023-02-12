@@ -1,3 +1,12 @@
+## [0.5.13](https://github.com/matt-kay/payfam-webapp/compare/v0.5.12...v0.5.13) (2023-02-12)
+
+
+### Bug Fixes
+
+* deposit ghs info ([4ca2947](https://github.com/matt-kay/payfam-webapp/commit/4ca2947f85f43f884eb11659da4728762b509435))
+
+
+
 ## [0.5.12](https://github.com/matt-kay/payfam-webapp/compare/v0.5.11...v0.5.12) (2023-02-12)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * prod smart contract ([0deea42](https://github.com/matt-kay/payfam-webapp/commit/0deea42f27cbf610288e93e30bd9d3314c993fd5))
-
-
-
-## [0.5.8](https://github.com/matt-kay/payfam-webapp/compare/v0.5.7...v0.5.8) (2023-02-06)
-
-
-### Bug Fixes
-
-* smart contract demo ([899b27c](https://github.com/matt-kay/payfam-webapp/commit/899b27c7b0c5879ef7c36f479e94af442383ce9f))
 
 
 
