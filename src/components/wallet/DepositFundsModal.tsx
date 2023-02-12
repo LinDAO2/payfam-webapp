@@ -191,6 +191,7 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
         <Typography variant="h6" color="textPrimary">
           Deposit funds
         </Typography>
+
         <Formik
           key="deposit-form"
           initialValues={{
@@ -286,6 +287,18 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
                             Back
                           </Button>
                         </Stack>
+                        <Typography
+                          variant="body1"
+                          color="textPrimary"
+                          sx={{ m: 1 }}
+                        >
+                          Send cedis to the Mobile Money Details below.
+                          Carefully copy and use the reference code below when
+                          sending. We will credit your account once we verify
+                          the reference code in our database. Deposits take
+                          5-10mins to appear.
+                        </Typography>
+
                         <Stack>
                           {momoNumberDetails.map((item) => (
                             <Fragment key={generateUUIDV4()}>
