@@ -105,10 +105,16 @@ const WalletContainer = () => {
               </Typography>
 
               <Typography variant="subtitle1" color="textPrimary">
-                {new Intl.NumberFormat(undefined, {
+              Available balance{" "} {new Intl.NumberFormat(undefined, {
                   style: "currency",
                   currency: "GHS",
                 }).format(profile?.ghsBalance ? profile?.ghsBalance : 0)}
+              </Typography>
+              <Typography variant="subtitle1" color="textPrimary">
+              Pending withdraw request balance{" "}    {new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "GHS",
+                }).format(profile?.ghsPendingWithdrawBalance ? profile?.ghsPendingWithdrawBalance : 0)}
               </Typography>
               {profile?.mobileMoneyAccount?.paystack && (
                 <>

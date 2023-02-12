@@ -9,3 +9,16 @@ export interface IWithdrawRequest {
   adminId?: string;
   addedOn: Timestamp;
 }
+
+
+export interface IWithdrawMoMoRequest {
+  transactionId: string;
+  userId: string;
+  amount: number;
+  accountName: string;
+  phoneNumber: string;
+  isPaid: boolean;
+  adminId?: string;
+  addedOn: Timestamp;
+}
+

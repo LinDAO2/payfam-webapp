@@ -68,6 +68,7 @@ const AppAuth = ({ children }: props) => {
                   : undefined,
                 ngnBalance: data?.ngnBalance ? data?.ngnBalance : 0,
                 ghsBalance: data?.ghsBalance ? data?.ghsBalance : 0,
+                ghsPendingWithdrawBalance: data?.ghsPendingWithdrawBalance ? data?.ghsPendingWithdrawBalance : 0,
                 usdcBalance: data?.usdcBalance ? data?.usdcBalance : 0,
                 usdcPendingWithdrawBalance: data?.usdcPendingWithdrawBalance
                   ? data?.usdcPendingWithdrawBalance

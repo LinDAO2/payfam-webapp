@@ -6,6 +6,7 @@ import {
   ACCOUNT,
   LOGIN,
   MANAGE_MOMO_DEPOSIT,
+  MANAGE_MOMO_WITHDRAW,
   MANAGE_WITHDRAW_REQUEST,
   SEND_FUNDS,
   SESSION_HOME,
@@ -32,6 +33,7 @@ import ManageWithdrawRequest from "./screens/mgt/ManageWithdrawRequest";
 import SessionHome from "./screens/session/SessionHome";
 import SignUp from "./screens/session/SignUp";
 import ManageMoMoDeposits from "./screens/mgt/ManageMoMoDeposits";
+import ManageMoMoWithdrawRequest from "./screens/mgt/ManageMoMoWithdrawRequest";
 // import { auth } from "./configs/firebase";
 
 const router = createBrowserRouter([
@@ -107,6 +109,10 @@ const router = createBrowserRouter([
       {
         path: MANAGE_MOMO_DEPOSIT,
         element: <ManageMoMoDeposits />,
+      },
+      {
+        path: MANAGE_MOMO_WITHDRAW,
+        element: <ManageMoMoWithdrawRequest />,
       },
     ],
   },

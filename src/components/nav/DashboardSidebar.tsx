@@ -19,6 +19,7 @@ import {
   ACCOUNT,
   LOGIN,
   MANAGE_MOMO_DEPOSIT,
+  MANAGE_MOMO_WITHDRAW,
   MANAGE_WITHDRAW_REQUEST,
   TRANSACTIONS,
   WALLET,
@@ -81,6 +82,11 @@ const adminLinks = [
     href: `/mgt/${MANAGE_WITHDRAW_REQUEST}`,
     icon: <MonetizationOnIcon fontSize="small" sx={{ opacity: 0.6 }} />,
     title: "Manage Withdraw request",
+  },
+  {
+    href: `/mgt/${MANAGE_MOMO_WITHDRAW}`,
+    icon: <MonetizationOnIcon fontSize="small" sx={{ opacity: 0.6 }} />,
+    title: "Manage MoMo Withdraw request",
   },
   {
     href: `/mgt/${MANAGE_MOMO_DEPOSIT}`,

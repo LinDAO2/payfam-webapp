@@ -468,24 +468,33 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                       }
 
                       if (currency === "GHS") {
-                        const initiateTransferPromise =
-                          paystackServices.initiateMOMOTransfer({
-                            amount: values.amount,
-                            psrecieptCode: `${profile.mobileMoneyAccount?.paystack?.psrecieptCode}`,
-                            reason: "Cashout",
+                        const transactionId = generateUUIDV4();
+                        const newWithdrawRequest = collectionServices.addDoc(
+                          "WithdrawGHSRequests",
+                          transactionId,
+                          {
+                            transactionId: transactionId,
                             userId: profile.uid,
-                          });
+                            amount: values.amount,
+                            phoneNumber : profile.mobileMoneyAccount?.paystack.accountNumber,
+                            accountName : profile.mobileMoneyAccount?.paystack.accountName,
+                            isPaid: false,
+                          }
+                        );
 
                         const deductFrombalance = collectionServices.editDoc(
                           "Users",
                           profile.uid,
                           {
                             ghsBalance: increment(-values.amount),
+                            ghsPendingWithdrawBalance: increment(
+                              values.amount
+                            ),
                           }
                         );
 
                         const allPromise = Promise.all([
-                          initiateTransferPromise,
+                          newWithdrawRequest,
                           deductFrombalance,
                         ]);
 
@@ -509,7 +518,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                         ) {
                           showSnackbar({
                             status: "success",
-                            msg: "Transfer funds processed",
+                            msg: "Withdraw funds processed, You will get GHS in your account within 1 hour",
                             openSnackbar: true,
                           });
 
@@ -518,6 +527,56 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                             close();
                           }, 1000);
                         }
+                        // const initiateTransferPromise =
+                        //   paystackServices.initiateMOMOTransfer({
+                        //     amount: values.amount,
+                        //     psrecieptCode: `${profile.mobileMoneyAccount?.paystack?.psrecieptCode}`,
+                        //     reason: "Cashout",
+                        //     userId: profile.uid,
+                        //   });
+
+                        // const deductFrombalance = collectionServices.editDoc(
+                        //   "Users",
+                        //   profile.uid,
+                        //   {
+                        //     ghsBalance: increment(-values.amount),
+                        //   }
+                        // );
+
+                        // const allPromise = Promise.all([
+                        //   initiateTransferPromise,
+                        //   deductFrombalance,
+                        // ]);
+
+                        // const results = await allPromise;
+
+                        // results.forEach((result) => {
+                        //   if (result.status === "error") {
+                        //     showSnackbar({
+                        //       status: "error",
+                        //       msg: result.errorMessage,
+                        //       openSnackbar: true,
+                        //     });
+                        //     setProcessing(false);
+                        //   }
+                        // });
+
+                        // if (
+                        //   results.every((result) => {
+                        //     return result.status === "success";
+                        //   })
+                        // ) {
+                        //   showSnackbar({
+                        //     status: "success",
+                        //     msg: "Transfer funds processed",
+                        //     openSnackbar: true,
+                        //   });
+
+                        //   setProfileReload(true);
+                        //   setTimeout(() => {
+                        //     close();
+                        //   }, 1000);
+                        // }
                       }
 
                       if (currency === "USD") {
