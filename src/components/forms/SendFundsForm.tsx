@@ -98,6 +98,9 @@ const SendFundsForm = ({ close }: Props) => {
 
   const [selectedMoMoProvider, setSelectedMoMoProvider] = useState("mtn");
 
+  const [fRecieverName, setFRecieverName] = useState("");
+  const [fRecieverPhone, setFRecieverPhone] = useState("");
+
   const requestId = generateTransactionId("PAYF");
   const transactionId = generateUUIDV4();
 
@@ -740,6 +743,7 @@ const SendFundsForm = ({ close }: Props) => {
                           recieverName: values.recieverName,
                           recieverPhonenumber: phone,
                         });
+                        setFRecieverPhone(phone);
                       }}
                       inputStyle={{
                         width: "100%",
@@ -788,6 +792,7 @@ const SendFundsForm = ({ close }: Props) => {
                           recieverName: event.target.value,
                           recieverPhonenumber: values.recieverPhonenumber,
                         });
+                        setFRecieverName(event.target.value);
                       }}
                     />
                     <Spacer space={10} />
@@ -829,6 +834,10 @@ const SendFundsForm = ({ close }: Props) => {
                         newValue: TransactionRecipientDocument | null
                       ) => {
                         setSelectedRecipient(newValue);
+                        if (newValue) {
+                          setFRecieverName(newValue?.recieverName);
+                          setFRecieverPhone(newValue?.recieverPhonenumber);
+                        }
                       }}
                       // open={showRecipientList || selectedRecipient !== null}
                       // onOpen={() => {
@@ -1187,6 +1196,10 @@ const SendFundsForm = ({ close }: Props) => {
                         )}
                         {paymentMethod === "balance" && (
                           <Field
+                            disabled={
+                              paymentMethod === "balance" &&
+                              balanceWallet === ""
+                            }
                             component={TextField}
                             name="amount"
                             value={values.amount}
@@ -1644,22 +1657,8 @@ const SendFundsForm = ({ close }: Props) => {
             </Typography>
             <Spacer space={40} />
             <Typography variant="body1" color="textPrimary">
-              Confirm payment to{" "}
-              {selectedRecipient !== null
-                ? selectedRecipient.recieverName
-                : `${
-                    formikRef.current
-                      ? formikRef.current.values.recieverName
-                      : ""
-                  }`}{" "}
-              &#40;
-              {selectedRecipient !== null
-                ? selectedRecipient.recieverPhonenumber
-                : `${
-                    formikRef.current
-                      ? formikRef.current.values.recieverPhonenumber
-                      : ""
-                  }`}
+              Confirm payment to {fRecieverName} &#40;
+              {fRecieverPhone}
               &#41;{" "}
               <b>
                 {new Intl.NumberFormat(undefined, {
@@ -2055,10 +2054,7 @@ const SendFundsForm = ({ close }: Props) => {
                   selectedCurrency === "USDC" ? "usd" : selectedCurrency,
               }).format(amountTopay)}
             </b>{" "}
-            to{" "}
-            {selectedRecipient !== null
-              ? selectedRecipient.recieverName
-              : `${addedReciept.recieverName}`}
+            to {fRecieverName}
           </Typography>
 
           <LazyLoadImage

@@ -104,7 +104,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
           p: 2,
         }}
       >
-       <Stack direction="row" justifyContent="flex-end">
+        <Stack direction="row" justifyContent="flex-end">
           <IconButton
             onClick={close}
             sx={{ boxShadow: (theme) => theme.shadows[7] }}
@@ -386,6 +386,42 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                         msg: "Enter an amount you want to withdraw",
                         openSnackbar: true,
                       });
+                    } else if (values.amount < 100 && currency === "NGN") {
+                      showSnackbar({
+                        status: "warning",
+                        msg: "Minimum withdraw limit for NGN is 100",
+                        openSnackbar: true,
+                      });
+                    } else if (values.amount > 50000 && currency === "NGN") {
+                      showSnackbar({
+                        status: "warning",
+                        msg: "Maximum withdraw limit for NGN is 50,000",
+                        openSnackbar: true,
+                      });
+                    } else if (values.amount < 3 && currency === "GHS") {
+                      showSnackbar({
+                        status: "warning",
+                        msg: "Minimum withdraw limit for GHS is 3",
+                        openSnackbar: true,
+                      });
+                    } else if (values.amount > 10000 && currency === "GHS") {
+                      showSnackbar({
+                        status: "warning",
+                        msg: "Maximum withdraw limit for GHS is 10,000",
+                        openSnackbar: true,
+                      });
+                    } else if (values.amount < 10 && currency === "USD") {
+                      showSnackbar({
+                        status: "warning",
+                        msg: "Minimum withdraw limit for USD is 10",
+                        openSnackbar: true,
+                      });
+                    } else if (values.amount > 10000 && currency === "USD") {
+                      showSnackbar({
+                        status: "warning",
+                        msg: "Maximum withdraw limit for USD is 10,000",
+                        openSnackbar: true,
+                      });
                     } else if (values.amount > balance) {
                       showSnackbar({
                         status: "warning",
@@ -476,8 +512,11 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                             transactionId: transactionId,
                             userId: profile.uid,
                             amount: values.amount,
-                            phoneNumber : profile.mobileMoneyAccount?.paystack.accountNumber,
-                            accountName : profile.mobileMoneyAccount?.paystack.accountName,
+                            phoneNumber:
+                              profile.mobileMoneyAccount?.paystack
+                                .accountNumber,
+                            accountName:
+                              profile.mobileMoneyAccount?.paystack.accountName,
                             isPaid: false,
                           }
                         );
@@ -487,9 +526,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                           profile.uid,
                           {
                             ghsBalance: increment(-values.amount),
-                            ghsPendingWithdrawBalance: increment(
-                              values.amount
-                            ),
+                            ghsPendingWithdrawBalance: increment(values.amount),
                           }
                         );
 

@@ -21,6 +21,7 @@ import {
   MANAGE_MOMO_DEPOSIT,
   MANAGE_MOMO_WITHDRAW,
   MANAGE_WITHDRAW_REQUEST,
+  MGT_DASHBOARD,
   TRANSACTIONS,
   WALLET,
 } from "@/routes/routes";
@@ -62,7 +63,7 @@ const clientLinks = [
 ];
 const adminLinks = [
   {
-    href: `/sxsxs`,
+    href:  `/mgt/${MGT_DASHBOARD}`,
     icon: <DashboardIcon fontSize="small" sx={{ opacity: 0.6 }} />,
     title: "Dashboard",
   },

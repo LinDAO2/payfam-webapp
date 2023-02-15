@@ -246,6 +246,8 @@ class CollectionServices implements ICollectionServices<any> {
         count: querySnapshot.data().count,
       };
     } catch (error: any) {
+      console.log(error);
+      
       return {
         status: "error",
         errorMessage: error.message,

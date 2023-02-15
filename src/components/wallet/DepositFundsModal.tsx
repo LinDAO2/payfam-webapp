@@ -134,6 +134,11 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
 
   const momoNumberDetails = [
     {
+      title: momoReferenceCode,
+      caption: "Reference code",
+      copy: <Clipboard text={momoReferenceCode} />,
+    },
+    {
       title: `GHS ${amountTopay}`,
       caption: "Amount to send",
       copy: <Clipboard text={`${amountTopay}`} />,
@@ -151,11 +156,6 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
     {
       title: "BIDOPA LABS",
       caption: "Account name",
-    },
-    {
-      title: momoReferenceCode,
-      caption: "Reference code",
-      copy: <Clipboard text={momoReferenceCode} />,
     },
   ];
 
@@ -177,7 +177,7 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
           p: 2,
         }}
       >
-        <Stack direction="row" justifyContent="flex-end">
+        <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
           <IconButton
             onClick={() => {
               resetAll();
@@ -277,7 +277,13 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
                     )}
 
                     {ghsActiveStep === 1 && (
-                      <>
+                      <Box
+                        sx={{
+                          maxHeight: "60vh",
+                          overflowY: "scroll",
+                          overflowX: "hidden",
+                        }}
+                      >
                         <Stack direction="row" justifyContent="flex-start">
                           <Button
                             variant="text"
@@ -328,7 +334,7 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
                             </Fragment>
                           ))}
                         </Stack>
-                      </>
+                      </Box>
                     )}
                   </>
                 )}
@@ -388,7 +394,7 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
                             transId: generateUUIDV4(),
                             userId: profile.uid,
                             userPhoneNumber: profile.phonenumber,
-                            referenceCode: momoNumberDetails[4].title,
+                            referenceCode: momoReferenceCode,
                             amount: amountTopay,
                             isComplete: false,
                             metadata: {
