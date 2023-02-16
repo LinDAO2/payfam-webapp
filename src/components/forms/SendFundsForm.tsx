@@ -298,7 +298,7 @@ const SendFundsForm = ({ close }: Props) => {
 
                 await notificationService.sendSMS({
                   to: recieverPhonenumber,
-                  sms: `You have just received NGN ${amount} from ${profile.firstName} ${profile.lastName} on PayFam. Log in or create acct with this number to redeem via the link below. 
+                  sms: `You have just received NGN ${amount} from ${profile.firstName} ${profile.lastName} on PayFam. Log in or create acct with this number to redeem. 
                   `,
                 });
 
@@ -363,7 +363,7 @@ const SendFundsForm = ({ close }: Props) => {
                 //money sent!
                 await notificationService.sendSMS({
                   to: recieverPhonenumber,
-                  sms: `You have just received GHS ${amount} from ${profile.firstName} ${profile.lastName} on PayFam. Log in or create acct with this number to redeem via the link below. 
+                  sms: `You have just received GHS ${amount} from ${profile.firstName} ${profile.lastName} on PayFam. Log in or create acct with this number to redeem. 
                   `,
                 });
 
@@ -429,7 +429,7 @@ const SendFundsForm = ({ close }: Props) => {
                 //money sent!
                 await notificationService.sendSMS({
                   to: recieverPhonenumber,
-                  sms: `You have just received USD ${amount} from ${profile.firstName} ${profile.lastName} on PayFam. Log in or create acct with this number to redeem via the link below. 
+                  sms: `You have just received USD ${amount} from ${profile.firstName} ${profile.lastName} on PayFam. Log in or create acct with this number to redeem. 
                   `,
                 });
                 setProcessingPaystackPayment(false);
@@ -912,9 +912,9 @@ const SendFundsForm = ({ close }: Props) => {
                       {" "}
                       Mobile Money - Ghana only
                     </MenuItem> */}
-                    <MenuItem value="cryptocurrency">
+                    {/* <MenuItem value="cryptocurrency">
                       USDC - Ethereum chain
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem value="bankTransfer">
                       {" "}
                       Bank transfer - Nigeria only

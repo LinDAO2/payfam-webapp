@@ -23,7 +23,7 @@ const UsdActions = () => {
 
   const options = [
     "Actions",
-    "Deposit funds",
+    // "Deposit funds",
     "Withdraw funds",
     "Swap currency",
   ];

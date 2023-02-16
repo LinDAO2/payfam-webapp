@@ -5,7 +5,7 @@ import { TransactionCurrency } from "@/types/transaction-types";
 import { Close } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
-  Checkbox,
+  // Checkbox,
   IconButton,
   List,
   ListItem,
@@ -18,13 +18,13 @@ import Box from "@mui/material/Box";
 import { increment } from "firebase/firestore";
 import { Field, Formik } from "formik";
 import { TextField } from "formik-mui";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import CedisTextFieldFormatter from "../common/CedisTextFieldFormatter";
 import DollarTextFieldFormatter from "../common/DollarTextFieldFormatter";
 import NairaTextFieldFormatter from "../common/NairaTextFieldFormatter";
 import Spacer from "../common/Spacer";
 import { setProfileReload } from "@/helpers/session-helpers";
-import Web3Connect from "../web3Connect/Web3Connect";
+// import Web3Connect from "../web3Connect/Web3Connect";
 import { generateUUIDV4 } from "@/utils/funcs";
 
 interface Props {
@@ -53,38 +53,38 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
         : 0
       : 0;
 
-  const [isUseAnotherAddressChecked, setIsUseAnotherAddressChecked] =
-    useState(false);
+  // const [isUseAnotherAddressChecked, setIsUseAnotherAddressChecked] =
+  //   useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsUseAnotherAddressChecked(event.target.checked);
-  };
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setIsUseAnotherAddressChecked(event.target.checked);
+  // };
 
-  const [currentAccount, setCurrentAccount] = useState<string | null>(null);
+  // const [currentAccount, setCurrentAccount] = useState<string | null>(null);
 
-  const checkWalletIsConnected = async () => {
-    //@ts-ignore
-    const { ethereum } = window;
+  // const checkWalletIsConnected = async () => {
+  //   //@ts-ignore
+  //   const { ethereum } = window;
 
-    if (!ethereum) {
-      return;
-    } else {
-    }
+  //   if (!ethereum) {
+  //     return;
+  //   } else {
+  //   }
 
-    const accounts = await ethereum.request({
-      method: "eth_requestAccounts",
-    });
+  //   const accounts = await ethereum.request({
+  //     method: "eth_requestAccounts",
+  //   });
 
-    if (accounts.length !== 0) {
-      setCurrentAccount(accounts[0]);
-    }
-  };
+  //   if (accounts.length !== 0) {
+  //     setCurrentAccount(accounts[0]);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (currency === "USD") {
-      checkWalletIsConnected();
-    }
-  }, [currency]);
+  // useEffect(() => {
+  //   if (currency === "USD") {
+  //     checkWalletIsConnected();
+  //   }
+  // }, [currency]);
 
   return (
     <Backdrop
@@ -207,10 +207,10 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
 
                 {currency === "USD" && (
                   <>
-                    <Web3Connect>
+                    {/* <Web3Connect>
                       <></>
-                    </Web3Connect>
-                    <Stack
+                    </Web3Connect> */}
+                    {/* <Stack
                       direction="row"
                       justifyContent="space-between"
                       alignItems="center"
@@ -235,7 +235,14 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                         variant="standard"
                         label="Paste address to recieve funds"
                       />
-                    )}
+                    )} */}
+                    <Field
+                      component={TextField}
+                      name="otherAddress"
+                      fullWidth
+                      variant="standard"
+                      label="Paste address to recieve funds"
+                    />
 
                     <Spacer space={20} />
                     <Field
@@ -428,8 +435,8 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                         msg: "Amount is more than your balance",
                         openSnackbar: true,
                       });
-                    } else if (
-                      isUseAnotherAddressChecked === true &&
+                    }
+                    else if (
                       values.otherAddress === "" &&
                       currency === "USD"
                     ) {
@@ -438,17 +445,19 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                         msg: "Paste address to recieve funds",
                         openSnackbar: true,
                       });
-                    } else if (
-                      isUseAnotherAddressChecked === false &&
-                      currentAccount === null &&
-                      currency === "USD"
-                    ) {
-                      showSnackbar({
-                        status: "warning",
-                        msg: "Connect wallet address to recieve funds",
-                        openSnackbar: true,
-                      });
-                    } else {
+                    } 
+                    //  else if (
+                    //   isUseAnotherAddressChecked === false &&
+                    //   currentAccount === null &&
+                    //   currency === "USD"
+                    // ) {
+                    //   showSnackbar({
+                    //     status: "warning",
+                    //     msg: "Connect wallet address to recieve funds",
+                    //     openSnackbar: true,
+                    //   });
+                    // } 
+                    else {
                       setProcessing(true);
                       if (currency === "NGN") {
                         const initiateTransferPromise =
@@ -625,9 +634,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                             transactionId: transactionId,
                             userId: profile.uid,
                             amount: values.amount,
-                            address: isUseAnotherAddressChecked
-                              ? values.otherAddress
-                              : currentAccount,
+                            address: values.otherAddress,
                             isPaid: false,
                           }
                         );

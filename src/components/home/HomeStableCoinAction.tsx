@@ -65,7 +65,7 @@ const HomeStableCoinAction = () => {
             </Box>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={5} md={5}>
+        {/* <Grid item xs={12} sm={5} md={5}>
           <Paper
             onClick={() => {
               setShowSellStablecoin(!showSellStablecoin);
@@ -106,7 +106,7 @@ const HomeStableCoinAction = () => {
               </Typography>
             </Box>
           </Paper>
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

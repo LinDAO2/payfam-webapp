@@ -133,11 +133,7 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
   };
 
   const momoNumberDetails = [
-    {
-      title: momoReferenceCode,
-      caption: "Reference code",
-      copy: <Clipboard text={momoReferenceCode} />,
-    },
+   
     {
       title: `GHS ${amountTopay}`,
       caption: "Amount to send",
@@ -146,6 +142,11 @@ const DepositFundsModal = ({ visible, close, currency }: Props) => {
     {
       title: "MTN",
       caption: "Provider name",
+    },
+    {
+      title: momoReferenceCode,
+      caption: "Reference code",
+      copy: <Clipboard text={momoReferenceCode} />,
     },
 
     {

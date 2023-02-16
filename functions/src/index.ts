@@ -29,6 +29,7 @@ const createNestServer = async (expressInstance) => {
       whitelist: true,
     })
   );
+  app.enableCors();
 
   return app.init();
 };

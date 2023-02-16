@@ -250,7 +250,7 @@ const BuyStableCoinModal = ({ visible, close }: Props) => {
                   }}
                 >
                   <MenuItem value="NGN">Buy with Naira</MenuItem>
-                  <MenuItem value="GHS">Buy with Cedis</MenuItem>
+                  {/* <MenuItem value="GHS">Buy with Cedis</MenuItem> */}
                 </Field>
                 <Spacer space={20} />
                 {values.currency === "NGN" && (

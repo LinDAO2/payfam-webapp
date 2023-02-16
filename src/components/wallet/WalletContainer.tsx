@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import Spacer from "../common/Spacer";
-import Web3Connect from "../web3Connect/Web3Connect";
+// import Web3Connect from "../web3Connect/Web3Connect";
 import CedisAction from "./CedisAction";
 import NairaActions from "./NairaActions";
 import UsdActions from "./UsdActions";
@@ -194,9 +194,9 @@ const WalletContainer = () => {
                 )}
               </Typography>
               <Spacer space={20} />
-              <Web3Connect>
+              {/* <Web3Connect>
                 <></>
-              </Web3Connect>
+              </Web3Connect> */}
             </Stack>
           </Grid>
           <Grid item xs={12} md={4}>
