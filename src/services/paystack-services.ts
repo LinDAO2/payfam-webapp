@@ -211,7 +211,7 @@ class PaystackServices {
     } catch (error: any) {
       return {
         status: "error",
-        errorMessage: error.message,
+        errorMessage: error.response.data.message,
         successMessage: "",
       };
     }
