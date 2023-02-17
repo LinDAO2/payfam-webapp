@@ -104,7 +104,15 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
           p: 2,
         }}
       >
-        <Stack direction="row" justifyContent="flex-end">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ pt: { md: 0, xs: 7 }, width: "100%" }}
+        >
+          <Typography variant="h6" color="textPrimary">
+            Withdraw {"  "} {currency === 'USD' && "USDC-Ethereum chain"}
+          </Typography>
           <IconButton
             onClick={close}
             sx={{ boxShadow: (theme) => theme.shadows[7] }}
@@ -112,9 +120,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
             <Close />
           </IconButton>
         </Stack>
-        <Typography variant="h6" color="textPrimary">
-          Withdraw funds
-        </Typography>
+
         <Formik
           key="withdraw-form"
           initialValues={{
@@ -435,8 +441,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                         msg: "Amount is more than your balance",
                         openSnackbar: true,
                       });
-                    }
-                    else if (
+                    } else if (
                       values.otherAddress === "" &&
                       currency === "USD"
                     ) {
@@ -445,7 +450,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                         msg: "Paste address to recieve funds",
                         openSnackbar: true,
                       });
-                    } 
+                    }
                     //  else if (
                     //   isUseAnotherAddressChecked === false &&
                     //   currentAccount === null &&
@@ -456,7 +461,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                     //     msg: "Connect wallet address to recieve funds",
                     //     openSnackbar: true,
                     //   });
-                    // } 
+                    // }
                     else {
                       setProcessing(true);
                       if (currency === "NGN") {

@@ -664,6 +664,7 @@ const SendFundsForm = ({ close }: Props) => {
         direction="row"
         justifyContent={activeStep === 0 ? "space-between" : "flex-end"}
         alignItems="center"
+        sx={{ pt: { md: 0, xs: 7 } }}
       >
         {activeStep === 0 && (
           <Typography variant="h6" color="textPrimary">
