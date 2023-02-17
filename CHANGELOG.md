@@ -1,3 +1,12 @@
+## [0.5.17](https://github.com/matt-kay/payfam-webapp/compare/v0.5.16...v0.5.17) (2023-02-17)
+
+
+### Bug Fixes
+
+* naira withdrawal ([59bba6f](https://github.com/matt-kay/payfam-webapp/commit/59bba6f5ab7c8a3dea4f1eac7eefc9ea8bcd5eaa))
+
+
+
 ## [0.5.16](https://github.com/matt-kay/payfam-webapp/compare/v0.5.15...v0.5.16) (2023-02-17)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * deposit ghs info ([4ca2947](https://github.com/matt-kay/payfam-webapp/commit/4ca2947f85f43f884eb11659da4728762b509435))
-
-
-
-## [0.5.12](https://github.com/matt-kay/payfam-webapp/compare/v0.5.11...v0.5.12) (2023-02-12)
-
-
-### Bug Fixes
-
-* momo withdraw request ([55c00d5](https://github.com/matt-kay/payfam-webapp/commit/55c00d53ffed43c5de2804314822e8d6b02caf10))
 
 
 
