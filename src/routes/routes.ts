@@ -12,4 +12,5 @@ export const SIGN_UP = "signup";
 export const MANAGE_WITHDRAW_REQUEST = "manage-withdraw-request";
 export const MANAGE_MOMO_DEPOSIT = "manage-momo-deposit";
 export const MANAGE_MOMO_WITHDRAW = "manage-momo-withdraw";
+export const MANAGE_NGN_WITHDRAW = "manage-ngn-withdraw";
 export const MGT_DASHBOARD = "mgt-dashboard";

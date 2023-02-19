@@ -1,6 +1,6 @@
 import { showSnackbar } from "@/helpers/snackbar-helpers";
 import { useSession } from "@/hooks/app-hooks";
-import { collectionServices, paystackServices } from "@/services/root";
+import { collectionServices } from "@/services/root";
 import { TransactionCurrency } from "@/types/transaction-types";
 import { Close } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
@@ -465,89 +465,151 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
                     else {
                       setProcessing(true);
                       if (currency === "NGN") {
-                        const initiateTransferPromise =
-                          await paystackServices.instantPSInitiateTransfer({
-                            amount: values.amount,
-                            psrecieptCode: `${profile.bankAccount?.paystack?.psrecieptCode}`,
-                            reason: "Cashout",
+                        const transactionId = generateUUIDV4();
+                        const newWithdrawRequest = collectionServices.addDoc(
+                          "WithdrawNGNRequests",
+                          transactionId,
+                          {
+                            transactionId: transactionId,
                             userId: profile.uid,
-                          });
+                            amount: values.amount,
+                            accountNumber:
+                              profile.bankAccount?.paystack.accountNumber,
+                            accountName:
+                              profile.bankAccount?.paystack.accountName,
+                            phoneNumber: profile.phonenumber,
+                            isPaid: false,
+                          }
+                        );
 
-                        if (initiateTransferPromise.status === "error") {
-                          showSnackbar({
-                            status: "error",
-                            msg: initiateTransferPromise.errorMessage,
-                            openSnackbar: true,
-                          });
-                          setProcessing(false);
-                        }
+                        const deductFrombalance = collectionServices.editDoc(
+                          "Users",
+                          profile.uid,
+                          {
+                            ngnBalance: increment(-values.amount),
+                            ngnPendingWithdrawBalance: increment(values.amount),
+                          }
+                        );
 
-                        if (initiateTransferPromise.status === "success") {
-                          const deductFrombalance =
-                            await collectionServices.editDoc(
-                              "Users",
-                              profile.uid,
-                              {
-                                ngnBalance: increment(-values.amount),
-                              }
-                            );
-                          if (deductFrombalance.status === "error") {
+                        const allPromise = Promise.all([
+                          newWithdrawRequest,
+                          deductFrombalance,
+                        ]);
+
+                        const results = await allPromise;
+
+                        results.forEach((result) => {
+                          if (result.status === "error") {
                             showSnackbar({
                               status: "error",
-                              msg: deductFrombalance.errorMessage,
+                              msg: result.errorMessage,
                               openSnackbar: true,
                             });
                             setProcessing(false);
                           }
+                        });
 
-                          if (deductFrombalance.status === "success") {
-                            showSnackbar({
-                              status: "success",
-                              msg: "Transfer funds processed",
-                              openSnackbar: true,
-                            });
+                        if (
+                          results.every((result) => {
+                            return result.status === "success";
+                          })
+                        ) {
+                          showSnackbar({
+                            status: "success",
+                            msg: "Withdraw funds processed, You will get NGN in your account within 1 hour",
+                            openSnackbar: true,
+                          });
+                          setProcessing(false);
 
-                            setProfileReload(true);
-                            setTimeout(() => {
-                              close();
-                            }, 1000);
-                          }
+                          setProfileReload(true);
+                          setTimeout(() => {
+                            close();
+                          }, 1000);
+
+                          // const initiateTransferPromise =
+                          //   await paystackServices.instantPSInitiateTransfer({
+                          //     amount: values.amount,
+                          //     psrecieptCode: `${profile.bankAccount?.paystack?.psrecieptCode}`,
+                          //     reason: "Cashout",
+                          //     userId: profile.uid,
+                          //   });
+
+                          // if (initiateTransferPromise.status === "error") {
+                          //   showSnackbar({
+                          //     status: "error",
+                          //     msg: initiateTransferPromise.errorMessage,
+                          //     openSnackbar: true,
+                          //   });
+                          //   setProcessing(false);
+                          // }
+
+                          // if (initiateTransferPromise.status === "success") {
+                          //   const deductFrombalance =
+                          //     await collectionServices.editDoc(
+                          //       "Users",
+                          //       profile.uid,
+                          //       {
+                          //         ngnBalance: increment(-values.amount),
+                          //       }
+                          //     );
+                          //   if (deductFrombalance.status === "error") {
+                          //     showSnackbar({
+                          //       status: "error",
+                          //       msg: deductFrombalance.errorMessage,
+                          //       openSnackbar: true,
+                          //     });
+                          //     setProcessing(false);
+                          //   }
+
+                          //   if (deductFrombalance.status === "success") {
+                          //     showSnackbar({
+                          //       status: "success",
+                          //       msg: "Transfer funds processed",
+                          //       openSnackbar: true,
+                          //     });
+
+                          //     setProfileReload(true);
+                          //     setTimeout(() => {
+                          //       close();
+                          //     }, 1000);
+                          //   }
+                          // }
+
+                          // const allPromise = Promise.all([
+                          //   initiateTransferPromise,
+                          //   deductFrombalance,
+                          // ]);
+
+                          // const results = await allPromise;
+
+                          // results.forEach((result) => {
+                          //   if (result.status === "error") {
+                          //     showSnackbar({
+                          //       status: "error",
+                          //       msg: result.errorMessage,
+                          //       openSnackbar: true,
+                          //     });
+                          //     setProcessing(false);
+                          //   }
+                          // });
+
+                          // if (
+                          //   results.every((result) => {
+                          //     return result.status === "success";
+                          //   })
+                          // ) {
+                          //   showSnackbar({
+                          //     status: "success",
+                          //     msg: "Transfer funds processed",
+                          //     openSnackbar: true,
+                          //   });
+
+                          //   setProfileReload(true);
+                          //   setTimeout(() => {
+                          //     close();
+                          //   }, 1000);
+                          // }
                         }
-
-                        // const allPromise = Promise.all([
-                        //   initiateTransferPromise,
-                        //   deductFrombalance,
-                        // ]);
-
-                        // const results = await allPromise;
-
-                        // results.forEach((result) => {
-                        //   if (result.status === "error") {
-                        //     showSnackbar({
-                        //       status: "error",
-                        //       msg: result.errorMessage,
-                        //       openSnackbar: true,
-                        //     });
-                        //     setProcessing(false);
-                        //   }
-                        // });
-
-                        // if (
-                        //   results.every((result) => {
-                        //     return result.status === "success";
-                        //   })
-                        // ) {
-                        //   showSnackbar({
-                        //     status: "success",
-                        //     msg: "Transfer funds processed",
-                        //     openSnackbar: true,
-                        //   });
-
-                        //   setProfileReload(true);
-                        //   setTimeout(() => {
-                        //     close();
-                        //   }, 1000);
-                        // }
                       }
 
                       if (currency === "GHS") {

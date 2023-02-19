@@ -10,7 +10,6 @@ export interface IWithdrawRequest {
   addedOn: Timestamp;
 }
 
-
 export interface IWithdrawMoMoRequest {
   transactionId: string;
   userId: string;
@@ -22,3 +21,14 @@ export interface IWithdrawMoMoRequest {
   addedOn: Timestamp;
 }
 
+export interface IWithdrawNGNRequest {
+  transactionId: string;
+  userId: string;
+  amount: number;
+  accountName: string;
+  accountNumber: string;
+  phoneNumber: string;
+  isPaid: boolean;
+  adminId?: string;
+  addedOn: Timestamp;
+}

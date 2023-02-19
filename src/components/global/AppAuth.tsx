@@ -67,6 +67,7 @@ const AppAuth = ({ children }: props) => {
                   ? data?.momoPhoneNumber
                   : undefined,
                 ngnBalance: data?.ngnBalance ? data?.ngnBalance : 0,
+                ngnPendingWithdrawBalance: data?.ngnPendingWithdrawBalance ? data?.ngnPendingWithdrawBalance : 0,
                 ghsBalance: data?.ghsBalance ? data?.ghsBalance : 0,
                 ghsPendingWithdrawBalance: data?.ghsPendingWithdrawBalance ? data?.ghsPendingWithdrawBalance : 0,
                 usdcBalance: data?.usdcBalance ? data?.usdcBalance : 0,

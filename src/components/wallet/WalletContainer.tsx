@@ -42,10 +42,22 @@ const WalletContainer = () => {
               </Typography>
 
               <Typography variant="subtitle1" color="textPrimary">
+                Available balance{" "}
                 {new Intl.NumberFormat(undefined, {
                   style: "currency",
                   currency: "NGN",
                 }).format(profile?.ngnBalance ? profile?.ngnBalance : 0)}
+              </Typography>
+              <Typography variant="subtitle1" color="textPrimary">
+                Pending withdraw request balance{" "}
+                {new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "NGN",
+                }).format(
+                  profile?.ngnPendingWithdrawBalance
+                    ? profile?.ngnPendingWithdrawBalance
+                    : 0
+                )}
               </Typography>
 
               {profile?.bankAccount?.paystack && (
@@ -96,7 +108,9 @@ const WalletContainer = () => {
           </Grid>
         </Grid>
       </Paper>
-      <Paper sx={{ width: { xs: "90vw", sm: "50vw", md: "40vw" }, p: 2, my: 1 }}>
+      <Paper
+        sx={{ width: { xs: "90vw", sm: "50vw", md: "40vw" }, p: 2, my: 1 }}
+      >
         <Grid container justifyContent="space-between">
           <Grid item xs={12} md={8}>
             <Stack>
@@ -105,16 +119,22 @@ const WalletContainer = () => {
               </Typography>
 
               <Typography variant="subtitle1" color="textPrimary">
-              Available balance{" "} {new Intl.NumberFormat(undefined, {
+                Available balance{" "}
+                {new Intl.NumberFormat(undefined, {
                   style: "currency",
                   currency: "GHS",
                 }).format(profile?.ghsBalance ? profile?.ghsBalance : 0)}
               </Typography>
               <Typography variant="subtitle1" color="textPrimary">
-              Pending withdraw request balance{" "}    {new Intl.NumberFormat(undefined, {
+                Pending withdraw request balance{" "}
+                {new Intl.NumberFormat(undefined, {
                   style: "currency",
                   currency: "GHS",
-                }).format(profile?.ghsPendingWithdrawBalance ? profile?.ghsPendingWithdrawBalance : 0)}
+                }).format(
+                  profile?.ghsPendingWithdrawBalance
+                    ? profile?.ghsPendingWithdrawBalance
+                    : 0
+                )}
               </Typography>
               {profile?.mobileMoneyAccount?.paystack && (
                 <>
@@ -167,7 +187,9 @@ const WalletContainer = () => {
           </Grid>
         </Grid>
       </Paper>
-      <Paper sx={{ width: { xs: "90vw", sm: "50vw", md: "40vw" }, p: 2, my: 1 }}>
+      <Paper
+        sx={{ width: { xs: "90vw", sm: "50vw", md: "40vw" }, p: 2, my: 1 }}
+      >
         <Grid container justifyContent="space-between">
           <Grid item xs={12} md={8}>
             <Stack>

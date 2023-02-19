@@ -24,6 +24,7 @@ export interface IAccountDocument {
   ghsBalance?: number;
   ghsPendingWithdrawBalance?: number;
   ngnBalance?: number;
+  ngnPendingWithdrawBalance?: number;
   bankAccount?: IAccountBankAccount;
   mobileMoneyAccount?: IAccountBankAccount;
   addedOn: Timestamp;

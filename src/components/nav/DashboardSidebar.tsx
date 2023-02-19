@@ -20,6 +20,7 @@ import {
   LOGIN,
   MANAGE_MOMO_DEPOSIT,
   MANAGE_MOMO_WITHDRAW,
+  MANAGE_NGN_WITHDRAW,
   MANAGE_WITHDRAW_REQUEST,
   MGT_DASHBOARD,
   TRANSACTIONS,
@@ -34,7 +35,7 @@ import { auth } from "@/configs/firebase";
 import { showSnackbar } from "@/helpers/snackbar-helpers";
 import Spacer from "../common/Spacer";
 import ContactModal from "../contact/ContactModal";
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
 const clientLinks = [
   {
@@ -63,7 +64,7 @@ const clientLinks = [
 ];
 const adminLinks = [
   {
-    href:  `/mgt/${MGT_DASHBOARD}`,
+    href: `/mgt/${MGT_DASHBOARD}`,
     icon: <DashboardIcon fontSize="small" sx={{ opacity: 0.6 }} />,
     title: "Dashboard",
   },
@@ -93,6 +94,11 @@ const adminLinks = [
     href: `/mgt/${MANAGE_MOMO_DEPOSIT}`,
     icon: <AccountBalanceIcon fontSize="small" sx={{ opacity: 0.6 }} />,
     title: "Manage MoMo Deposits",
+  },
+  {
+    href: `/mgt/${MANAGE_NGN_WITHDRAW}`,
+    icon: <MonetizationOnIcon fontSize="small" sx={{ opacity: 0.6 }} />,
+    title: "Manage NGN Withdraw request",
   },
 ];
 
