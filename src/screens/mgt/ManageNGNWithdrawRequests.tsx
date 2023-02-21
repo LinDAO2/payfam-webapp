@@ -16,7 +16,7 @@ const ManageNGNWithdrawRequests = () => {
     (async () => {
       store.dispatch(collectionActions.setCollectionStateIsLoading(true));
       const { status, list, lastDoc, errorMessage, isEmpty } =
-        await collectionServices.getAllDocs("WithdrawNGNRequests", 100, "asc");
+        await collectionServices.getAllDocs("WithdrawNGNRequests", 100, "desc");
       store.dispatch(collectionActions.setCollectionStateIsLoading(false));
       if (status === "success") {
         store.dispatch(

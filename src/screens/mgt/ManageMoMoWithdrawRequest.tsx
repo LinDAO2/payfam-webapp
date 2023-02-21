@@ -19,7 +19,7 @@ const ManageMoMoWithdrawRequest = () => {
     (async () => {
       store.dispatch(collectionActions.setCollectionStateIsLoading(true));
       const { status, list, lastDoc, errorMessage, isEmpty } =
-        await collectionServices.getAllDocs("WithdrawGHSRequests", 100, "asc");
+        await collectionServices.getAllDocs("WithdrawGHSRequests", 100, "desc");
       store.dispatch(collectionActions.setCollectionStateIsLoading(false));
       if (status === "success") {
         store.dispatch(

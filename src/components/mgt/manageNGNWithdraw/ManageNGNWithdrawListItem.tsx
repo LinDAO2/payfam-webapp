@@ -69,7 +69,7 @@ const ManageNGNWithdrawListItem = ({ transaction }: Props) => {
             await notificationService.sendSMS({
               to: transaction.phoneNumber,
               sms: `Dear Fam! 
-                  Your deposit of NGN ${transaction.amount} is now available in your PayFam account. Log in to check your balance
+                  Your withdrawal of NGN ${transaction.amount} is now available in your PayFam account. Log in to check your balance
                   `,
             });
             setConfirmComplete(false);

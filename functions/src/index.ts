@@ -20,6 +20,7 @@ const createNestServer = async (expressInstance) => {
     .setVersion("1.0")
     .addBearerAuth()
     .addServer("http://127.0.0.1:5001/payfam-f5534/us-central1/api")
+    .addServer("https://us-central1-payfam-f5534.cloudfunctions.net/api")
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);

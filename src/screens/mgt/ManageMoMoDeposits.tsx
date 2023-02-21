@@ -19,7 +19,7 @@ const ManageMoMoDeposits = () => {
     (async () => {
       store.dispatch(collectionActions.setCollectionStateIsLoading(true));
       const { status, list, lastDoc, errorMessage, isEmpty } =
-        await collectionServices.getAllDocs("MomoDeposits", 100, "asc");
+        await collectionServices.getAllDocs("MomoDeposits", 100, "desc");
       store.dispatch(collectionActions.setCollectionStateIsLoading(false));
       if (status === "success") {
         store.dispatch(
