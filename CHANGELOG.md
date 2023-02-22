@@ -1,3 +1,12 @@
+## [0.5.20](https://github.com/matt-kay/payfam-webapp/compare/v0.5.19...v0.5.20) (2023-02-22)
+
+
+### Bug Fixes
+
+* naira deposit disabled ([f5590f1](https://github.com/matt-kay/payfam-webapp/commit/f5590f1d0db06f5aee3197531126513a6409be17))
+
+
+
 ## [0.5.19](https://github.com/matt-kay/payfam-webapp/compare/v0.5.18...v0.5.19) (2023-02-21)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * send forms overflow ([4ec741b](https://github.com/matt-kay/payfam-webapp/commit/4ec741b0801d95ff1555d83472e82b2628aec8b6))
-
-
-
-## [0.5.15](https://github.com/matt-kay/payfam-webapp/compare/v0.5.14...v0.5.15) (2023-02-16)
-
-
-### Bug Fixes
-
-* sms ([c6d5f23](https://github.com/matt-kay/payfam-webapp/commit/c6d5f23b199a3cde4f50e0f7c1f259e920f75536))
 
 
 
