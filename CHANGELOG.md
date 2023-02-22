@@ -1,3 +1,12 @@
+## [0.5.22](https://github.com/matt-kay/payfam-webapp/compare/v0.5.21...v0.5.22) (2023-02-22)
+
+
+### Bug Fixes
+
+* ngn naira alert ([08d344b](https://github.com/matt-kay/payfam-webapp/commit/08d344bfa99bb54e467cbc75df90ae1568b3bd60))
+
+
+
 ## [0.5.21](https://github.com/matt-kay/payfam-webapp/compare/v0.5.20...v0.5.21) (2023-02-22)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * ngn withdraw ([7983b48](https://github.com/matt-kay/payfam-webapp/commit/7983b4837f739b5fec627e4067a343e231193993))
-
-
-
-## [0.5.17](https://github.com/matt-kay/payfam-webapp/compare/v0.5.16...v0.5.17) (2023-02-17)
-
-
-### Bug Fixes
-
-* naira withdrawal ([59bba6f](https://github.com/matt-kay/payfam-webapp/commit/59bba6f5ab7c8a3dea4f1eac7eefc9ea8bcd5eaa))
 
 
 
