@@ -5,7 +5,7 @@ import HomeBalancesStat from "./HomeBalancesStat";
 import HomeCarousel from "./HomeCarousel";
 import HomeFundsAction from "./HomeFundsAction";
 // import HomePayfamAgain from "./HomePayfamAgain";
-import HomeStableCoinAction from "./HomeStableCoinAction";
+// import HomeStableCoinAction from "./HomeStableCoinAction";
 // import HomeSwapCurrency from "./HomeSwapCurrency";
 import HomeTransactionSummary from "./HomeTransactionSummary";
 // import HomeTransactionSummary from "./HomeTransactionSummary";
@@ -26,7 +26,7 @@ const HomeContainer = () => {
             <Spacer space={30} />
             <HomeFundsAction />
             <Spacer space={10} />
-            <HomeStableCoinAction />
+            {/* <HomeStableCoinAction /> */}
             {/* <HomePayfamAgain /> */}
           </Paper>
         </Grid>

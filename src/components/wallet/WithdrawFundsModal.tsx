@@ -111,7 +111,7 @@ const WithdrawFundsModal = ({ visible, close, currency }: Props) => {
           sx={{ pt: { md: 0, xs: 7 }, width: "100%" }}
         >
           <Typography variant="h6" color="textPrimary">
-            Withdraw {"  "} {currency === "USD" && "USDC-Ethereum chain"}
+            Withdraw {"  "} {currency === "USD" && "BUSD - Binance Smart Chain (BEP-20)"}
           </Typography>
           <IconButton
             onClick={close}

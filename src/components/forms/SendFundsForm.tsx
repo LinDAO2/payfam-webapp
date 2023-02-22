@@ -916,10 +916,10 @@ const SendFundsForm = ({ close }: Props) => {
                     {/* <MenuItem value="cryptocurrency">
                       USDC - Ethereum chain
                     </MenuItem> */}
-                    <MenuItem value="bankTransfer">
+                    {/* <MenuItem value="bankTransfer">
                       {" "}
                       Bank transfer - Nigeria only
-                    </MenuItem>
+                    </MenuItem> */}
                   </Select>
                 </FormControl>
                 <Spacer space={20} />

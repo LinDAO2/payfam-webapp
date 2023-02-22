@@ -36,7 +36,7 @@ export default function NairaActions() {
   const [options, setOptions] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    const otherOptions = ["Deposit funds", "Withdraw funds", "Swap currency"];
+    const otherOptions = ["Withdraw funds", "Swap currency"];
 
     if (profile?.bankAccount?.paystack === undefined) {
       setOptions(["Actions", "Add bank account", ...otherOptions]);
