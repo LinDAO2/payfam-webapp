@@ -1,7 +1,7 @@
 import { useSession } from "@/hooks/app-hooks";
 import {
-  Alert,
-  AlertTitle,
+  // Alert,
+  // AlertTitle,
   Grid,
   List,
   ListItem,
@@ -109,10 +109,10 @@ const WalletContainer = () => {
             </Stack>
           </Grid>
         </Grid>
-        <Alert severity="warning">
+        {/* <Alert severity="warning">
           <AlertTitle>Naira deposit is on hold at the moment</AlertTitle>
           We will <strong>resume naira deposit by latest 10:30 am ,22 feb 2023</strong> . Thank you
-        </Alert>
+        </Alert> */}
       </Paper>
       <Paper
         sx={{ width: { xs: "90vw", sm: "50vw", md: "40vw" }, p: 2, my: 1 }}
