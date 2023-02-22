@@ -7,6 +7,7 @@ import {
   LOGIN,
   MANAGE_MOMO_DEPOSIT,
   MANAGE_MOMO_WITHDRAW,
+  MANAGE_NGN_DEPOSIT,
   MANAGE_NGN_WITHDRAW,
   MANAGE_WITHDRAW_REQUEST,
   MGT_DASHBOARD,
@@ -38,6 +39,7 @@ import ManageMoMoDeposits from "./screens/mgt/ManageMoMoDeposits";
 import ManageMoMoWithdrawRequest from "./screens/mgt/ManageMoMoWithdrawRequest";
 import MgtDashboard from "./screens/mgt/MgtDashboard";
 import ManageNGNWithdrawRequests from "./screens/mgt/ManageNGNWithdrawRequests";
+import ManageNgnDeposits from "./screens/mgt/ManageNgnDeposits";
 // import { auth } from "./configs/firebase";
 
 const router = createBrowserRouter([
@@ -125,6 +127,10 @@ const router = createBrowserRouter([
       {
         path: MANAGE_NGN_WITHDRAW,
         element: <ManageNGNWithdrawRequests />,
+      },
+      {
+        path: MANAGE_NGN_DEPOSIT,
+        element: <ManageNgnDeposits />,
       },
     ],
   },

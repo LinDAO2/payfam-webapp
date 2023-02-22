@@ -20,6 +20,7 @@ import {
   LOGIN,
   MANAGE_MOMO_DEPOSIT,
   MANAGE_MOMO_WITHDRAW,
+  MANAGE_NGN_DEPOSIT,
   MANAGE_NGN_WITHDRAW,
   MANAGE_WITHDRAW_REQUEST,
   MGT_DASHBOARD,
@@ -94,6 +95,11 @@ const adminLinks = [
     href: `/mgt/${MANAGE_MOMO_DEPOSIT}`,
     icon: <AccountBalanceIcon fontSize="small" sx={{ opacity: 0.6 }} />,
     title: "Manage MoMo Deposits",
+  },
+  {
+    href: `/mgt/${MANAGE_NGN_DEPOSIT}`,
+    icon: <AccountBalanceIcon fontSize="small" sx={{ opacity: 0.6 }} />,
+    title: "Manage NGN Deposits",
   },
   {
     href: `/mgt/${MANAGE_NGN_WITHDRAW}`,
