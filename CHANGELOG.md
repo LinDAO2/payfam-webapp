@@ -1,3 +1,12 @@
+## [0.5.23](https://github.com/matt-kay/payfam-webapp/compare/v0.5.22...v0.5.23) (2023-02-23)
+
+
+### Bug Fixes
+
+* disabled swap currency ([478bb54](https://github.com/matt-kay/payfam-webapp/commit/478bb54ec3ccbb2213a39bffd07cff18d063f39a))
+
+
+
 ## [0.5.22](https://github.com/matt-kay/payfam-webapp/compare/v0.5.21...v0.5.22) (2023-02-22)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * sms edit and order list ([08e1a44](https://github.com/matt-kay/payfam-webapp/commit/08e1a4417555a7f8b8030b956eaafb6e01a2c6cf))
-
-
-
-## [0.5.18](https://github.com/matt-kay/payfam-webapp/compare/v0.5.17...v0.5.18) (2023-02-19)
-
-
-### Bug Fixes
-
-* ngn withdraw ([7983b48](https://github.com/matt-kay/payfam-webapp/commit/7983b4837f739b5fec627e4067a343e231193993))
 
 
 
