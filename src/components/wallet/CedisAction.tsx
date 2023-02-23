@@ -37,7 +37,11 @@ export default function CedisAction() {
   const [options, setOptions] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    const otherOptions = ["Deposit funds", "Withdraw funds", "Swap currency"];
+    const otherOptions = [
+      "Deposit funds",
+       "Withdraw funds",
+        // "Swap currency"
+      ];
 
     if (profile?.mobileMoneyAccount === undefined) {
       setOptions(["Actions", "Add mobile money number", ...otherOptions]);

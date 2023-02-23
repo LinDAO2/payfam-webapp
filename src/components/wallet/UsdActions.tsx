@@ -25,7 +25,7 @@ const UsdActions = () => {
     "Actions",
     // "Deposit funds",
     "Withdraw funds",
-    "Swap currency",
+    // "Swap currency",
   ];
 
   // const handleClick = () => {};
