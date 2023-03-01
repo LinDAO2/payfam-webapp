@@ -1,3 +1,12 @@
+## [0.5.24](https://github.com/matt-kay/payfam-webapp/compare/v0.5.23...v0.5.24) (2023-03-01)
+
+
+### Bug Fixes
+
+* suspension of services ([947e3e8](https://github.com/matt-kay/payfam-webapp/commit/947e3e85daf4f59b91ba69ac663d55a33374486d))
+
+
+
 ## [0.5.23](https://github.com/matt-kay/payfam-webapp/compare/v0.5.22...v0.5.23) (2023-02-23)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * naira deposit disabled ([f5590f1](https://github.com/matt-kay/payfam-webapp/commit/f5590f1d0db06f5aee3197531126513a6409be17))
-
-
-
-## [0.5.19](https://github.com/matt-kay/payfam-webapp/compare/v0.5.18...v0.5.19) (2023-02-21)
-
-
-### Bug Fixes
-
-* sms edit and order list ([08e1a44](https://github.com/matt-kay/payfam-webapp/commit/08e1a4417555a7f8b8030b956eaafb6e01a2c6cf))
 
 
 
