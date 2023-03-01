@@ -1,3 +1,12 @@
+## [0.5.25](https://github.com/matt-kay/payfam-webapp/compare/v0.5.24...v0.5.25) (2023-03-01)
+
+
+### Bug Fixes
+
+* suspension text fix ([8b721d2](https://github.com/matt-kay/payfam-webapp/commit/8b721d210945139b6456ec55c35024a8e2ea3c40))
+
+
+
 ## [0.5.24](https://github.com/matt-kay/payfam-webapp/compare/v0.5.23...v0.5.24) (2023-03-01)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * ngn deposit ([8e681b2](https://github.com/matt-kay/payfam-webapp/commit/8e681b2170d0a8a1ae270ade772cdb47d8cf00f7))
-
-
-
-## [0.5.20](https://github.com/matt-kay/payfam-webapp/compare/v0.5.19...v0.5.20) (2023-02-22)
-
-
-### Bug Fixes
-
-* naira deposit disabled ([f5590f1](https://github.com/matt-kay/payfam-webapp/commit/f5590f1d0db06f5aee3197531126513a6409be17))
 
 
 
