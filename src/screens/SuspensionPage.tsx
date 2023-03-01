@@ -9,7 +9,7 @@ const SuspensionPage = () => {
       alignItems="center"
       sx={{ height: "100vh" }}
     >
-      <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={4} sx={{ p: 1 }}>
         <Stack direction="row" justifyContent="center" alignItems="center">
           <AppBrand size="medium" />
           <Typography
@@ -29,8 +29,12 @@ const SuspensionPage = () => {
           textAlign="center"
           fontSize="1.5em"
         >
-          Dear customer, we hereby suspend all services on payfam till further
-          notice.
+          Hey Fam, we have paused our services due to server migration and
+          restructuring of our services to improve security.
+          <br /> We will be available for customer service inquiries and
+          complaints, but our services will be paused until further notice.
+          <br />
+          Thank you for your understanding. 💙💛
         </Typography>
       </Grid>
     </Grid>
